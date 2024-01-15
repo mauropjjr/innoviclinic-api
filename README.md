@@ -46,8 +46,12 @@ composer install
 php artisan migrate
 
 ###Passos para criar novo CRUD
-## 1- php artisan make:migration create_table_name_table
-## 2- php artisan make:controller \\Api\Teste2Controller --api --model=Teste 
-## 3- php artisan make:request Api\\StoreTesteRequest -> Lógica de validação alterar authorize para return true
-## 4- Alterar o arquivo de route/api.php - dentro de resources dentro a middleware de auth adicionar o controler  'teste' => TestesController::class
-
+## 1 - php artisan make:migration create_table_name_table
+#  2 - php artisan code:models --table=nome_table
+## 3 - php artisan make:request Api\\StoreTesteRequest -> Lógica de validação alterar authorize para return true
+## 4 - php artisan make:controller \\Api\Teste2Controller 
+## 5 - Alterar o arquivo de route/api.php - dentro de resources dentro a middleware de auth adicionar o controler  'teste' => TestesController::class
+## 6 - Cria a pasta /app/UserCases para colocar as regras de negócio complexa dos crud
+## 7 - TODO: Criar uma pasta /app/Services para conexao de serviços externos
+## 8 - TODO: Se precisa fazer serviço para upload de arquivos, vamos subir o miniio
+## 9 - TODO: Testar cache com redis nos serviços
