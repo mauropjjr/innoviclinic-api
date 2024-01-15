@@ -20,9 +20,6 @@ class ProcedimentoTipoController extends Controller
         return response()->json($objetos, 200);
     }
 
-
- 
-
     /**
      * Store a newly created resource in storage.
      */
