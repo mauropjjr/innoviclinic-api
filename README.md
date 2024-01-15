@@ -35,3 +35,18 @@ php artisan code:models
 php artisan code:models --table=users
 
 php artisan make:controller Api\\ProntuarioController --api  --resource --requests
+
+
+###Passos para dev
+docker-compose up -d --build
+##Local da api
+http://localhost:8085/api
+##Rodar dentro da maquina API as migrate, caso ainda não tenha rodado
+php artisan migrate
+
+###Passos para criar novo CRUD
+## 1- php artisan make:migration create_table_name_table
+## 2- php artisan make:controller \\Api\Teste2Controller --api --model=Teste 
+## 3- php artisan make:request Api\\StoreTesteRequest -> Lógica de validação alterar authorize para return true
+## 4- Alterar o arquivo de route/api.php - dentro de resources dentro a middleware de auth adicionar o controler  'teste' => TestesController::class
+

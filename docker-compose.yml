@@ -12,7 +12,7 @@ services:
       - '9000:9000'
    # command: php artisan serve --host=0.0.0.0
     volumes:
-      - ./api/innoviclinic/:/var/www
+      - ./innoviclinic/:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
     networks:
       - setup-network
@@ -28,7 +28,7 @@ services:
       - '8085:80'
       - '443:443'
     volumes:
-      - ./api/innoviclinic:/var/www
+      - ./innoviclinic:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/
     networks:
       - setup-network
