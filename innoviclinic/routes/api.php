@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\AuthController;
+use App\Http\Controllers\Api\ProcedimentoTipoController;
 use App\Http\Controllers\Api\ProntuarioController;
 use App\Http\Controllers\Api\TesteController;
 use Illuminate\Http\Request;
@@ -28,7 +29,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 });
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::resources([
-        'prontuarios' => ProntuarioController::class
+        'prontuarios' => ProntuarioController::class,
+        'procedimento-tipos' => ProcedimentoTipoController::class,
     ]);
 });
 Route::get('/', function () {

@@ -1,0 +1,218 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "innoviclinic",
+    "dateExported": "2024-01-15T13:38:33.739Z",
+    "version": "1.1",
+    "folders": [],
+    "requests": [
+        {
+            "_id": "aa82040a-e874-4368-91ca-62c764b6ee95",
+            "colId": "9894514a-1719-4c89-a705-fab697321c09",
+            "containerId": "",
+            "name": "procedimento tipo",
+            "url": "{{url}}/api/procedimento-tipos",
+            "method": "GET",
+            "sortNum": 25000,
+            "created": "2024-01-15T13:04:14.621Z",
+            "modified": "2024-01-15T13:33:17.636Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\":\"Wanderson 2\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "99a9b6ff-695a-46d7-ab9e-d3ba03060cbf",
+            "colId": "9894514a-1719-4c89-a705-fab697321c09",
+            "containerId": "",
+            "name": "procedimento tipo",
+            "url": "{{url}}/api/procedimento-tipos/3",
+            "method": "DELETE",
+            "sortNum": 26250,
+            "created": "2024-01-15T13:26:26.396Z",
+            "modified": "2024-01-15T13:35:44.181Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "16946056-a33f-4ef1-bec2-4b121accd306",
+            "colId": "9894514a-1719-4c89-a705-fab697321c09",
+            "containerId": "",
+            "name": "procedimento tipo",
+            "url": "{{url}}/api/procedimento-tipos",
+            "method": "POST",
+            "sortNum": 27500,
+            "created": "2024-01-15T13:06:33.060Z",
+            "modified": "2024-01-15T13:35:30.573Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\":\"tipo 1\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "9468d447-75c0-425c-ba49-24d156f7a803",
+            "colId": "9894514a-1719-4c89-a705-fab697321c09",
+            "containerId": "",
+            "name": "procedimento tipo",
+            "url": "{{url}}/api/procedimento-tipos/4",
+            "method": "PUT",
+            "sortNum": 28750,
+            "created": "2024-01-15T13:21:55.563Z",
+            "modified": "2024-01-15T13:37:15.131Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\":\"tipo 11\",\n   \"ativo\": true\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "8b881fe2-9662-4a28-849a-d8cf4abcf6c3",
+            "colId": "9894514a-1719-4c89-a705-fab697321c09",
+            "containerId": "",
+            "name": "login",
+            "url": "{{url}}/api/login",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-01-14T14:47:03.284Z",
+            "modified": "2024-01-15T13:32:05.970Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\":\"teste@teste.com\",\n  \"senha\": \"123345678\",\n  \"device_name\": \"postaman\"\n}",
+                "form": []
+            },
+            "tests": []
+        },
+        {
+            "_id": "ea11aaa0-60da-4d06-9ab5-01b117098f1e",
+            "colId": "9894514a-1719-4c89-a705-fab697321c09",
+            "containerId": "",
+            "name": "register",
+            "url": "http://localhost:8085/api/novo",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-01-14T15:07:46.970Z",
+            "modified": "2024-01-15T04:26:05.316Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\": \"teste\",\n  \"email\":\"teste@teste.com\",\n  \"celular\": \"67992633877\",\n  \"senha\": \"123345678\",\n  \"tipo_usuario\": \"Profissional\"\n}",
+                "form": []
+            },
+            "tests": []
+        }
+    ]
+}
