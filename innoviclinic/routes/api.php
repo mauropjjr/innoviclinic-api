@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
 use App\Http\Controllers\Api\ProntuarioController;
-use App\Http\Controllers\Api\TesteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
