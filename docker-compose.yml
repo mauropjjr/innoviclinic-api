@@ -28,7 +28,7 @@ services:
       - '8085:80'
       - '443:443'
     volumes:
-      - ./innoviclinic:/var/www
+  #    - ./innoviclinic:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/
     networks:
       - setup-network
