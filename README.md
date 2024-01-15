@@ -41,7 +41,8 @@ php artisan make:controller Api\\ProntuarioController --api  --resource --reques
 docker-compose up -d --build
 ##Local da api
 http://localhost:8085/api
-##Rodar dentro da maquina API as migrate, caso ainda não tenha rodado
+##Rodar dentro da maquina API rodar o composer install e  as migrate, caso ainda não tenha rodado
+composer install
 php artisan migrate
 
 ###Passos para criar novo CRUD
