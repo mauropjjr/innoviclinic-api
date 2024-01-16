@@ -26,7 +26,7 @@ services:
     tty: true
     ports:
       - '8085:80'
-      - '443:443'
+      # - '443:443'
     volumes:
   #    - ./innoviclinic:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/
