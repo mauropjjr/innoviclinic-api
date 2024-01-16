@@ -11,15 +11,15 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Profisso
- * 
+ * Class Profissao
+ *
  * @property int $id
  * @property string $nome
  * @property int $ativo
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Pessoa $pessoa
  * @property Collection|Especialidade[] $especialidades
  * @property Collection|Profissionai[] $profissionais

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Models\ProcedimentoTipo;
 use App\Http\Controllers\Controller;
+use App\Models\Profissao;
+use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 
-class ProcedimentoTipoController extends Controller
+class ProfissaoController extends Controller
 {
 
     public function index(Request $request)
     {
-        $query = ProcedimentoTipo::query();
+        $query = Profissao::query();
         if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
             $query->where('ativo', $request->input('ativo'));
         }
@@ -21,7 +21,7 @@ class ProcedimentoTipoController extends Controller
 
     public function show($id)
     {
-        if (!$objeto = ProcedimentoTipo::find($id)) {
+        if (!$objeto = Profissao::find($id)) {
             return response()->json([
                 'error' => 'Not Found'
             ], Response::HTTP_NOT_FOUND);

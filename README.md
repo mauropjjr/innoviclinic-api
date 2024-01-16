@@ -14,6 +14,16 @@ php artisan migrate:generate --ignore="table3,table4,table5"
 #rodas todas migrates
 php artisan migrate
 
+#rodar seeds separadamente
+php artisan db:seed --class=EscolaridadeSeeder
+php artisan db:seed --class=ProfissaoSeeder
+php artisan db:seed --class=EspecialidadeSeeder
+php artisan db:seed --class=ProcedimentoTipoSeeder
+php artisan db:seed --class=AgendaStatusSeeder
+
+#rodar todos os seeds
+php artisan db:seed --force
+
 ##criar controller
 php artisan make:controller Teste2Controller --api --model=Teste --resource --requests
 

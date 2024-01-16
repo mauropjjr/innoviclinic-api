@@ -15,7 +15,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
  * Class Pessoa
- * 
+ *
  * @property int $id
  * @property string $tipo_usuario
  * @property string $nome
@@ -41,7 +41,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property int|null $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Pessoa|null $pessoa
  * @property Collection|AgendaProcedimento[] $agenda_procedimentos
  * @property Collection|AgendaStatus[] $agenda_statuses
@@ -61,7 +61,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @property Profissionai $profissionai
  * @property Collection|ProfissionalEspecialidade[] $profissional_especialidades
  * @property Collection|ProfissionalSecretaria[] $profissional_secretarias
- * @property Collection|Profisso[] $profissos
+ * @property Collection|Profissao[] $profissoes
  * @property Collection|Prontuario[] $prontuarios
  * @property Collection|Sala[] $salas
  * @property Collection|Seco[] $secos

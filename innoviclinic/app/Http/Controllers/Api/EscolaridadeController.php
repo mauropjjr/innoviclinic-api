@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Escolaridade;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\ProcedimentoTipo;
 use App\Http\Controllers\Controller;
 
-class ProcedimentoTipoController extends Controller
+class EscolaridadeController extends Controller
 {
 
     public function index(Request $request)
     {
-        $query = ProcedimentoTipo::query();
+        $query = Escolaridade::query();
         if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
             $query->where('ativo', $request->input('ativo'));
         }
@@ -21,7 +21,7 @@ class ProcedimentoTipoController extends Controller
 
     public function show($id)
     {
-        if (!$objeto = ProcedimentoTipo::find($id)) {
+        if (!$objeto = Escolaridade::find($id)) {
             return response()->json([
                 'error' => 'Not Found'
             ], Response::HTTP_NOT_FOUND);

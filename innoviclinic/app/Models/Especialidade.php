@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Especialidade
- * 
+ *
  * @property int $id
  * @property int $profissao_id
  * @property string $nome
@@ -20,8 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
- * @property Profisso $profisso
+ *
+ * @property Profissao $profissao
  * @property Pessoa $pessoa
  * @property Collection|ProfissionalEspecialidade[] $profissional_especialidades
  *
@@ -44,9 +44,9 @@ class Especialidade extends Model
 		'usuario_id'
 	];
 
-	public function profisso()
+	public function profissao()
 	{
-		return $this->belongsTo(Profisso::class, 'profissao_id');
+		return $this->belongsTo(Profissao::class, 'profissao_id');
 	}
 
 	public function pessoa()
