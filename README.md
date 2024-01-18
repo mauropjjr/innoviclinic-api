@@ -27,6 +27,10 @@ php artisan db:seed --force
 ##criar controller
 php artisan make:controller Teste2Controller --api --model=Teste --resource --requests
 
+##criar request (validações)
+php artisan make:request StoreProcedimentoRequest
+
+
 #criar model, migrate,controller e request
 php artisan make:model Teste -mcr
 #criar controller model e request

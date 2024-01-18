@@ -1,13 +1,13 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Models\Especialidade;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\ProfissaoController;
 use App\Http\Controllers\Api\ProntuarioController;
 use App\Http\Controllers\Api\AgendaStatusController;
 use App\Http\Controllers\Api\EscolaridadeController;
+use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\EspecialidadeController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
 
@@ -39,6 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'profissoes' => ProfissaoController::class,
         'agenda-status' => AgendaStatusController::class,
         'especialidades' => EspecialidadeController::class,
+        'procedimentos' => ProcedimentoController::class,
     ]);
 });
 Route::get('/', function () {

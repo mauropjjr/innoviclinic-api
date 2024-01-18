@@ -7,12 +7,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
+use App\Traits\AutoSetEmpresaIdUsuarioId;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class Procedimento
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property int $procedimento_tipo_id
@@ -23,7 +24,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Empresa $empresa
  * @property Pessoa $pessoa
  * @property Procedimento $procedimento
@@ -35,6 +36,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Procedimento extends Model
 {
+    use AutoSetEmpresaIdUsuarioId;
+
 	protected $table = 'procedimentos';
 
 	protected $casts = [
@@ -42,6 +45,7 @@ class Procedimento extends Model
 		'procedimento_tipo_id' => 'int',
 		'duracao_min' => 'int',
 		'valor' => 'float',
+        'ativo' => 'int',
 		'usuario_id' => 'int'
 	];
 
@@ -52,6 +56,7 @@ class Procedimento extends Model
 		'cor',
 		'duracao_min',
 		'valor',
+        'ativo',
 		'usuario_id'
 	];
 

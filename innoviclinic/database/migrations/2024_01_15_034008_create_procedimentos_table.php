@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('cor', 100);
             $table->integer('duracao_min');
             $table->decimal('valor', 10)->default(0);
+            $table->tinyInteger('ativo')->default(1);
             $table->integer('usuario_id')->index('procedimentos_pessoa_usuarios_FK');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
