@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\EmpresaController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\ProfissaoController;
 use App\Http\Controllers\Api\ProntuarioController;
@@ -39,6 +40,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'profissoes' => ProfissaoController::class,
         'agenda-status' => AgendaStatusController::class,
         'especialidades' => EspecialidadeController::class,
+        'empresas' => EmpresaController::class,
         'procedimentos' => ProcedimentoController::class,
     ]);
 });

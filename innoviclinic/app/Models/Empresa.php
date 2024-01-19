@@ -7,13 +7,15 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Helpers\Utils;
+use App\Traits\AutoSetUsuarioId;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Empresa
- * 
+ *
  * @property int $id
  * @property string $tipo
  * @property string $nome
@@ -34,7 +36,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Collection|Agenda[] $agendas
  * @property Collection|Convenio[] $convenios
  * @property Collection|EmpresaConfiguraco[] $empresa_configuracos
@@ -51,6 +53,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Empresa extends Model
 {
+    use AutoSetUsuarioId;
 	use HasFactory;
 	protected $table = 'empresas';
 
@@ -133,4 +136,13 @@ class Empresa extends Model
 	{
 		return $this->hasMany(Secao::class);
 	}
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($empresa) {
+            $empresa->cpf_cnpj = $empresa->tipo == 'PF' ? Utils::addMaskCpf($empresa->cpf_cnpj) : Utils::addMaskCnpj($empresa->cpf_cnpj);
+        });
+    }
 }
