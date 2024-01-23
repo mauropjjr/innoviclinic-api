@@ -37,8 +37,8 @@ class TesteController extends Controller
      {
        // $input = $request->all();
        $input = $request->validated();
-  
-  
+
+
         $teste = Teste::create($input);
 
         return response()->json([
@@ -54,7 +54,7 @@ class TesteController extends Controller
     {
         if (!$teste = Teste::findOrFail($id)) {
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json($teste);
@@ -65,19 +65,19 @@ class TesteController extends Controller
      */
     public function update(UpdateTesteRequest $request, string $id)
     {
-        
-       
+
+
         if (!$teste = Teste::find($id)) {
-    
+
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
-       
+
         $input = $request->validated();
 
         $teste->update($input);
-   
+
         return response()->json([
             "success" => true,
             "message" => "Teste alterado com sucesso.",
@@ -91,7 +91,7 @@ class TesteController extends Controller
     public function destroy(Teste $teste)
     {
         $teste->delete();
-   
+
         return response()->json([
             "message" => "Teste removido com sucesso successfully.",
             "data" => $teste

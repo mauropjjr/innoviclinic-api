@@ -30,6 +30,10 @@ php artisan make:controller Teste2Controller --api --model=Teste --resource --re
 ##criar request (validações)
 php artisan make:request StoreProcedimentoRequest
 
+##centralizar um local comum de acesso
+php artisan make:middleware CheckEmpresaId
+
+
 
 #criar model, migrate,controller e request
 php artisan make:model Teste -mcr

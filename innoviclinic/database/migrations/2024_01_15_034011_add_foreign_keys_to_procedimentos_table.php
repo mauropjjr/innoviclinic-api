@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::table('procedimentos', function (Blueprint $table) {
             $table->foreign(['empresa_id'], 'procedimentos_empresas_FK')->references(['id'])->on('empresas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['usuario_id'], 'procedimentos_pessoa_usuarios_FK')->references(['id'])->on('pessoas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
-            $table->foreign(['procedimento_tipo_id'], 'procedimentos_tipos_FK')->references(['id'])->on('procedimentos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['procedimento_tipo_id'], 'procedimentos_tipos_FK')->references(['id'])->on('procedimento_tipos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 

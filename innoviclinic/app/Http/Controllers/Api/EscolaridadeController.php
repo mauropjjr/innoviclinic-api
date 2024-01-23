@@ -23,7 +23,7 @@ class EscolaridadeController extends Controller
     {
         if (!$objeto = Escolaridade::find($id)) {
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json($objeto);

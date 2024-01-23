@@ -111,7 +111,13 @@ class Pessoa extends  Authenticatable
         'senha',
         'remember_token',
     ];
-	public function pessoa()
+
+    public function empresa_profissional()
+	{
+		return $this->hasOne(EmpresaProfissional::class, 'profissional_id');
+	}
+
+	public function usuario()
 	{
 		return $this->belongsTo(Pessoa::class, 'usuario_id');
 	}
@@ -129,11 +135,6 @@ class Pessoa extends  Authenticatable
 	public function agendas()
 	{
 		return $this->hasMany(Agenda::class, 'profissional_id');
-	}
-
-	public function empresa_profissionais()
-	{
-		return $this->hasMany(EmpresaProfissional::class, 'usuario_id');
 	}
 
 	public function escolaridades()

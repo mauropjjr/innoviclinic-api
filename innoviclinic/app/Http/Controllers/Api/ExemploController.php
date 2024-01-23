@@ -41,7 +41,7 @@ class ProcedimentoTipoController extends Controller
     {
         if (!$objeto = ProcedimentoTipo::find($id)) {
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json($objeto);
@@ -53,7 +53,7 @@ class ProcedimentoTipoController extends Controller
         if (!$objeto = ProcedimentoTipo::find($id)) {
 
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
 
@@ -68,7 +68,7 @@ class ProcedimentoTipoController extends Controller
         if (!$objeto = ProcedimentoTipo::find($id)) {
 
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
         $objeto->delete();

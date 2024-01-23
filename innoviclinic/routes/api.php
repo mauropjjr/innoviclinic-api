@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\EscolaridadeController;
 use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\EspecialidadeController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
+use App\Models\Procedimento;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,22 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::middleware(['auth:sanctum'])->group(function () {
+    Route::group(['prefix' => 'empresas'], function () {
+        Route::get('/', [EmpresaController::class, 'index']);
+        Route::get('/{id}', [EmpresaController::class, 'show'])->middleware('check-empresa-id');
+        Route::post('/', [EmpresaController::class, 'store']);
+        Route::put('/{id}', [EmpresaController::class, 'update'])->middleware('check-empresa-id');
+        Route::delete('/{id}', [EmpresaController::class, 'destroy'])->middleware('check-empresa-id');
+    });
+
+    Route::group(['prefix' => 'procedimentos'], function () {
+        Route::get('/', [ProcedimentoController::class, 'index']);
+        Route::get('/{id}', [ProcedimentoController::class, 'show'])->middleware('check-procedimento-empresa-id');
+        Route::post('/', [ProcedimentoController::class, 'store']);
+        Route::put('/{id}', [ProcedimentoController::class, 'update'])->middleware('check-procedimento-empresa-id');
+        Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])->middleware('check-procedimento-empresa-id');
+    });
+
     Route::resources([
         'prontuarios' => ProntuarioController::class,
         'procedimento-tipos' => ProcedimentoTipoController::class,
@@ -40,10 +57,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'profissoes' => ProfissaoController::class,
         'agenda-status' => AgendaStatusController::class,
         'especialidades' => EspecialidadeController::class,
-        'empresas' => EmpresaController::class,
-        'procedimentos' => ProcedimentoController::class,
     ]);
 });
+
 Route::get('/', function () {
     return response()->json([
         'success' => true

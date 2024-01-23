@@ -7,11 +7,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Traits\AutoSetUsuarioId;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class EmpresaProfissionai
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property int $profissional_id
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Empresa $empresa
  * @property Pessoa $pessoa
  *
@@ -27,6 +28,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class EmpresaProfissional extends Model
 {
+    use AutoSetUsuarioId;
+
 	protected $table = 'empresa_profissionais';
 
 	protected $casts = [
@@ -45,7 +48,7 @@ class EmpresaProfissional extends Model
 
 	public function empresa()
 	{
-		return $this->belongsTo(Empresa::class);
+		return $this->hasOne(Empresa::class);
 	}
 
 	public function pessoa()

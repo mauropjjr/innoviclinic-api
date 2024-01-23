@@ -3,9 +3,10 @@
 namespace App\Http\Requests\Api;
 
 use App\Rules\CpfCnpj;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreEmpresaRequest extends FormRequest
+class UpdateEmpresaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,11 +28,14 @@ class StoreEmpresaRequest extends FormRequest
             'nome' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:100'],
             'telefone' => ['required', 'max:20'],
-            'cpf_cnpj' => ['nullable', new CpfCnpj, 'unique:empresas,cpf_cnpj'],
-            'profissional_id' => 'required|exists:pessoas,id',
             'razao_social' => ['max:255'],
             'cep' => ['max:9'],
             'uf' => ['max:2'],
+            'cpf_cnpj' => [
+                'nullable',
+                new CpfCnpj,
+                Rule::unique('empresas', 'cpf_cnpj')->ignore(request()->route('id')),
+            ],
             'ativo' => 'boolean|in:true,false',
         ];
     }

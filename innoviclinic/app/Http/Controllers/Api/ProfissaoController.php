@@ -23,7 +23,7 @@ class ProfissaoController extends Controller
     {
         if (!$objeto = Profissao::find($id)) {
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json($objeto);

@@ -23,7 +23,7 @@ class AgendaStatusController extends Controller
     {
         if (!$objeto = AgendaStatus::find($id)) {
             return response()->json([
-                'error' => 'Not Found'
+                'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
         return response()->json($objeto);

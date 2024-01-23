@@ -17,23 +17,24 @@ class AuthController extends Controller
 {
     public function auth(AuthRequest $request)
     {
-        $user = Pessoa::where('email', $request->email)->first();
+        //$user = Pessoa::where('email', $request->email)->first();
+        $query = Pessoa::query();
+        $query->where('email', $request->email);
+        $query->with('empresa_profissional');
+        $user = $query->first();
 
          if (!$user || !Hash::check($request->senha, $user->senha)) {
              throw ValidationException::withMessages([
                  'email' => ['As credenciais fornecidas estão incorretas']
              ]);
          }
-
         // Logout others devices
         // if ($request->has('logout_others_devices'))
         $user->tokens()->delete();
 
-        $token = $user->createToken($request->device_name)->plainTextToken;
+        $user->token = $user->createToken($request->device_name)->plainTextToken;
 
-        return response()->json([
-            'token' => $token,
-        ]);
+        return response()->json($user);
     }
 
     public function logout(Request $request)

@@ -79,8 +79,13 @@ class Empresa extends Model
 		'cidade',
 		'foto',
 		'ativo',
-		'usuario_id'
+		'usuario_id',
 	];
+
+    public function profissional()
+	{
+		return $this->hasOne(EmpresaProfissional::class);
+	}
 
 	public function agendas()
 	{

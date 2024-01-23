@@ -15,7 +15,6 @@ class CpfCnpj implements ValidationRule
     {
         $tipo = request()->input('tipo');
         $valid = true;
-        $msg = '';
         if (!is_string($value) || empty($tipo)) {
             $valid = false;
         }
