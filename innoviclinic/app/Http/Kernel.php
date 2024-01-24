@@ -66,5 +66,7 @@ class Kernel extends HttpKernel
         'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
         'check-empresa-id' => \App\Http\Middleware\CheckEmpresaId::class,
         'check-procedimento-empresa-id' => \App\Http\Middleware\CheckProcedimentoEmpresaId::class,
+        'check-profissional-secretaria-id' => \App\Http\Middleware\CheckProfissionalSecretariaId::class,
+        'check-empresa-profissional-id' => \App\Http\Middleware\CheckEmpresaProfissionald::class,
     ];
 }

@@ -21,13 +21,20 @@ class AuthController extends Controller
         $query = Pessoa::query();
         $query->where('email', $request->email);
         $query->with('empresa_profissional');
+        $query->with('profissional_secretaria');
         $user = $query->first();
 
-         if (!$user || !Hash::check($request->senha, $user->senha)) {
-             throw ValidationException::withMessages([
-                 'email' => ['As credenciais fornecidas estão incorretas']
-             ]);
-         }
+        // Sobrescreve a relação empresa_profissional se profissional_secretaria existir
+        if ($user->profissional_secretaria) {
+            $user->setRelation('empresa_profissional', $user->profissional_secretaria);
+        }
+        unset($user->profissional_secretaria);
+
+        if (!$user || !Hash::check($request->senha, $user->senha)) {
+            throw ValidationException::withMessages([
+                'email' => ['As credenciais fornecidas estão incorretas']
+            ]);
+        }
         // Logout others devices
         // if ($request->has('logout_others_devices'))
         $user->tokens()->delete();

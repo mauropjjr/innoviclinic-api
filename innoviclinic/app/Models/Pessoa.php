@@ -73,157 +73,162 @@ class Pessoa extends  Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-	protected $table = 'pessoas';
+    protected $table = 'pessoas';
 
-	protected $casts = [
-		'data_nascimento' => 'datetime',
-		'admin' => 'int',
-		'ativo' => 'bool',
-		'usuario_id' => 'int',
-		'senha' => 'hashed',
-	];
+    protected $casts = [
+        'data_nascimento' => 'datetime',
+        'admin' => 'int',
+        'ativo' => 'bool',
+        'usuario_id' => 'int',
+        'senha' => 'hashed',
+    ];
 
-	protected $fillable = [
-		'tipo_usuario',
-		'nome',
-		'sexo',
-		'genero',
-		'email',
-		'celular',
-		'telefone',
-		'senha',
-		'data_nascimento',
-		'cpf',
-		'rg',
-		'cep',
-		'logradouro',
-		'complemento',
-		'bairro',
-		'uf',
-		'cidade',
-		'observacoes',
-		'foto',
-		'admin',
-		'ativo',
-		'usuario_id'
-	];
+    protected $fillable = [
+        'tipo_usuario',
+        'nome',
+        'sexo',
+        'genero',
+        'email',
+        'celular',
+        'telefone',
+        'senha',
+        'data_nascimento',
+        'cpf',
+        'rg',
+        'cep',
+        'logradouro',
+        'complemento',
+        'bairro',
+        'uf',
+        'cidade',
+        'observacoes',
+        'foto',
+        'admin',
+        'ativo',
+        'usuario_id'
+    ];
     protected $hidden = [
         'senha',
         'remember_token',
     ];
 
     public function empresa_profissional()
-	{
-		return $this->hasOne(EmpresaProfissional::class, 'profissional_id');
-	}
+    {
+        return $this->hasOne(EmpresaProfissional::class, 'profissional_id');
+    }
 
-	public function usuario()
-	{
-		return $this->belongsTo(Pessoa::class, 'usuario_id');
-	}
+    public function profissional_secretaria()
+    {
+        return $this->hasOne(ProfissionalSecretaria::class, 'secretaria_id');
+    }
 
-	public function agenda_procedimentos()
-	{
-		return $this->hasMany(AgendaProcedimento::class, 'usuario_id');
-	}
+    public function profissional()
+    {
+        return $this->hasOne(Profissional::class, 'pessoa_id');
+    }
 
-	public function agenda_statuses()
-	{
-		return $this->hasMany(AgendaStatus::class, 'usuario_id');
-	}
+    public function profissional_especialidades()
+    {
+        return $this->belongsToMany(
+            ProfissionalEspecialidade::class,
+            'profissional_especialidades',
+            'profissional_id',
+            'especialidade_id'
+        )->withPivot('usuario_id', 'created_at');
+    }
 
-	public function agendas()
-	{
-		return $this->hasMany(Agenda::class, 'profissional_id');
-	}
+    public function usuario()
+    {
+        return $this->belongsTo(Pessoa::class, 'usuario_id');
+    }
 
-	public function escolaridades()
-	{
-		return $this->hasMany(Escolaridade::class, 'usuario_id');
-	}
+    public function agenda_procedimentos()
+    {
+        return $this->hasMany(AgendaProcedimento::class, 'usuario_id');
+    }
 
-	public function especialidades()
-	{
-		return $this->hasMany(Especialidade::class, 'usuario_id');
-	}
+    public function agenda_statuses()
+    {
+        return $this->hasMany(AgendaStatus::class, 'usuario_id');
+    }
 
-	public function evento_profissionais()
-	{
-		return $this->hasMany(EventoProfissional::class, 'usuario_id');
-	}
+    public function agendas()
+    {
+        return $this->hasMany(Agenda::class, 'profissional_id');
+    }
 
-	public function eventos()
-	{
-		return $this->hasMany(Evento::class, 'usuario_id');
-	}
+    public function escolaridades()
+    {
+        return $this->hasMany(Escolaridade::class, 'usuario_id');
+    }
 
-	public function interacao_atendimentos()
-	{
-		return $this->hasMany(InteracaoAtendimento::class, 'usuario_id');
-	}
+    public function evento_profissionais()
+    {
+        return $this->hasMany(EventoProfissional::class, 'usuario_id');
+    }
 
-	public function interacos()
-	{
-		return $this->hasMany(Interacao::class, 'usuario_id');
-	}
+    public function eventos()
+    {
+        return $this->hasMany(Evento::class, 'usuario_id');
+    }
 
-	public function paciente()
-	{
-		return $this->hasOne(Paciente::class);
-	}
+    public function interacao_atendimentos()
+    {
+        return $this->hasMany(InteracaoAtendimento::class, 'usuario_id');
+    }
 
-	public function pessoas()
-	{
-		return $this->hasMany(Pessoa::class, 'usuario_id');
-	}
+    public function interacos()
+    {
+        return $this->hasMany(Interacao::class, 'usuario_id');
+    }
 
-	public function procedimento_convenios()
-	{
-		return $this->hasMany(ProcedimentoConvenio::class, 'usuario_id');
-	}
+    public function paciente()
+    {
+        return $this->hasOne(Paciente::class);
+    }
 
-	public function procedimento_tipos()
-	{
-		return $this->hasMany(ProcedimentoTipo::class, 'usuario_id');
-	}
+    public function pessoas()
+    {
+        return $this->hasMany(Pessoa::class, 'usuario_id');
+    }
 
-	public function procedimentos()
-	{
-		return $this->hasMany(Procedimento::class, 'usuario_id');
-	}
+    public function procedimento_convenios()
+    {
+        return $this->hasMany(ProcedimentoConvenio::class, 'usuario_id');
+    }
 
-	public function profissionai()
-	{
-		return $this->hasOne(Profissional::class);
-	}
+    public function procedimento_tipos()
+    {
+        return $this->hasMany(ProcedimentoTipo::class, 'usuario_id');
+    }
 
-	public function profissional_especialidades()
-	{
-		return $this->hasMany(ProfissionalEspecialidade::class, 'usuario_id');
-	}
+    public function procedimentos()
+    {
+        return $this->hasMany(Procedimento::class, 'usuario_id');
+    }
 
-	public function profissional_secretarias()
-	{
-		return $this->hasMany(ProfissionalSecretaria::class, 'secretaria_id');
-	}
+    public function profissional_secretarias()
+    {
+        return $this->hasMany(ProfissionalSecretaria::class, 'secretaria_id');
+    }
 
-	public function profissos()
-	{
-		return $this->hasMany(Profissao::class, 'usuario_id');
-	}
+    public function profissos()
+    {
+        return $this->hasMany(Profissao::class, 'usuario_id');
+    }
 
-	public function prontuarios()
-	{
-		return $this->hasMany(Prontuario::class, 'usuario_id');
-	}
+    public function prontuarios()
+    {
+        return $this->hasMany(Prontuario::class, 'usuario_id');
+    }
 
-	public function salas()
-	{
-		return $this->hasMany(Sala::class, 'usuario_id');
-	}
+    public function salas()
+    {
+        return $this->hasMany(Sala::class, 'usuario_id');
+    }
 
-	public function secos()
-	{
-		return $this->hasMany(Secao::class, 'usuario_id');
-	}
+    public function secos()
+    {
+        return $this->hasMany(Secao::class, 'usuario_id');
+    }
 }

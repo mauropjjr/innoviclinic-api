@@ -1,17 +1,19 @@
 <?php
 
+use App\Models\Procedimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EmpresaController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\ProfissaoController;
 use App\Http\Controllers\Api\ProntuarioController;
+use App\Http\Controllers\Api\SecretariaController;
 use App\Http\Controllers\Api\AgendaStatusController;
 use App\Http\Controllers\Api\EscolaridadeController;
 use App\Http\Controllers\Api\ProcedimentoController;
+use App\Http\Controllers\Api\ProfissionalController;
 use App\Http\Controllers\Api\EspecialidadeController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
-use App\Models\Procedimento;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +50,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [ProcedimentoController::class, 'store']);
         Route::put('/{id}', [ProcedimentoController::class, 'update'])->middleware('check-procedimento-empresa-id');
         Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])->middleware('check-procedimento-empresa-id');
+    });
+
+    Route::group(['prefix' => 'secretarias'], function () {
+        Route::get('/', [SecretariaController::class, 'index']);
+        Route::get('/{id}', [SecretariaController::class, 'show'])->middleware('check-profissional-secretaria-id');
+        Route::post('/', [SecretariaController::class, 'store']);
+        Route::put('/{id}', [SecretariaController::class, 'update'])->middleware('check-profissional-secretaria-id');
+        Route::delete('/{id}', [SecretariaController::class, 'destroy'])->middleware('check-profissional-secretaria-id');
+    });
+
+    Route::group(['prefix' => 'profissionais'], function () {
+        Route::get('/', [ProfissionalController::class, 'index']);
+        Route::get('/{id}', [ProfissionalController::class, 'show'])->middleware('check-empresa-profissional-id');
+        Route::post('/', [ProfissionalController::class, 'store']);
+        Route::put('/{id}', [ProfissionalController::class, 'update'])->middleware('check-empresa-profissional-id');
+        Route::delete('/{id}', [ProfissionalController::class, 'destroy'])->middleware('check-empresa-profissional-id');
     });
 
     Route::resources([

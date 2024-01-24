@@ -23,15 +23,20 @@ class CheckProcedimentoEmpresaId
      */
     public function handle($request, Closure $next): Response
     {
-        $user = $this->customAuth->getUser();
-        if (!$user || !$this->checkProcedimentoEmpresaId($request->route('id'), $user)) {
+
+        if (!$this->checkProcedimentoEmpresaId($request->route('id'))) {
             return response()->json(['error' => 'Acesso não permitido'], Response::HTTP_FORBIDDEN);
         }
         return $next($request);
     }
 
-    private function checkProcedimentoEmpresaId($id, $user)
+    private function checkProcedimentoEmpresaId($id)
     {
+        $user = $this->customAuth->getUser();
+        if (!$user->empresa_profissional) {
+            return false;
+        }
+
         return Procedimento::where('id', $id)->where('empresa_id', $user->empresa_profissional->empresa_id)->exists();
     }
 }

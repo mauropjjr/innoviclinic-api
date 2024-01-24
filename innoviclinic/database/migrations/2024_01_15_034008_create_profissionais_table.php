@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('link_facebook', 100)->nullable();
             $table->string('link_youtube', 100)->nullable();
             $table->string('link_instagram', 100)->nullable();
-            $table->integer('usuario_id')->nullable();
+            $table->integer('usuario_id');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });

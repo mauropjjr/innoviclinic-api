@@ -7,11 +7,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Traits\AutoSetUsuarioId;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ProfissionalSecretaria
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property int $profissional_id
@@ -20,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Empresa $empresa
  * @property Pessoa $pessoa
  *
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProfissionalSecretaria extends Model
 {
+    use AutoSetUsuarioId;
+
 	protected $table = 'profissional_secretarias';
 
 	protected $casts = [
@@ -36,10 +39,6 @@ class ProfissionalSecretaria extends Model
 		'secretaria_id' => 'int',
 		'ativo' => 'bool',
 		'usuario_id' => 'int'
-	];
-
-	protected $hidden = [
-		'secretaria_id'
 	];
 
 	protected $fillable = [
@@ -55,7 +54,7 @@ class ProfissionalSecretaria extends Model
 		return $this->belongsTo(Empresa::class);
 	}
 
-	public function pessoa()
+	public function secretaria()
 	{
 		return $this->belongsTo(Pessoa::class, 'secretaria_id');
 	}

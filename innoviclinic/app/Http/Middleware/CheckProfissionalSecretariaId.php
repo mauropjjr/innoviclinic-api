@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Empresa;
 use Closure;
+use App\Models\ProfissionalSecretaria;
 use App\Services\CustomAuthService;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckEmpresaId
+class CheckProfissionalSecretariaId
 {
     protected $customAuth;
 
@@ -23,19 +23,19 @@ class CheckEmpresaId
      */
     public function handle($request, Closure $next): Response
     {
-        if (!$this->CheckEmpresaId($request->route('id'))) {
+        if (!$this->checkProfissionalSecretariaId($request->route('id'))) {
             return response()->json(['error' => 'Acesso não permitido'], Response::HTTP_FORBIDDEN);
         }
         return $next($request);
     }
 
-    private function CheckEmpresaId($id)
+    private function checkProfissionalSecretariaId($id)
     {
         $user = $this->customAuth->getUser();
         if (!$user->empresa_profissional) {
             return false;
         }
 
-        return Empresa::where('id', $id)->where('id', $user->empresa_profissional->empresa_id)->exists();
+        return ProfissionalSecretaria::where('secretaria_id', $id)->where('empresa_id', $user->empresa_profissional->empresa_id)->where('profissional_id', $user->empresa_profissional->profissional_id)->exists();
     }
 }

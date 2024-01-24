@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('tipo_sangue', 5)->nullable();
             $table->tinyInteger('obito')->default(0);
             $table->string('causa_mortis', 100)->nullable();
-            $table->integer('usuario_id')->nullable();
+            $table->integer('usuario_id');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Profissionai
- * 
+ *
  * @property int $pessoa_id
  * @property int $profissao_id
  * @property int $agenda_online
@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Pessoa $pessoa
  * @property Profissao $profisso
  *
@@ -68,8 +68,13 @@ class Profissional extends Model
 		return $this->belongsTo(Pessoa::class);
 	}
 
-	public function profisso()
+	public function profissao()
 	{
 		return $this->belongsTo(Profissao::class, 'profissao_id');
 	}
+
+    public function especialidades()
+    {
+        return $this->hasMany(ProfissionalEspecialidade::class, 'profissional_id');
+    }
 }
