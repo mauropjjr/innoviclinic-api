@@ -41,6 +41,12 @@ class ProfissionalSecretaria extends Model
 		'usuario_id' => 'int'
 	];
 
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
+
 	protected $fillable = [
 		'empresa_id',
 		'profissional_id',

@@ -51,7 +51,24 @@ class ProfissionalController extends Controller
 
     public function show($id)
     {
-        $objeto = Pessoa::with(['empresa_profissional', 'profissional', 'profissional.especialidades'])->find($id);
+        $objeto = Pessoa::with([
+            'empresa_profissional',
+            'profissional',
+            'profissional.especialidades' => function ($query) {
+                // $query->select([
+                //     DB::raw('profissional_especialidades.id'),
+                //     DB::raw('profissional_especialidades.especialidade_id'),
+                //     DB::raw('especialidades.id as value'),
+                //     DB::raw('especialidades.nome as name')
+                // ])->join('especialidades', 'profissional_especialidades.especialidade_id', '=', 'especialidades.id');
+
+                $query->select('profissional_especialidades.*', 'especialidades.id as value', 'especialidades.nome as name');
+                $query->join('especialidades', 'profissional_especialidades.especialidade_id', '=', 'especialidades.id');
+
+                //$query->select(['id', 'profissional_id', 'especialidade_id']);
+                //$query->with('especialidade:id,profissao_id,nome');
+            }
+        ])->find($id);
         if (!$objeto) {
             return response()->json([
                 'error' => 'Não encontrado'

@@ -107,9 +107,13 @@ class Pessoa extends  Authenticatable
         'ativo',
         'usuario_id'
     ];
+
     protected $hidden = [
         'senha',
         'remember_token',
+        'usuario_id',
+        'created_at',
+        'updated_at',
     ];
 
     public function empresa_profissional()

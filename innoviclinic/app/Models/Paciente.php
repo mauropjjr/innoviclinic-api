@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Paciente
- * 
+ *
  * @property int $pessoa_id
  * @property int|null $escolaridade_id
  * @property string|null $naturalidade
@@ -28,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Escolaridade|null $escolaridade
  * @property Pessoa $pessoa
  *
@@ -46,6 +46,12 @@ class Paciente extends Model
 		'obito' => 'int',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'escolaridade_id',

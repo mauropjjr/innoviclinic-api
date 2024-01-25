@@ -37,6 +37,11 @@ class ProfissionalEspecialidade extends Model
 		'usuario_id' => 'int'
 	];
 
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+    ];
+
 	protected $fillable = [
 		'profissional_id',
 		'especialidade_id',

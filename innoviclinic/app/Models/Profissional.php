@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Traits\AutoSetUsuarioId;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,6 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Profissional extends Model
 {
+    Use AutoSetUsuarioId;
+
 	protected $table = 'profissionais';
 	protected $primaryKey = 'pessoa_id';
 	public $incrementing = false;
@@ -46,6 +49,12 @@ class Profissional extends Model
 		'agenda_online' => 'int',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'profissao_id',

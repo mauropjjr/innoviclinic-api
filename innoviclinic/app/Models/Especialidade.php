@@ -37,6 +37,12 @@ class Especialidade extends Model
 		'usuario_id' => 'int'
 	];
 
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
+
 	protected $fillable = [
 		'profissao_id',
 		'nome',

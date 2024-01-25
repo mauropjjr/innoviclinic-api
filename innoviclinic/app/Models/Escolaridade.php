@@ -12,14 +12,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Escolaridade
- * 
+ *
  * @property int $id
  * @property string $nome
  * @property int $ativo
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Pessoa $pessoa
  * @property Collection|Paciente[] $pacientes
  *
@@ -33,6 +33,12 @@ class Escolaridade extends Model
 		'ativo' => 'int',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'nome',
