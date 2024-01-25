@@ -4,6 +4,8 @@ use App\Models\Procedimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EmpresaController;
+use App\Http\Controllers\Api\ConvenioController;
+use App\Http\Controllers\Api\PacienteController;
 use App\Http\Controllers\Api\Auth\AuthController;
 use App\Http\Controllers\Api\ProfissaoController;
 use App\Http\Controllers\Api\ProntuarioController;
@@ -52,6 +54,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])->middleware('check-procedimento-empresa-id');
     });
 
+    Route::group(['prefix' => 'convenios'], function () {
+        Route::get('/', [ConvenioController::class, 'index']);
+        Route::get('/{id}', [ConvenioController::class, 'show'])->middleware('check-convenio-empresa-id');
+        Route::post('/', [ConvenioController::class, 'store']);
+        Route::put('/{id}', [ConvenioController::class, 'update'])->middleware('check-convenio-empresa-id');
+        Route::delete('/{id}', [ConvenioController::class, 'destroy'])->middleware('check-convenio-empresa-id');
+    });
+
     Route::group(['prefix' => 'secretarias'], function () {
         Route::get('/', [SecretariaController::class, 'index']);
         Route::get('/{id}', [SecretariaController::class, 'show'])->middleware('check-profissional-secretaria-id');
@@ -66,6 +76,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [ProfissionalController::class, 'store']);
         Route::put('/{id}', [ProfissionalController::class, 'update'])->middleware('check-empresa-profissional-id');
         Route::delete('/{id}', [ProfissionalController::class, 'destroy'])->middleware('check-empresa-profissional-id');
+    });
+
+    Route::group(['prefix' => 'pacientes'], function () {
+        Route::get('/', [PacienteController::class, 'index']);
+        Route::get('/{id}', [PacienteController::class, 'show'])->middleware('check-prontuario-paciente-id');
+        Route::post('/', [PacienteController::class, 'store']);
+        Route::put('/{id}', [PacienteController::class, 'update'])->middleware('check-prontuario-paciente-id');
+        Route::delete('/{id}', [PacienteController::class, 'destroy'])->middleware('check-prontuario-paciente-id');
     });
 
     Route::resources([

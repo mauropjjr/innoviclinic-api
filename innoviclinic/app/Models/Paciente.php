@@ -6,6 +6,7 @@
 
 namespace App\Models;
 
+use App\Traits\AutoSetUsuarioId;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -36,6 +37,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Paciente extends Model
 {
+    use AutoSetUsuarioId;
+
 	protected $table = 'pacientes';
 	protected $primaryKey = 'pessoa_id';
 	public $incrementing = false;

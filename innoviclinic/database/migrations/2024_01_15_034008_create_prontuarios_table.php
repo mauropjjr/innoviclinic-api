@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('habitos', 1000)->nullable();
             $table->string('alergias', 1000)->nullable();
             $table->string('medicamentos', 1000)->nullable();
-            $table->tinyInteger('ativo')->nullable()->default(1);
+            $table->tinyInteger('ativo')->default(1);
             $table->integer('usuario_id')->index('prontuarios_usuarios_FK');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');

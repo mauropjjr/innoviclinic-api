@@ -7,7 +7,7 @@ use Closure;
 use App\Services\CustomAuthService;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckEmpresaProfissionald
+class CheckEmpresaProfissionalId
 {
     protected $customAuth;
 

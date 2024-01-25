@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('id', true);
             $table->integer('empresa_id')->index('convenios_empresas_FK');
             $table->string('nome');
-            $table->string('numero_registro');
+            $table->string('numero_registro')->nullable();
             $table->string('tipo', 20)->default('Particular')->comment('Convênio, Particular');
             $table->integer('dias_retorno')->nullable();
             $table->string('registro_ans', 100)->nullable();

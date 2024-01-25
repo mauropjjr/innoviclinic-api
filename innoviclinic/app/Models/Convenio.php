@@ -6,14 +6,15 @@
 
 namespace App\Models;
 
+use App\Traits\AutoSetEmpresaIdUsuarioId;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Convenio
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property string $nome
@@ -27,7 +28,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Empresa $empresa
  * @property Collection|Agenda[] $agendas
  * @property Collection|Prontuario[] $prontuarios
@@ -36,6 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Convenio extends Model
 {
+    use AutoSetEmpresaIdUsuarioId;
 	use HasFactory;
 	protected $table = 'convenios';
 
@@ -46,6 +48,12 @@ class Convenio extends Model
 		'ativo' => 'int',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'empresa_id',

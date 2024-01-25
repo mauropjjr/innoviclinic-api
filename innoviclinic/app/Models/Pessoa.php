@@ -131,6 +131,21 @@ class Pessoa extends  Authenticatable
         return $this->hasOne(Profissional::class, 'pessoa_id');
     }
 
+    public function paciente()
+    {
+        return $this->hasOne(Paciente::class, 'pessoa_id');
+    }
+
+    public function prontuario()
+    {
+        return $this->hasOne(Prontuario::class, 'paciente_id');
+    }
+
+    public function prontuarios()
+    {
+        return $this->hasMany(Prontuario::class, 'paciente_id');
+    }
+
     public function profissional_especialidades()
     {
         return $this->belongsToMany(
@@ -186,11 +201,6 @@ class Pessoa extends  Authenticatable
         return $this->hasMany(Interacao::class, 'usuario_id');
     }
 
-    public function paciente()
-    {
-        return $this->hasOne(Paciente::class);
-    }
-
     public function pessoas()
     {
         return $this->hasMany(Pessoa::class, 'usuario_id');
@@ -219,11 +229,6 @@ class Pessoa extends  Authenticatable
     public function profissos()
     {
         return $this->hasMany(Profissao::class, 'usuario_id');
-    }
-
-    public function prontuarios()
-    {
-        return $this->hasMany(Prontuario::class, 'usuario_id');
     }
 
     public function salas()

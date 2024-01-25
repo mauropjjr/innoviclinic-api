@@ -7,12 +7,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
+use App\Traits\AutoSetUsuarioId;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class Prontuario
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property int $profissional_id
@@ -28,7 +29,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Convenio|null $convenio
  * @property Empresa $empresa
  * @property Pessoa $pessoa
@@ -38,6 +39,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Prontuario extends Model
 {
+    use AutoSetUsuarioId;
+
 	protected $table = 'prontuarios';
 
 	protected $casts = [
@@ -48,6 +51,12 @@ class Prontuario extends Model
 		'ativo' => 'int',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'empresa_id',
@@ -63,6 +72,10 @@ class Prontuario extends Model
 		'ativo',
 		'usuario_id'
 	];
+
+    protected $uniqueConstraints = [
+        'profissional_id', 'paciente_id', 'empresa_id',
+    ];
 
 	public function convenio()
 	{
