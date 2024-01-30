@@ -22,32 +22,82 @@ class PacienteController extends Controller
     }
 
     public function index(Request $request)
-{
-    $user = $this->customAuth->getUser();
-    $query = Pessoa::query();
-    $query->with(['paciente', 'prontuario' => function ($query) use ($user) {
-        $query->where('profissional_id', $user->empresa_profissional->profissional_id)
-            ->where('empresa_id', $user->empresa_profissional->empresa_id);
-    }])->where('tipo_usuario', 'Paciente');
+    {
+        $user = $this->customAuth->getUser();
+        $query = Pessoa::query();
+        $query->with(['paciente', 'prontuario' => function ($query) use ($user) {
+            $query->where('profissional_id', $user->empresa_profissional->profissional_id)
+                ->where('empresa_id', $user->empresa_profissional->empresa_id);
+        }])->where('tipo_usuario', 'Paciente');
 
-    if ($request->has('nome') && $request->input('nome')) {
-        $query->where('nome', 'LIKE', "%" . $request->input('nome') . "%");
-    }
-    if ($request->has('email') && $request->input('email')) {
-        $query->where('email', $request->input('email'));
-    }
-    if ($request->has('telefone') && $request->input('telefone')) {
-        $query->where('telefone', $request->input('telefone'));
-    }
-    if ($request->has('cpf') && $request->input('cpf')) {
-        $query->where('cpf', $request->input('cpf'));
-    }
-    if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
-        $query->where('ativo', $request->input('ativo'));
+        if ($request->has('nome') && $request->input('nome')) {
+            $query->where('nome', 'LIKE', "%" . $request->input('nome') . "%");
+        }
+        if ($request->has('email') && $request->input('email')) {
+            $query->where('email', $request->input('email'));
+        }
+        if ($request->has('telefone') && $request->input('telefone')) {
+            $query->where('telefone', $request->input('telefone'));
+        }
+        if ($request->has('cpf') && $request->input('cpf')) {
+            $query->where('cpf', $request->input('cpf'));
+        }
+        if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
+            $query->where('ativo', $request->input('ativo'));
+        }
+
+        return response()->json($query->get());
     }
 
-    return response()->json($query->get());
-}
+    public function searchByCpfOrName(Request $request)
+    {
+        $user = $this->customAuth->getUser();
+
+        // Verifica se pelo menos um dos parâmetros foi informado
+        if (!$request->filled('nome') && !$request->filled('cpf')) {
+            return response()->json(['error' => 'É necessário informar o nome ou o CPF.'], Response::HTTP_BAD_REQUEST);
+        }
+
+        $result = Pessoa::with(['paciente', 'prontuario' => function ($query) use ($user) {
+            if ($user->empresa_profissional) {
+                $query->where('profissional_id', $user->empresa_profissional->profissional_id)
+                    ->where('empresa_id', $user->empresa_profissional->empresa_id);
+            }
+        }])
+            ->when($request->filled('nome'), function ($query) use ($request) {
+                return $query->where('nome', 'LIKE', "%{$request->input('nome')}%");
+            })
+            ->when($request->filled('cpf'), function ($query) use ($request) {
+                return $query->where('cpf', $request->input('cpf'));
+            })
+            ->where('tipo_usuario', 'Paciente')
+            ->get();
+
+        // Trata o objeto prontuario antes de enviar a resposta
+        $result->transform(function ($item) use ($user) {
+            if ($item->prontuario) {
+                // Verifica se o prontuario atende às condições desejadas
+                if (
+                    !$user->empresa_profissional || (
+                        $user->empresa_profissional &&
+                        $item->prontuario->profissional_id !== $user->empresa_profissional->profissional_id &&
+                        $item->prontuario->empresa_id !== $user->empresa_profissional->empresa_id
+                    )
+                ) {
+                    $item->unsetRelation('prontuario');
+                    $item->prontuario = [];
+                }
+            }
+
+            return $item;
+        });
+
+        return response()->json($result);
+    }
+
+
+
+
 
 
     public function show($id)

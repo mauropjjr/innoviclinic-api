@@ -79,6 +79,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::group(['prefix' => 'pacientes'], function () {
+        Route::get('/search', [PacienteController::class, 'searchByCpfOrName']);
         Route::get('/', [PacienteController::class, 'index']);
         Route::get('/{id}', [PacienteController::class, 'show'])->middleware('check-prontuario-paciente-id');
         Route::post('/', [PacienteController::class, 'store']);
