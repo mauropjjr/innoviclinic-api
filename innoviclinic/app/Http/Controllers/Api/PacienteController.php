@@ -23,6 +23,7 @@ class PacienteController extends Controller
 
     public function index(Request $request)
     {
+        
         $user = $this->customAuth->getUser();
         $query = Pessoa::query();
         $query->with(['paciente', 'prontuario' => function ($query) use ($user) {
@@ -46,7 +47,7 @@ class PacienteController extends Controller
             $query->where('ativo', $request->input('ativo'));
         }
 
-        return response()->json($query->get());
+        return response()->json($query->paginate($request->input('per_page') ?? 15));
     }
 
     public function searchByCpfOrName(Request $request)
