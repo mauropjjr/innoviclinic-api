@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ProfissaoController;
 use App\Http\Controllers\Api\ProntuarioController;
 use App\Http\Controllers\Api\SecretariaController;
 use App\Http\Controllers\Api\AgendaStatusController;
+use App\Http\Controllers\Api\EmpresaConfiguracaoController;
 use App\Http\Controllers\Api\EscolaridadeController;
 use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\ProfissionalController;
@@ -44,6 +45,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [EmpresaController::class, 'store']);
         Route::put('/{id}', [EmpresaController::class, 'update'])->middleware('check-empresa-id');
         Route::delete('/{id}', [EmpresaController::class, 'destroy'])->middleware('check-empresa-id');
+    });
+
+    Route::group(['prefix' => 'empresa-configuracao'], function () {
+        Route::get('/', [EmpresaConfiguracaoController::class, 'index']);
+        Route::get('/{id}', [EmpresaConfiguracaoController::class, 'show'])->middleware('check-empresa-configuracao-empresa-id');
+        Route::post('/', [EmpresaConfiguracaoController::class, 'store']);
+        Route::put('/{id}', [EmpresaConfiguracaoController::class, 'update'])->middleware('check-empresa-configuracao-empresa-id');
+        Route::delete('/{id}', [EmpresaConfiguracaoController::class, 'destroy'])->middleware('check-empresa-configuracao-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {
