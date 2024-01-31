@@ -46,7 +46,7 @@ class PacienteController extends Controller
             $query->where('ativo', $request->input('ativo'));
         }
 
-        return response()->json($query->get());
+        return response()->json($query->simplePaginate(15));
     }
 
     public function searchByCpfOrName(Request $request)
