@@ -28,11 +28,11 @@ class StoreEmpresaRequest extends FormRequest
             'email' => ['required', 'email', 'max:100'],
             'telefone' => ['required', 'max:20'],
             'cpf_cnpj' => ['nullable', new CpfCnpj, 'unique:empresas,cpf_cnpj'],
-            'profissional_id' => 'required|exists:pessoas,id',
+            'profissional_id' => 'required|exists:profissionais,pessoa_id',
             'razao_social' => ['max:255'],
             'cep' => ['max:9'],
             'uf' => ['max:2'],
-            'ativo' => 'boolean|in:true,false',
+            'ativo' => 'boolean',
         ];
     }
 }

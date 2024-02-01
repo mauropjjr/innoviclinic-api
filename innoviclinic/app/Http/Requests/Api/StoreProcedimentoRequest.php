@@ -28,7 +28,7 @@ class StoreProcedimentoRequest extends FormRequest
             'cor' => ['required', 'string', 'max:100'],
             'duracao_min' => 'required|integer',
             'valor' => 'required|decimal:2',
-            'ativo'  => 'boolean|bin:true,false'
+            'ativo'  => 'boolean'
         ];
     }
 }

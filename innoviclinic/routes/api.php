@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Procedimento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EmpresaController;
@@ -12,6 +11,7 @@ use App\Http\Controllers\Api\ProntuarioController;
 use App\Http\Controllers\Api\SecretariaController;
 use App\Http\Controllers\Api\AgendaStatusController;
 use App\Http\Controllers\Api\EmpresaConfiguracaoController;
+use App\Http\Controllers\Api\EmpresaProfissionalController;
 use App\Http\Controllers\Api\EscolaridadeController;
 use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\ProfissionalController;
@@ -53,6 +53,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [EmpresaConfiguracaoController::class, 'store']);
         Route::put('/{id}', [EmpresaConfiguracaoController::class, 'update'])->middleware('check-empresa-configuracao-empresa-id');
         Route::delete('/{id}', [EmpresaConfiguracaoController::class, 'destroy'])->middleware('check-empresa-configuracao-empresa-id');
+    });
+
+    Route::group(['prefix' => 'empresa-profissionais'], function () {
+        Route::get('/', [EmpresaProfissionalController::class, 'index']);
+        Route::get('/{id}', [EmpresaProfissionalController::class, 'show'])->middleware('check-empresa-profissional-empresa-id');
+        Route::post('/', [EmpresaProfissionalController::class, 'store']);
+        Route::put('/{id}', [EmpresaProfissionalController::class, 'update'])->middleware('check-empresa-profissional-empresa-id');
+        Route::delete('/{id}', [EmpresaProfissionalController::class, 'destroy'])->middleware('check-empresa-profissional-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {

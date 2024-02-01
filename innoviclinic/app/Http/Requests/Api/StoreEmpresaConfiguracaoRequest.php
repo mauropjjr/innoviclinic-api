@@ -27,7 +27,7 @@ class StoreEmpresaConfiguracaoRequest extends FormRequest
             'hora_fim_agenda' => ['nullable', 'string', 'max:5'],
             'duracao_atendimento' => ['nullable', 'string', 'max:5'],
             'visualizacao_agenda' => ['nullable', 'string', 'max:100'],
-            'ativo'  => 'boolean|bin:true,false'
+            'ativo' => 'boolean',
         ];
     }
 }

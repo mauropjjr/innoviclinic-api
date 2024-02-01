@@ -42,7 +42,7 @@ class UpdateProfissionalRequest extends FormRequest
             'cep' => 'max:9',
             'uf' => 'max:2',
             'observacoes' => 'max:1000',
-            'ativo' => 'boolean|in:true,false',
+            'ativo' => 'boolean',
             'profissional.profissao_id' => 'required|numeric',
             'profissional.nome_conselho' => 'required|max:20|string',
             'profissional.numero_conselho' => 'required|max:20|string',

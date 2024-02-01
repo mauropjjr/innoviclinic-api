@@ -4,7 +4,7 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreConvenioRequest extends FormRequest
+class StoreEmpresaProfissionalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,8 @@ class StoreConvenioRequest extends FormRequest
     {
         return [
             'empresa_id' => 'integer|exists:empresas,id',
-            'nome' => ['required', 'string', 'max:255'],
-            'tipo' => ['required', 'string', 'in:Convênio,Particular'],
-            'numero_registro' => ['nullable', 'string', 'max:255'],
-            'ativo' => 'boolean',
+            'profissional_id' => 'required|exists:profissionais,pessoa_id',
+            'ativo'  => 'boolean'
         ];
     }
 }

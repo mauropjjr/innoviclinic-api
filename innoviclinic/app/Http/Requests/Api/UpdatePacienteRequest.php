@@ -42,7 +42,7 @@ class UpdatePacienteRequest extends FormRequest
             'cep' => 'max:9',
             'uf' => 'max:2',
             'observacoes' => 'max:1000',
-            'ativo' => 'boolean|in:true,false',
+            'ativo' => 'boolean',
         ];
     }
 }

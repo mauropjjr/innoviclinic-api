@@ -36,7 +36,7 @@ class UpdateEmpresaRequest extends FormRequest
                 new CpfCnpj,
                 Rule::unique('empresas', 'cpf_cnpj')->ignore(request()->route('id')),
             ],
-            'ativo' => 'boolean|in:true,false',
+            'ativo' => 'boolean',
         ];
     }
 }
