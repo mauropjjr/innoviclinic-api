@@ -6,9 +6,11 @@
 
 namespace App\Models;
 
+use App\Traits\AutoSetEmpresaIdProfissionalIdUsuarioId;
 use Carbon\Carbon;
-use App\Traits\AutoSetUsuarioId;
+use Illuminate\Validation\Rule;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Validator;
 
 /**
  * Class ProfissionalSecretaria
@@ -29,7 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProfissionalSecretaria extends Model
 {
-    use AutoSetUsuarioId;
+    use AutoSetEmpresaIdProfissionalIdUsuarioId;
 
 	protected $table = 'profissional_secretarias';
 
@@ -64,4 +66,41 @@ class ProfissionalSecretaria extends Model
 	{
 		return $this->belongsTo(Pessoa::class, 'secretaria_id');
 	}
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->validateUniqueProfissionalSecretaria();
+        });
+
+        static::updating(function ($model) {
+            $model->validateUniqueProfissionalSecretaria();
+        });
+    }
+
+    private function validateUniqueProfissionalSecretaria()
+    {
+        $validator = Validator::make(
+            [
+                'empresa_id' => $this->empresa_id,
+                'profissional_id' => $this->profissional_id,
+                'secretaria_id' => $this->secretaria_id,
+            ],
+            [
+                'secretaria_id' => Rule::unique('profissional_secretarias')
+                    ->where(function ($query) {
+                        $query->where('empresa_id', $this->empresa_id)
+                            ->where('secretaria_id', $this->secretaria_id)
+                            ->where('profissional_id', $this->profissional_id);
+                    })
+                    ->ignore($this->id),
+            ]
+        );
+
+        if ($validator->fails()) {
+            throw new \Illuminate\Validation\ValidationException($validator);
+        }
+    }
 }

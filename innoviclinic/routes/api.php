@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\ProfissionalController;
 use App\Http\Controllers\Api\EspecialidadeController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
+use App\Http\Controllers\Api\ProfissionalSecretariaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -61,6 +62,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [EmpresaProfissionalController::class, 'store']);
         Route::put('/{id}', [EmpresaProfissionalController::class, 'update'])->middleware('check-empresa-profissional-empresa-id');
         Route::delete('/{id}', [EmpresaProfissionalController::class, 'destroy'])->middleware('check-empresa-profissional-empresa-id');
+    });
+
+    Route::group(['prefix' => 'profissional-secretarias'], function () {
+        Route::get('/', [ProfissionalSecretariaController::class, 'index']);
+        Route::get('/{id}', [ProfissionalSecretariaController::class, 'show'])->middleware('check-profissionalid-secretaria-empresa-id');
+        Route::post('/', [ProfissionalSecretariaController::class, 'store']);
+        Route::put('/{id}', [ProfissionalSecretariaController::class, 'update'])->middleware('check-profissionalid-secretaria-empresa-id');
+        Route::delete('/{id}', [ProfissionalSecretariaController::class, 'destroy'])->middleware('check-profissionalid-secretaria-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {
