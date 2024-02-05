@@ -34,11 +34,16 @@ class EmpresaProfissionalController extends Controller
 
     public function show($id)
     {
-        if (!$objeto = EmpresaProfissional::with(['profissional'])->find($id)) {
+        if (!$objeto = EmpresaProfissional::with(['profissional'])
+        ->leftJoin('pessoas', 'empresa_profissionais.profissional_id', '=', 'pessoas.id')
+        ->leftJoin('profissionais', 'empresa_profissionais.profissional_id', '=', 'profissionais.pessoa_id')
+        
+        ->find($id)) {
             return response()->json([
                 'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
+      
         return response()->json($objeto);
     }
 
