@@ -47,7 +47,7 @@ class UpdateProfissionalRequest extends FormRequest
             'profissional.nome_conselho' => 'required|max:20|string',
             'profissional.numero_conselho' => 'required|max:20|string',
             'profissional.especialidades' => 'required|array|min:1',
-            'profissional.especialidades.*' => 'required|numeric',
+            'profissional.especialidades.*' => 'required|numeric|exists:especialidades,id',
         ];
     }
 }

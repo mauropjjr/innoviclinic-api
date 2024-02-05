@@ -7,12 +7,13 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\AutoSetEmpresaIdUsuarioId;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Class Evento
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property string $nome
@@ -26,7 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Empresa $empresa
  * @property Pessoa $pessoa
  * @property Collection|EventoProfissionai[] $evento_profissionais
@@ -35,6 +36,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Evento extends Model
 {
+    use AutoSetEmpresaIdUsuarioId;
+
 	protected $table = 'eventos';
 
 	protected $casts = [
@@ -43,6 +46,12 @@ class Evento extends Model
 		'data_fim' => 'datetime',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'empresa_id',
@@ -62,13 +71,18 @@ class Evento extends Model
 		return $this->belongsTo(Empresa::class);
 	}
 
-	public function pessoa()
-	{
-		return $this->belongsTo(Pessoa::class, 'usuario_id');
-	}
-
 	public function evento_profissionais()
 	{
-		return $this->hasMany(EventoProfissionai::class);
+		return $this->hasMany(EventoProfissional::class);
 	}
+
+    public function profissionais()
+    {
+        return $this->belongsToMany(
+            EventoProfissional::class,
+            'evento_profissionais',
+            'evento_id',
+            'profissional_id'
+        )->withPivot('usuario_id', 'created_at');
+    }
 }

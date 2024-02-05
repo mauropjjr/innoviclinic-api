@@ -2,7 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\EmpresaController;
+use App\Http\Controllers\Api\FeriadoController;
 use App\Http\Controllers\Api\ConvenioController;
 use App\Http\Controllers\Api\PacienteController;
 use App\Http\Controllers\Api\Auth\AuthController;
@@ -10,14 +12,13 @@ use App\Http\Controllers\Api\ProfissaoController;
 use App\Http\Controllers\Api\ProntuarioController;
 use App\Http\Controllers\Api\SecretariaController;
 use App\Http\Controllers\Api\AgendaStatusController;
-use App\Http\Controllers\Api\EmpresaConfiguracaoController;
-use App\Http\Controllers\Api\EmpresaProfissionalController;
 use App\Http\Controllers\Api\EscolaridadeController;
 use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\ProfissionalController;
 use App\Http\Controllers\Api\EspecialidadeController;
-use App\Http\Controllers\Api\FeriadoController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
+use App\Http\Controllers\Api\EmpresaConfiguracaoController;
+use App\Http\Controllers\Api\EmpresaProfissionalController;
 use App\Http\Controllers\Api\ProfissionalSecretariaController;
 
 /*
@@ -87,6 +88,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [FeriadoController::class, 'store']);
         Route::put('/{id}', [FeriadoController::class, 'update'])->middleware('check-feriado-empresa-id');
         Route::delete('/{id}', [FeriadoController::class, 'destroy'])->middleware('check-feriado-empresa-id');
+    });
+
+    Route::group(['prefix' => 'eventos'], function () {
+        Route::get('/', [EventoController::class, 'index']);
+        Route::get('/{id}', [EventoController::class, 'show'])->middleware('check-evento-empresa-id');
+        Route::post('/', [EventoController::class, 'store']);
+        Route::put('/{id}', [EventoController::class, 'update'])->middleware('check-evento-empresa-id');
+        Route::delete('/{id}', [EventoController::class, 'destroy'])->middleware('check-evento-empresa-id');
     });
 
     Route::group(['prefix' => 'convenios'], function () {
