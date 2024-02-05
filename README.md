@@ -20,6 +20,7 @@ php artisan db:seed --class=ProfissaoSeeder
 php artisan db:seed --class=EspecialidadeSeeder
 php artisan db:seed --class=ProcedimentoTipoSeeder
 php artisan db:seed --class=AgendaStatusSeeder
+php artisan db:seed --class=FeriadoSeeder
 
 #rodar todos os seeds
 php artisan db:seed --force

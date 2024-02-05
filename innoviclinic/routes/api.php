@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\EscolaridadeController;
 use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\ProfissionalController;
 use App\Http\Controllers\Api\EspecialidadeController;
+use App\Http\Controllers\Api\FeriadoController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
 use App\Http\Controllers\Api\ProfissionalSecretariaController;
 
@@ -78,6 +79,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [ProcedimentoController::class, 'store']);
         Route::put('/{id}', [ProcedimentoController::class, 'update'])->middleware('check-procedimento-empresa-id');
         Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])->middleware('check-procedimento-empresa-id');
+    });
+
+    Route::group(['prefix' => 'feriados'], function () {
+        Route::get('/', [FeriadoController::class, 'index']);
+        Route::get('/{id}', [FeriadoController::class, 'show'])->middleware('check-feriado-empresa-id');
+        Route::post('/', [FeriadoController::class, 'store']);
+        Route::put('/{id}', [FeriadoController::class, 'update'])->middleware('check-feriado-empresa-id');
+        Route::delete('/{id}', [FeriadoController::class, 'destroy'])->middleware('check-feriado-empresa-id');
     });
 
     Route::group(['prefix' => 'convenios'], function () {
