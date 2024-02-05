@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\ProfissionalSecretaria;
+use App\Models\ProfissionalAgenda;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\CustomAuthService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\StoreProfissionalSecretariaRequest;
+use App\Http\Requests\Api\StoreProfissionalAgendaRequest;
 
-class ProfissionalSecretariaController extends Controller
+class ProfissionalAgendaController extends Controller
 {
     protected $customAuth;
 
@@ -17,25 +17,22 @@ class ProfissionalSecretariaController extends Controller
     {
         $this->customAuth = $customAuth;
 
-        $this->middleware('check-profissional-id-secretaria-empresa-id')->only(['show', 'update', 'destroy']);
+        $this->middleware('check-profissional-id-agenda-empresa-id')->only(['show', 'update', 'destroy']);
     }
 
     public function index(Request $request)
     {
         $user = $this->customAuth->getUser();
-        $query = ProfissionalSecretaria::query()->with(['secretaria:id,nome,email']);
+        $query = ProfissionalAgenda::query()->with(['profissional:id,nome,email']);
         $query->where('empresa_id', $user->empresa_profissional->empresa_id);
         $query->where('profissional_id', $user->empresa_profissional->profissional_id);
 
-        if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
-            $query->where('ativo', $request->input('ativo'));
-        }
         return response()->json($query->get());
     }
 
     public function show($id)
     {
-        if (!$objeto = ProfissionalSecretaria::with(['secretaria:id,nome,email'])->find($id)) {
+        if (!$objeto = ProfissionalAgenda::with(['profissional:id,nome,email'])->find($id)) {
             return response()->json([
                 'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
@@ -43,16 +40,16 @@ class ProfissionalSecretariaController extends Controller
         return response()->json($objeto);
     }
 
-    public function store(StoreProfissionalSecretariaRequest  $request)
+    public function store(StoreProfissionalAgendaRequest  $request)
     {
         $input = $request->validated();
-        $objeto = ProfissionalSecretaria::create($input);
+        $objeto = ProfissionalAgenda::create($input);
         return response()->json($objeto);
     }
 
-    public function update(StoreProfissionalSecretariaRequest $request, string $id)
+    public function update(StoreProfissionalAgendaRequest $request, string $id)
     {
-        if (!$objeto = ProfissionalSecretaria::find($id)) {
+        if (!$objeto = ProfissionalAgenda::find($id)) {
             return response()->json([
                 'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
@@ -64,7 +61,7 @@ class ProfissionalSecretariaController extends Controller
 
     public function destroy(string $id)
     {
-        if (!$objeto = ProfissionalSecretaria::find($id)) {
+        if (!$objeto = ProfissionalAgenda::find($id)) {
             return response()->json([
                 'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);

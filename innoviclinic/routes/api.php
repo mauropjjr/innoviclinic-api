@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Models\ProfissionalAgenda;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\EmpresaController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Api\ProcedimentoController;
 use App\Http\Controllers\Api\ProfissionalController;
 use App\Http\Controllers\Api\EspecialidadeController;
 use App\Http\Controllers\Api\ProcedimentoTipoController;
+use App\Http\Controllers\Api\ProfissionalAgendaController;
 use App\Http\Controllers\Api\EmpresaConfiguracaoController;
 use App\Http\Controllers\Api\EmpresaProfissionalController;
 use App\Http\Controllers\Api\ProfissionalSecretariaController;
@@ -68,10 +70,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'profissional-secretarias'], function () {
         Route::get('/', [ProfissionalSecretariaController::class, 'index']);
-        Route::get('/{id}', [ProfissionalSecretariaController::class, 'show'])->middleware('check-profissionalid-secretaria-empresa-id');
+        Route::get('/{id}', [ProfissionalSecretariaController::class, 'show'])->middleware('check-profissional-id-secretaria-empresa-id');
         Route::post('/', [ProfissionalSecretariaController::class, 'store']);
-        Route::put('/{id}', [ProfissionalSecretariaController::class, 'update'])->middleware('check-profissionalid-secretaria-empresa-id');
-        Route::delete('/{id}', [ProfissionalSecretariaController::class, 'destroy'])->middleware('check-profissionalid-secretaria-empresa-id');
+        Route::put('/{id}', [ProfissionalSecretariaController::class, 'update'])->middleware('check-profissional-id-secretaria-empresa-id');
+        Route::delete('/{id}', [ProfissionalSecretariaController::class, 'destroy'])->middleware('check-profissional-id-secretaria-empresa-id');
+    });
+
+    Route::group(['prefix' => 'profissional-agendas'], function () {
+        Route::get('/', [ProfissionalAgendaController::class, 'index']);
+        Route::get('/{id}', [ProfissionalAgendaController::class, 'show'])->middleware('check-profissional-id-agenda-empresa-id');
+        Route::put('/{id}', [ProfissionalAgendaController::class, 'update'])->middleware('check-profissional-id-agenda-empresa-id');
+        Route::delete('/{id}', [ProfissionalAgendaController::class, 'destroy'])->middleware('check-profissional-id-agenda-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {

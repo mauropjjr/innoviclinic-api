@@ -8,10 +8,11 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\AutoSetEmpresaIdProfissionalIdUsuarioId;
 
 /**
  * Class ProfissionalAgenda
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property int $profissional_id
@@ -26,6 +27,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProfissionalAgenda extends Model
 {
+    use AutoSetEmpresaIdProfissionalIdUsuarioId;
+
 	protected $table = 'profissional_agendas';
 
 	protected $casts = [
@@ -35,6 +38,12 @@ class ProfissionalAgenda extends Model
 		'usuario_id' => 'int'
 	];
 
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
+
 	protected $fillable = [
 		'empresa_id',
 		'profissional_id',
@@ -43,4 +52,9 @@ class ProfissionalAgenda extends Model
 		'hora_fim',
 		'usuario_id'
 	];
+
+    public function profissional()
+	{
+		return $this->belongsTo(Pessoa::class, 'profissional_id');
+	}
 }
