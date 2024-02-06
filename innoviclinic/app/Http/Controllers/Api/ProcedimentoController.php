@@ -32,7 +32,8 @@ class ProcedimentoController extends Controller
         if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
             $query->where('ativo', $request->input('ativo'));
         }
-        return response()->json($query->get());
+        return response()->json($query->with([
+            'procedimento_tipo'])->get());
     }
 
     public function show($id)
