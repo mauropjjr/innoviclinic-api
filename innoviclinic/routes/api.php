@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\EmpresaConfiguracaoController;
 use App\Http\Controllers\Api\EmpresaProfissionalController;
 use App\Http\Controllers\Api\ProfissionalSecretariaController;
 use App\Http\Controllers\Api\SalaController;
+use App\Http\Controllers\Api\SecaoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -80,8 +81,17 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'profissional-agendas'], function () {
         Route::get('/', [ProfissionalAgendaController::class, 'index']);
         Route::get('/{id}', [ProfissionalAgendaController::class, 'show'])->middleware('check-profissional-id-agenda-empresa-id');
+        Route::post('/', [ProfissionalAgendaController::class, 'store']);
         Route::put('/{id}', [ProfissionalAgendaController::class, 'update'])->middleware('check-profissional-id-agenda-empresa-id');
         Route::delete('/{id}', [ProfissionalAgendaController::class, 'destroy'])->middleware('check-profissional-id-agenda-empresa-id');
+    });
+
+    Route::group(['prefix' => 'secoes'], function () {
+        Route::get('/', [SecaoController::class, 'index']);
+        Route::get('/{id}', [SecaoController::class, 'show'])->middleware('check-secao-profissional-id-empresa-id');
+        Route::post('/', [SecaoController::class, 'store']);
+        Route::put('/{id}', [SecaoController::class, 'update'])->middleware('check-secao-profissional-id-empresa-id');
+        Route::delete('/{id}', [SecaoController::class, 'destroy'])->middleware('check-secao-profissional-id-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {
