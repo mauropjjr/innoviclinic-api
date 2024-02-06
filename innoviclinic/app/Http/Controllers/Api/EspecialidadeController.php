@@ -13,7 +13,8 @@ class EspecialidadeController extends Controller
     public function index(Request $request)
 {
     $query = Especialidade::query();
-    if ($request->has('profissao_id') && is_int($request->input('profissao_id'))) {
+    
+    if ($request->has('profissao_id') && $request->input('profissao_id')) {
         $query->where('profissao_id', $request->input('profissao_id'));
     }
     if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
