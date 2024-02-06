@@ -62,7 +62,7 @@ class ProfissionalController extends Controller
                 //     DB::raw('especialidades.nome as name')
                 // ])->join('especialidades', 'profissional_especialidades.especialidade_id', '=', 'especialidades.id');
 
-                $query->select('profissional_especialidades.*', 'especialidades.id as value', 'especialidades.nome as name');
+                $query->select('profissional_especialidades.*', 'especialidades.id as value', 'especialidades.nome as label');
                 $query->join('especialidades', 'profissional_especialidades.especialidade_id', '=', 'especialidades.id');
 
                 //$query->select(['id', 'profissional_id', 'especialidade_id']);
