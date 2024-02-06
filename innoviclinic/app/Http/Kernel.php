@@ -70,6 +70,7 @@ class Kernel extends HttpKernel
         'check-profissional-id-secretaria-empresa-id' => \App\Http\Middleware\CheckProfissionalIdSecretariaEmpresaId::class,
         'check-profissional-id-agenda-empresa-id' => \App\Http\Middleware\CheckProfissionalIdAgendaEmpresaId::class,
         'check-procedimento-empresa-id' => \App\Http\Middleware\CheckProcedimentoEmpresaId::class,
+        'check-sala-empresa-id' => \App\Http\Middleware\CheckSalaEmpresaId::class,
         'check-feriado-empresa-id' => \App\Http\Middleware\CheckFeriadoEmpresaId::class,
         'check-evento-empresa-id' => \App\Http\Middleware\CheckEventoEmpresaId::class,
         'check-convenio-empresa-id' => \App\Http\Middleware\CheckConvenioEmpresaId::class,

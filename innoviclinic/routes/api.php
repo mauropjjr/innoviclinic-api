@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\ProfissionalAgendaController;
 use App\Http\Controllers\Api\EmpresaConfiguracaoController;
 use App\Http\Controllers\Api\EmpresaProfissionalController;
 use App\Http\Controllers\Api\ProfissionalSecretariaController;
+use App\Http\Controllers\Api\SalaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -89,6 +90,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [ProcedimentoController::class, 'store']);
         Route::put('/{id}', [ProcedimentoController::class, 'update'])->middleware('check-procedimento-empresa-id');
         Route::delete('/{id}', [ProcedimentoController::class, 'destroy'])->middleware('check-procedimento-empresa-id');
+    });
+
+    Route::group(['prefix' => 'salas'], function () {
+        Route::get('/', [SalaController::class, 'index']);
+        Route::get('/{id}', [SalaController::class, 'show'])->middleware('check-sala-empresa-id');
+        Route::post('/', [SalaController::class, 'store']);
+        Route::put('/{id}', [SalaController::class, 'update'])->middleware('check-sala-empresa-id');
+        Route::delete('/{id}', [SalaController::class, 'destroy'])->middleware('check-sala-empresa-id');
     });
 
     Route::group(['prefix' => 'feriados'], function () {
