@@ -76,9 +76,9 @@ class Procedimento extends Model
 		return $this->belongsTo(Pessoa::class, 'usuario_id');
 	}
 
-	public function procedimento()
+	public function procedimento_tipo()
 	{
-		return $this->belongsTo(Procedimento::class, 'procedimento_tipo_id');
+		return $this->belongsTo(ProcedimentoTipo::class, 'procedimento_tipo_id');
 	}
 
 	public function agendas()
