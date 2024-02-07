@@ -6,13 +6,14 @@
 
 namespace App\Models;
 
+use App\Traits\AutoSetControleInteracao;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Interaco
- * 
+ *
  * @property int $id
  * @property int $prontuario_id
  * @property int|null $agenda_id
@@ -25,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Agenda|null $agenda
  * @property Prontuario $prontuario
  * @property Pessoa $pessoa
@@ -35,6 +36,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Interacao extends Model
 {
+    use AutoSetControleInteracao;
+
 	protected $table = 'interacoes';
 
 	protected $casts = [
@@ -45,6 +48,12 @@ class Interacao extends Model
 		'teleatendimento' => 'int',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'prontuario_id',
