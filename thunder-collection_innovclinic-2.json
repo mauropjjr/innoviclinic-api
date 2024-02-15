@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "innovclinic-2",
-    "dateExported": "2024-02-07T18:54:30.856Z",
+    "dateExported": "2024-02-15T15:50:33.390Z",
     "version": "1.1",
     "folders": [
         {
@@ -74,11 +74,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
             "name": "list",
-            "url": "{{url}}/api/secoes?nome&ativo",
+            "url": "{{url}}/api/interacoes?prontuario_id=1",
             "method": "GET",
             "sortNum": 10000,
             "created": "2024-02-07T18:24:28.833Z",
-            "modified": "2024-02-07T18:24:28.833Z",
+            "modified": "2024-02-07T19:35:36.834Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -96,13 +96,8 @@
             ],
             "params": [
                 {
-                    "name": "nome",
-                    "value": "",
-                    "isPath": false
-                },
-                {
-                    "name": "ativo",
-                    "value": "",
+                    "name": "prontuario_id",
+                    "value": "1",
                     "isPath": false
                 }
             ],
@@ -491,11 +486,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
             "name": "view",
-            "url": "{{url}}/api/secoes/1",
+            "url": "{{url}}/api/interacoes/1",
             "method": "GET",
             "sortNum": 20000,
             "created": "2024-02-07T18:24:28.833Z",
-            "modified": "2024-02-07T18:24:28.833Z",
+            "modified": "2024-02-07T19:53:03.360Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -794,7 +789,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2024-02-07T18:24:28.833Z",
-            "modified": "2024-02-07T18:35:02.787Z",
+            "modified": "2024-02-07T18:55:55.065Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -813,7 +808,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"prontuario_id\": \"\",\n  \"agenda_id\": null,\n  \"data\": \"\",\n  \"hora_ini\": \"\",\n  \"teleatendimento\": 0\n}",
+                "raw": "{\n  \"prontuario_id\": 1,\n  \"agenda_id\": null,\n  \"teleatendimento\": 0\n}",
                 "form": []
             },
             "auth": {
@@ -1118,11 +1113,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
             "name": "edit",
-            "url": "{{url}}/api/secoes/1",
+            "url": "{{url}}/api/interacoes/3",
             "method": "PUT",
             "sortNum": 40000,
             "created": "2024-02-07T18:24:28.833Z",
-            "modified": "2024-02-07T18:24:28.833Z",
+            "modified": "2024-02-15T15:21:12.568Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -1141,7 +1136,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"nome\":\"Atendimento\",\n  \"formulario\":\"{'nome':null, 'problema':null}\"\n}",
+                "raw": "{\n  \"finalizado\": 1\n}",
                 "form": []
             },
             "auth": {
@@ -1451,11 +1446,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
             "name": "delete",
-            "url": "{{url}}/api/secoes/3",
+            "url": "{{url}}/api/interacoes/3",
             "method": "DELETE",
             "sortNum": 50000,
             "created": "2024-02-07T18:24:28.833Z",
-            "modified": "2024-02-07T18:24:28.833Z",
+            "modified": "2024-02-07T19:55:34.032Z",
             "headers": [
                 {
                     "name": "Accept",

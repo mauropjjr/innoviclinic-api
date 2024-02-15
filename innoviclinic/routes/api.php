@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\ProcedimentoTipoController;
 use App\Http\Controllers\Api\ProfissionalAgendaController;
 use App\Http\Controllers\Api\EmpresaConfiguracaoController;
 use App\Http\Controllers\Api\EmpresaProfissionalController;
+use App\Http\Controllers\Api\InteracaoAtendimentoController;
 use App\Http\Controllers\Api\InteracaoController;
 use App\Http\Controllers\Api\ProfissionalSecretariaController;
 use App\Http\Controllers\Api\SalaController;
@@ -101,6 +102,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [InteracaoController::class, 'store']);
         Route::put('/{id}', [InteracaoController::class, 'update'])->middleware(['check-interacao-profissional-id-empresa-id', 'check-interacao-finalizada']);
         Route::delete('/{id}', [InteracaoController::class, 'destroy'])->middleware('check-interacao-profissional-id-empresa-id');
+    });
+
+    Route::group(['prefix' => 'interacao-atendimentos'], function () {
+        Route::get('/', [InteracaoAtendimentoController::class, 'index']);
+        Route::get('/{id}', [InteracaoAtendimentoController::class, 'show'])->middleware('check-interacao-atendimento-profissional-id-empresa-id');
+        Route::post('/', [InteracaoAtendimentoController::class, 'store']);
+        Route::put('/{id}', [InteracaoAtendimentoController::class, 'update'])->middleware(['check-interacao-atendimento-profissional-id-empresa-id', 'check-interacao-atendimento-finalizada']);
+        Route::delete('/{id}', [InteracaoAtendimentoController::class, 'destroy'])->middleware('check-interacao-atendimento-profissional-id-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {

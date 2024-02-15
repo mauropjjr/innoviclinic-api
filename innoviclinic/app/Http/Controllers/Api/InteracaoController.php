@@ -29,7 +29,8 @@ class InteracaoController extends Controller
             return response()->json(['error' => 'É necessário informar o prontuario_id do paciente.'], Response::HTTP_BAD_REQUEST);
         }
 
-        $query = Interacao::with('interacao_atendimentos')
+        $query = Interacao::with(['interacao_atendimentos', 'interacao_atendimentos.secao:id,nome'])
+        ->where('prontuario_id', $request->input('prontuario_id'))
         ->whereHas('prontuario', function ($query) use ($user) {
             $query->where('empresa_id', $user->empresa_profissional->empresa_id)
                 ->where('profissional_id', $user->empresa_profissional->profissional_id);

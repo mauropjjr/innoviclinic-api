@@ -7,11 +7,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Traits\AutoSetUsuarioId;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class InteracaoAtendimento
- * 
+ *
  * @property int $id
  * @property int $interacao_id
  * @property int $secao_id
@@ -19,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property Interaco $interaco
  * @property Seco $seco
  * @property Pessoa $pessoa
@@ -28,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class InteracaoAtendimento extends Model
 {
+    use AutoSetUsuarioId;
+
 	protected $table = 'interacao_atendimentos';
 
 	protected $casts = [
@@ -36,6 +39,12 @@ class InteracaoAtendimento extends Model
 		'usuario_id' => 'int'
 	];
 
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
+
 	protected $fillable = [
 		'interacao_id',
 		'secao_id',
@@ -43,12 +52,12 @@ class InteracaoAtendimento extends Model
 		'usuario_id'
 	];
 
-	public function interaco()
+	public function interacao()
 	{
 		return $this->belongsTo(Interacao::class, 'interacao_id');
 	}
 
-	public function seco()
+	public function secao()
 	{
 		return $this->belongsTo(Secao::class, 'secao_id');
 	}

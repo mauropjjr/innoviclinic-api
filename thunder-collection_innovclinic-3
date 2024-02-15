@@ -1,0 +1,193 @@
+{
+    "client": "Thunder Client",
+    "collectionName": "innovclinic-3",
+    "dateExported": "2024-02-15T15:50:39.413Z",
+    "version": "1.1",
+    "folders": [
+        {
+            "_id": "89e420c9-83ea-4623-9815-34026134ae18",
+            "name": "interacao-atendimentos",
+            "containerId": "",
+            "created": "2024-02-15T14:55:24.564Z",
+            "sortNum": 10000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "df3e86c0-943b-4dab-93ee-e383362470e8",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "89e420c9-83ea-4623-9815-34026134ae18",
+            "name": "list",
+            "url": "{{url}}/api/interacao-atendimentos?interacao_id=3",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-15T14:55:24.568Z",
+            "modified": "2024-02-15T15:47:03.429Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [
+                {
+                    "name": "interacao_id",
+                    "value": "3",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "2f6bed88-a272-4f80-94d0-c158adc75309",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "89e420c9-83ea-4623-9815-34026134ae18",
+            "name": "view",
+            "url": "{{url}}/api/interacao-atendimentos/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-15T14:55:24.568Z",
+            "modified": "2024-02-15T14:55:33.484Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "f4c2c496-8dbd-4368-8797-9c0e6c87e357",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "89e420c9-83ea-4623-9815-34026134ae18",
+            "name": "add",
+            "url": "{{url}}/api/interacao-atendimentos",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-15T14:55:24.568Z",
+            "modified": "2024-02-15T15:02:20.779Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"interacao_id\": 3,\n  \"secao_id\": 1,\n  \"descricao\": \"{'nome':wanderson, 'problema':teste}\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "08e536ab-5ed4-4bb8-bfbe-357c6e7e51e2",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "89e420c9-83ea-4623-9815-34026134ae18",
+            "name": "edit",
+            "url": "{{url}}/api/interacao-atendimentos/1",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-02-15T14:55:24.568Z",
+            "modified": "2024-02-15T15:07:33.208Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"interacao_id\": 3,\n  \"secao_id\": 1,\n  \"descricao\": \"{'nome':wanderson moreira, 'problema':teste edição}\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "291140d6-5f0d-4556-8c7b-99599abac36b",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "89e420c9-83ea-4623-9815-34026134ae18",
+            "name": "delete",
+            "url": "{{url}}/api/interacao-atendimentos/3",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-02-15T14:55:24.568Z",
+            "modified": "2024-02-15T14:55:40.960Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        }
+    ]
+}
