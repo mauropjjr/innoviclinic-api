@@ -7,13 +7,15 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use App\Enums\AgendaStatusEnum;
+use App\Traits\AutoSetUsuarioId;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Agenda
- * 
+ *
  * @property int $id
  * @property int $empresa_id
  * @property int $profissional_id
@@ -41,7 +43,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
- * 
+ *
  * @property AgendaStatus $agenda_status
  * @property Convenio $convenio
  * @property Empresa $empresa
@@ -54,6 +56,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Agenda extends Model
 {
+    use AutoSetUsuarioId;
 	use HasFactory;
 	protected $table = 'agendas';
 
@@ -72,6 +75,14 @@ class Agenda extends Model
 		'valor' => 'float',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'senha',
+        'remember_token',
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'empresa_id',
@@ -136,4 +147,13 @@ class Agenda extends Model
 	{
 		return $this->hasMany(Interacao::class);
 	}
+
+    public static function getStatusAttribute($value)
+    {
+        return AgendaStatus::from($value)->id;
+    }
+    // public function getStatusAttribute()
+    // {
+    //     return AgendaStatusEnum::MAP_VALUE_TO_LABEL[$this->agenda_status_id];
+    // }
 }

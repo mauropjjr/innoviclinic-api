@@ -135,4 +135,18 @@ class Utils
     {
         return 'R$ ' . number_format($valor, 2, ',', '.');
     }
+
+    public static function calcularDiferencaMinutos($horaIni, $horaFim) {
+        $horaIniObj = new \DateTime($horaIni);
+        $horaFimObj = new \DateTime($horaFim);
+
+        // Calcula a diferença entre as duas horas
+        $diferenca = $horaIniObj->diff($horaFimObj);
+
+        // Converte a diferença para minutos
+        $totalMinutos = ($diferenca->h * 60) + $diferenca->i;
+
+        return $totalMinutos;
+    }
+
 }

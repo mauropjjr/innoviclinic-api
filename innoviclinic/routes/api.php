@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Models\ProfissionalAgenda;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\EventoController;
 use App\Http\Controllers\Api\EmpresaController;
@@ -26,6 +25,7 @@ use App\Http\Controllers\Api\InteracaoController;
 use App\Http\Controllers\Api\ProfissionalSecretariaController;
 use App\Http\Controllers\Api\SalaController;
 use App\Http\Controllers\Api\SecaoController;
+use App\Http\Controllers\Api\AgendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -110,6 +110,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [InteracaoAtendimentoController::class, 'store']);
         Route::put('/{id}', [InteracaoAtendimentoController::class, 'update'])->middleware(['check-interacao-atendimento-profissional-id-empresa-id', 'check-interacao-atendimento-finalizada']);
         Route::delete('/{id}', [InteracaoAtendimentoController::class, 'destroy'])->middleware('check-interacao-atendimento-profissional-id-empresa-id');
+    });
+
+    Route::group(['prefix' => 'agendas'], function () {
+        Route::get('/', [AgendaController::class, 'index']);
+        Route::get('/{id}', [AgendaController::class, 'show']);
+        Route::post('/', [AgendaController::class, 'store'])->middleware('check-agenda-profissional-id-empresa-id');
+        Route::put('/{id}', [AgendaController::class, 'update'])->middleware('check-agenda-profissional-id-empresa-id');
+        Route::delete('/{id}', [AgendaController::class, 'destroy']);
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {
