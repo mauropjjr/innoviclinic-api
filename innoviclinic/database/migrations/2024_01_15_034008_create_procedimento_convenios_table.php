@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('procedimento_convenios', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('procedimento_id')->index('procedimento_convenios_procedimentos_FK');
+            $table->integer('convenio_id')->index('procedimento_convenios_convenios_FK');
             $table->decimal('valor', 10)->default(0);
             $table->boolean('ativo')->default(true);
             $table->integer('usuario_id')->index('procedimento_convenios_usuarios_FK');

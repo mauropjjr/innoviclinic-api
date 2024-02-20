@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('procedimento_tipos', function (Blueprint $table) {
-            $table->foreign(['usuario_id'], 'procedimentos_usuarios_FK')->references(['id'])->on('pessoas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['empresa_id'], 'procedimento_tipos_empresas_FK')->references(['id'])->on('empresas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['usuario_id'], 'procedimento_tipos_usuarios_FK')->references(['id'])->on('pessoas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
 
@@ -26,7 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('procedimento_tipos', function (Blueprint $table) {
-            $table->dropForeign('procedimentos_usuarios_FK');
+            $table->dropForeign('procedimento_tipos_empresas_FK');
+            $table->dropForeign('procedimento_tipos_usuarios_FK');
         });
     }
 };

@@ -18,9 +18,10 @@ return new class extends Migration
             $table->integer('empresa_id')->index('procedimentos_empresas_FK');
             $table->integer('procedimento_tipo_id')->index('procedimentos_tipos_FK');
             $table->string('nome');
-            $table->string('cor', 100);
             $table->integer('duracao_min');
             $table->decimal('valor', 10)->default(0);
+            $table->string('preparacao', 1000)->nullable();
+            $table->string('observacao', 1000)->nullable();
             $table->tinyInteger('ativo')->default(1);
             $table->integer('usuario_id')->index('procedimentos_pessoa_usuarios_FK');
             $table->dateTime('created_at');

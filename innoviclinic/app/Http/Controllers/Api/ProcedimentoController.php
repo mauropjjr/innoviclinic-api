@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Procedimento;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 use App\Services\CustomAuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreProcedimentoRequest;
@@ -46,12 +47,38 @@ class ProcedimentoController extends Controller
         return response()->json($objeto);
     }
 
-    public function store(StoreProcedimentoRequest  $request)
-    {
+    public function store(StoreProcedimentoRequest $request)
+{
+    try {
+        DB::beginTransaction();
+
+        // Validação dos dados do request
         $input = $request->validated();
-        $objeto = Procedimento::create($input);
-        return response()->json($objeto);
+
+        // Criar o procedimento
+        $procedimento = Procedimento::create($input);
+
+        // Adicionar os convênios associados ao procedimento
+        $conveniosData = $request->input('convenios');
+        if (isset($conveniosData) && is_array($conveniosData)) {
+            $convenios = [];
+            foreach ($conveniosData as $data) {
+                $convenios[$data['convenio_id']] = [
+                    'valor' => $data['valor'],
+                    'ativo' => $data['ativo'] ?? true,
+                ];
+            }
+            $procedimento->procedimento_convenios()->syncWithPivotValues($convenios, ['valor', 'ativo'], false);
+        }
+
+        DB::commit();
+
+        return response()->json($procedimento);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        throw $e;
     }
+}
 
     public function update(StoreProcedimentoRequest $request, string $id)
     {

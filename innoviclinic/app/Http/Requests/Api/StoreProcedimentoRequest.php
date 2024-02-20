@@ -25,9 +25,10 @@ class StoreProcedimentoRequest extends FormRequest
             'empresa_id' => 'integer|exists:empresas,id',
             'procedimento_tipo_id' => 'required|integer|exists:procedimento_tipos,id',
             'nome' => ['required', 'string', 'max:255'],
-            'cor' => ['required', 'string', 'max:100'],
             'duracao_min' => 'required|integer',
             'valor' => 'required',
+            'preparacao' => ['nullable', 'string', 'max:1000'],
+            'observacao' => ['nullable', 'string', 'max:1000'],
             'ativo'  => 'boolean'
         ];
     }

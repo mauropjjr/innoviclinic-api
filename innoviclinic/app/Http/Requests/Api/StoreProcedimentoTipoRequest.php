@@ -22,10 +22,9 @@ class StoreProcedimentoTipoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nome' => [
-                'required',
-                'max:255',
-            ]
+            'empresa_id' => 'integer|exists:empresas,id',
+            'nome' => ['required', 'string', 'max:255'],
+            'ativo'  => 'boolean'
         ];
     }
 }

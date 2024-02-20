@@ -64,6 +64,9 @@ http://localhost:8085/api
 composer install
 php artisan migrate
 
+#limpar cache
+php artisan cache:clear
+
 ###Passos para criar novo CRUD
 ## 1 - php artisan make:migration create_table_name_table - adicione no arquivo gerado os atributos da tabela e execute o "php artisan migrate"
 #  2 - php artisan code:models --table=nome_table

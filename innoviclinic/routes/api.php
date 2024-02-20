@@ -113,11 +113,19 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::group(['prefix' => 'agendas'], function () {
-        Route::get('/', [AgendaController::class, 'index']);
+        Route::get('/', [AgendaController::class, 'index'])->middleware('check-agenda-profissional-id-empresa-id');
         Route::get('/{id}', [AgendaController::class, 'show']);
         Route::post('/', [AgendaController::class, 'store'])->middleware('check-agenda-profissional-id-empresa-id');
         Route::put('/{id}', [AgendaController::class, 'update'])->middleware('check-agenda-profissional-id-empresa-id');
         Route::delete('/{id}', [AgendaController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'procedimento-tipos'], function () {
+        Route::get('/', [ProcedimentoTipoController::class, 'index']);
+        Route::get('/{id}', [ProcedimentoTipoController::class, 'show'])->middleware('check-procedimento-tipo-empresa-id');
+        Route::post('/', [ProcedimentoTipoController::class, 'store']);
+        Route::put('/{id}', [ProcedimentoTipoController::class, 'update'])->middleware('check-procedimento-tipo-empresa-id');
+        Route::delete('/{id}', [ProcedimentoTipoController::class, 'destroy'])->middleware('check-procedimento-tipo-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimentos'], function () {
@@ -187,7 +195,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::resources([
         'prontuarios' => ProntuarioController::class,
-        'procedimento-tipos' => ProcedimentoTipoController::class,
         'escolaridades' => EscolaridadeController::class,
         'profissoes' => ProfissaoController::class,
         'agenda-status' => AgendaStatusController::class,

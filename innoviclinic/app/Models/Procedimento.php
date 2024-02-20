@@ -18,9 +18,10 @@ use Illuminate\Database\Eloquent\Collection;
  * @property int $empresa_id
  * @property int $procedimento_tipo_id
  * @property string $nome
- * @property string $cor
  * @property int $duracao_min
  * @property float $valor
+ * @property string $preparacao
+ * @property string $observacao
  * @property int $usuario_id
  * @property Carbon $created_at
  * @property Carbon $updated_at
@@ -59,9 +60,10 @@ class Procedimento extends Model
 		'empresa_id',
 		'procedimento_tipo_id',
 		'nome',
-		'cor',
 		'duracao_min',
 		'valor',
+        'preparacao',
+        'observacao',
         'ativo',
 		'usuario_id'
 	];
@@ -90,8 +92,15 @@ class Procedimento extends Model
 
 	public function procedimento_convenios()
 	{
-		return $this->hasMany(ProcedimentoConvenio::class);
+		// return $this->hasMany(ProcedimentoConvenio::class, 'procedimento_id');
+        return $this->belongsToMany(
+            ProcedimentoConvenio::class,
+            'procedimento_convenios',
+            'procedimento_id',
+            'convenio_id'
+        )->withPivot('usuario_id', 'created_at', 'updated_at');
 	}
+
 
 	public function procedimentos()
 	{

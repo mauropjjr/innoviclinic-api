@@ -73,7 +73,7 @@ class AgendaService
         }
     }
 
-    public function createAgenda(array $data)
+    public function create(array $data)
     {
         try {
             DB::beginTransaction();
@@ -100,7 +100,7 @@ class AgendaService
         }
     }
 
-    public function updateAgenda(array $data, int $agenda_id)
+    public function update(array $data, int $agenda_id)
     {
         try {
             DB::beginTransaction();
@@ -128,4 +128,40 @@ class AgendaService
             throw $e;
         }
     }
+
+    public function list(array $filtros)
+    {
+        $user = $this->customAuth->getUser();
+        $filtros['empresa_id'] = $user->empresa_profissional->empresa_id;
+
+        // Lógica para buscar as agendas com base nos filtros
+        $agendas = Agenda::where('empresa_id', $filtros['empresa_id'])
+            ->where('profissional_id', $filtros['profissional_id'])
+            ->where('sala_id', $filtros['sala_id']);
+
+        if (isset($filtros['exibir_todos_status']) && !$filtros['exibir_todos_status']) {
+            $agendas->where('agenda_status_id NOT IN', [AgendaStatusEnum::FALTOU, AgendaStatusEnum::CANCELADO]);
+        }
+
+        // Retornar as agendas conforme a visão solicitada
+        switch ($filtros['visao']) {
+            case 'mes':
+                // Lógica para retornar as agendas para visão mensal
+                break;
+            case 'semanal':
+                // Lógica para retornar as agendas para visão semanal
+                break;
+            case 'dia':
+                // Lógica para retornar as agendas para visão diária
+                break;
+            case 'lista':
+                // Lógica para retornar as agendas como uma lista
+                break;
+            default:
+                throw new \InvalidArgumentException('Visão inválida.');
+        }
+
+        return $agendas->get();
+    }
+
 }

@@ -25,7 +25,12 @@ class ProfissionalAgendaController extends Controller
         $user = $this->customAuth->getUser();
         $query = ProfissionalAgenda::query()->with(['profissional:id,nome,email']);
         $query->where('empresa_id', $user->empresa_profissional->empresa_id);
-        $query->where('profissional_id', $user->empresa_profissional->profissional_id);
+
+        if ($request->has('profissional_id') && $request->input('profissional_id')) {
+            $query->where('profissional_id', $request->input('profissional_id'));
+        } else {
+            $query->where('profissional_id', $user->empresa_profissional->profissional_id);
+        }
 
         return response()->json($query->get());
     }

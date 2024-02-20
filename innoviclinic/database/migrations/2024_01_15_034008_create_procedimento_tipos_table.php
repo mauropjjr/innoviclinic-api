@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('procedimento_tipos', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->string('nome')->comment('Consulta, Retorno, Exame, Encaixe, Procedimento');
+            $table->integer('empresa_id')->index('procedimento_tipos_empresas_FK');
+            $table->string('nome')->comment('Cirurgia, Emergência, Exame Clínico, Prevenção, Prótese, Radiologia');
             $table->tinyInteger('ativo')->default(1);
-            $table->integer('usuario_id')->index('procedimentos_usuarios_FK');
+            $table->integer('usuario_id')->index('procedimento_tipos_usuarios_FK');
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });

@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::table('procedimento_convenios', function (Blueprint $table) {
             $table->foreign(['procedimento_id'], 'procedimento_convenios_procedimentos_FK')->references(['id'])->on('procedimentos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
+            $table->foreign(['convenio_id'], 'procedimento_convenios_convenios_FK')->references(['id'])->on('convenios')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['usuario_id'], 'procedimento_convenios_usuarios_FK')->references(['id'])->on('pessoas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
         });
     }
@@ -28,6 +29,7 @@ return new class extends Migration
     {
         Schema::table('procedimento_convenios', function (Blueprint $table) {
             $table->dropForeign('procedimento_convenios_procedimentos_FK');
+            $table->dropForeign('procedimento_convenios_convenios_FK');
             $table->dropForeign('procedimento_convenios_usuarios_FK');
         });
     }
