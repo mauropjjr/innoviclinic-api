@@ -93,14 +93,7 @@ class Procedimento extends Model
 	public function procedimento_convenios()
 	{
 		return $this->hasMany(ProcedimentoConvenio::class, 'procedimento_id');
-        // return $this->belongsToMany(
-        //     ProcedimentoConvenio::class,
-        //     'procedimento_convenios',
-        //     'procedimento_id',
-        //     'convenio_id'
-        // )->withPivot('usuario_id', 'created_at', 'updated_at');
 	}
-
 
 	public function procedimentos()
 	{
