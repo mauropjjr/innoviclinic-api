@@ -8,6 +8,8 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Traits\AutoSetEmpresaIdUsuarioId;
+use App\Traits\AutoSetUsuarioId;
 
 /**
  * Class ProcedimentoConvenio
@@ -28,6 +30,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ProcedimentoConvenio extends Model
 {
+    use AutoSetUsuarioId;
 	protected $table = 'procedimento_convenios';
 
 	protected $casts = [
@@ -37,6 +40,12 @@ class ProcedimentoConvenio extends Model
 		'ativo' => 'bool',
 		'usuario_id' => 'int'
 	];
+
+    protected $hidden = [
+        'usuario_id',
+        'created_at',
+        'updated_at',
+    ];
 
 	protected $fillable = [
 		'procedimento_id',

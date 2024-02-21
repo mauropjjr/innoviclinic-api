@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "innovclinic-2",
-    "dateExported": "2024-02-15T15:50:33.390Z",
+    "dateExported": "2024-02-21T00:58:18.965Z",
     "version": "1.1",
     "folders": [
         {
@@ -213,11 +213,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "597e8b66-2894-43a8-9d4f-98c2642cd9c5",
             "name": "list",
-            "url": "{{url}}/api/profissional-agendas?ativo",
+            "url": "{{url}}/api/profissional-agendas?profissional_id=36",
             "method": "GET",
             "sortNum": 10000,
             "created": "2024-02-07T18:30:36.732Z",
-            "modified": "2024-02-07T18:30:36.732Z",
+            "modified": "2024-02-19T23:20:06.816Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -235,8 +235,8 @@
             ],
             "params": [
                 {
-                    "name": "ativo",
-                    "value": "",
+                    "name": "profissional_id",
+                    "value": "36",
                     "isPath": false
                 }
             ],
@@ -657,11 +657,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "f0f7dc89-5aae-4ca8-b830-cf45c798c7f1",
             "name": "view",
-            "url": "{{url}}/api/profissionais/36",
+            "url": "{{url}}/api/profissionais/3",
             "method": "GET",
             "sortNum": 20000,
             "created": "2024-02-07T18:30:52.547Z",
-            "modified": "2024-02-07T18:30:52.547Z",
+            "modified": "2024-02-18T14:56:16.844Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -895,7 +895,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2024-02-07T18:30:36.732Z",
-            "modified": "2024-02-07T18:30:36.732Z",
+            "modified": "2024-02-19T23:20:45.103Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -914,7 +914,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"dia\": 1,\n  \"hora_ini\": \"08:00\",\n  \"hora_fim\": \"12:00\"\n}",
+                "raw": "{\n  \"dia\": 3,\n  \"hora_ini\": \"08:00\",\n  \"hora_fim\": \"12:00\"\n}",
                 "form": []
             },
             "auth": {
@@ -1224,11 +1224,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "597e8b66-2894-43a8-9d4f-98c2642cd9c5",
             "name": "edit",
-            "url": "{{url}}/api/profissional-agendas/2",
+            "url": "{{url}}/api/profissional-agendas/3",
             "method": "PUT",
             "sortNum": 40000,
             "created": "2024-02-07T18:30:36.732Z",
-            "modified": "2024-02-07T18:30:36.732Z",
+            "modified": "2024-02-18T15:55:36.702Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -1247,7 +1247,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"dia\": 1,\n  \"hora_ini\": \"08:00\",\n  \"hora_fim\": \"10:00\"\n}",
+                "raw": "{\n  \"dia\": 5,\n  \"hora_ini\": \"08:00\",\n  \"hora_fim\": \"12:00\"\n}",
                 "form": []
             },
             "auth": {
@@ -1298,11 +1298,11 @@
             "colId": "818306e7-8ca9-4304-8f9f-7c2f1585a835",
             "containerId": "f0f7dc89-5aae-4ca8-b830-cf45c798c7f1",
             "name": "edit",
-            "url": "{{url}}/api/profissionais/2",
+            "url": "{{url}}/api/profissionais/3",
             "method": "PUT",
             "sortNum": 40000,
             "created": "2024-02-07T18:30:52.547Z",
-            "modified": "2024-02-07T18:30:52.547Z",
+            "modified": "2024-02-18T14:58:27.700Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -1321,7 +1321,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"nome\": \"Wanderson Lourenço\",\n  \"email\": \"wander_ads@hotmail.com\",\n  \"celular\": \"67991166709\",\n  \"cpf\": \"\",\n  \"senha\": \"12345678\",\n  \"profissional\": {\n    \"profissao_id\": 10,\n    \"especialidades\": [1500],\n    \"nome_conselho\": \"CRM\",\n    \"numero_conselho\": \"1058\"\n  }\n}",
+                "raw": "{\n  \"id\": 3,\n  \"tipo_usuario\": \"Profissional\",\n  \"nome\": \"Wanderson Lourenço\",\n  \"sexo\": null,\n  \"genero\": null,\n  \"email\": \"wanderson@gmail.com\",\n  \"celular\": \"67991166709\",\n  \"telefone\": null,\n  \"data_nascimento\": null,\n  \"cpf\": null,\n  \"rg\": null,\n  \"cep\": null,\n  \"logradouro\": null,\n  \"complemento\": null,\n  \"bairro\": null,\n  \"uf\": null,\n  \"cidade\": null,\n  \"observacoes\": null,\n  \"foto\": null,\n  \"admin\": 0,\n  \"ativo\": true,\n  \"profissional\": {\n    \"profissao_id\": 10,\n    \"especialidades\": [798],\n    \"nome_conselho\": \"CRM\",\n    \"numero_conselho\": \"1012\"\n  }\n}",
                 "form": []
             },
             "auth": {

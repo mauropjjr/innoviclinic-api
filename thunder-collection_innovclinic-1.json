@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "innovclinic-1",
-    "dateExported": "2024-02-15T15:50:22.536Z",
+    "dateExported": "2024-02-21T00:58:09.592Z",
     "version": "1.1",
     "folders": [
         {
@@ -10,13 +10,6 @@
             "containerId": "",
             "created": "2024-02-07T15:54:02.665Z",
             "sortNum": 10000
-        },
-        {
-            "_id": "5baba71c-750c-4c12-88a8-9e731267389a",
-            "name": "procedimento-tipos",
-            "containerId": "",
-            "created": "2024-02-07T17:39:12.820Z",
-            "sortNum": 20000
         },
         {
             "_id": "0794f31a-5968-40bc-94b9-cfbccc1f78b6",
@@ -66,6 +59,13 @@
             "containerId": "",
             "created": "2024-02-07T17:41:48.494Z",
             "sortNum": 90000
+        },
+        {
+            "_id": "5baba71c-750c-4c12-88a8-9e731267389a",
+            "name": "procedimento-tipos",
+            "containerId": "",
+            "created": "2024-02-07T17:39:12.820Z",
+            "sortNum": 95000
         },
         {
             "_id": "800ea692-2363-4005-ba7f-7b3999b1a86f",
@@ -867,11 +867,11 @@
             "colId": "69430446-7d5b-45d2-b2d5-229d3cec7178",
             "containerId": "800ea692-2363-4005-ba7f-7b3999b1a86f",
             "name": "view",
-            "url": "{{url}}/api/procedimentos/5",
+            "url": "{{url}}/api/procedimentos/24",
             "method": "GET",
             "sortNum": 20000,
             "created": "2024-02-07T17:42:18.619Z",
-            "modified": "2024-02-07T17:42:18.619Z",
+            "modified": "2024-02-21T00:56:59.746Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -1111,7 +1111,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2024-02-07T17:42:19.787Z",
-            "modified": "2024-02-07T17:42:19.787Z",
+            "modified": "2024-02-20T01:03:15.745Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -1130,7 +1130,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"procedimento_tipo_id\": 1,\n  \"nome\":\"Encaixe\",\n  \"cor\": \"verde\",\n  \"duracao_min\": 15,\n  \"valor\": \"10.50\"\n}",
+                "raw": "{\n  \"procedimento_tipo_id\": 3,\n  \"nome\": \"Avaliação técnica: perícia inicial ou final\",\n  \"duracao_min\": 15,\n  \"valor\": \"10.50\",\n  \"preparacao\": \"teste1\",\n  \"observacao\": \"teste2\",\n  \"convenios\": [\n    {\n      \"convenio_id\": 1,\n      \"valor\": 50,\n      \"ativo\": 0\n    }\n  ]\n}",
                 "form": []
             },
             "auth": {
@@ -1205,6 +1205,43 @@
             "body": {
                 "type": "json",
                 "raw": "{\n  \"data\": \"2024-08-26\",\n  \"nome\":\"Aniversário de Campo Grande\",\n  \"descricao\":\"Aniversário de Campo Grande\",\n  \"tipo\": \"Feriado Municipal\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "1048651b-e57e-4a61-abb1-581925f425e3",
+            "colId": "69430446-7d5b-45d2-b2d5-229d3cec7178",
+            "containerId": "5baba71c-750c-4c12-88a8-9e731267389a",
+            "name": "add",
+            "url": "{{url}}/api/procedimento-tipos",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-20T00:21:44.135Z",
+            "modified": "2024-02-20T00:31:55.171Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\":\"Radiologia\"\n}",
                 "form": []
             },
             "auth": {
@@ -1362,11 +1399,11 @@
             "colId": "69430446-7d5b-45d2-b2d5-229d3cec7178",
             "containerId": "800ea692-2363-4005-ba7f-7b3999b1a86f",
             "name": "edit",
-            "url": "{{url}}/api/procedimentos/3",
+            "url": "{{url}}/api/procedimentos/24",
             "method": "PUT",
             "sortNum": 40000,
             "created": "2024-02-07T17:42:20.974Z",
-            "modified": "2024-02-07T17:42:20.974Z",
+            "modified": "2024-02-21T00:51:18.877Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -1385,7 +1422,7 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"procedimento_tipo_id\": 1,\n  \"nome\":\"Consulta\",\n  \"cor\": \"verde\",\n  \"duracao_min\": 1,\n  \"valor\": \"10.00\"\n}",
+                "raw": "{\n  \"procedimento_tipo_id\": 3,\n  \"nome\": \"Avaliação técnica: perícia inicial ou final\",\n  \"duracao_min\": 15,\n  \"valor\": \"10.50\",\n  \"preparacao\": \"não há\",\n  \"observacao\": \"não há\",\n  \"convenios\": [\n    {\n      \"convenio_id\": 1,\n      \"valor\": 80,\n      \"ativo\": 0\n    },\n    {\n      \"convenio_id\": 2,\n      \"valor\": 100,\n      \"ativo\": 0\n    }\n  ]\n}",
                 "form": []
             },
             "auth": {
@@ -1460,6 +1497,43 @@
             "body": {
                 "type": "json",
                 "raw": "{\n  \"data\": \"2024-08-26\",\n  \"nome\":\"Aniversário de Campo Grande\",\n  \"descricao\":\"Aniversário da ciadade de Campo Grande\",\n  \"tipo\": \"Feriado Municipal\"\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "3ff18d0e-7631-431c-be44-bad6bd81f05e",
+            "colId": "69430446-7d5b-45d2-b2d5-229d3cec7178",
+            "containerId": "5baba71c-750c-4c12-88a8-9e731267389a",
+            "name": "edit",
+            "url": "{{url}}/api/procedimento-tipos/6",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-02-20T00:21:49.288Z",
+            "modified": "2024-02-20T00:29:40.154Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\":\"Exame Clínico\",\n  \"ativo\" : 0\n}",
                 "form": []
             },
             "auth": {
@@ -1671,6 +1745,38 @@
             "sortNum": 50000,
             "created": "2024-02-07T17:43:35.603Z",
             "modified": "2024-02-07T17:43:35.603Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "81fd8e19-a192-456d-b331-496b41f6598b",
+            "colId": "69430446-7d5b-45d2-b2d5-229d3cec7178",
+            "containerId": "5baba71c-750c-4c12-88a8-9e731267389a",
+            "name": "delete",
+            "url": "{{url}}/api/procedimento-tipos/6",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-02-20T00:21:54.903Z",
+            "modified": "2024-02-20T00:30:37.853Z",
             "headers": [
                 {
                     "name": "Accept",

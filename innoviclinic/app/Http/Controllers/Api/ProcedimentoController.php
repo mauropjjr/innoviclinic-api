@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Services\CustomAuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreProcedimentoRequest;
+use App\Models\ProcedimentoConvenio;
 
 class ProcedimentoController extends Controller
 {
@@ -26,6 +27,7 @@ class ProcedimentoController extends Controller
         $user = $this->customAuth->getUser();
         $query = Procedimento::query();
         $query->where('empresa_id', $user->empresa_profissional->empresa_id);
+        $query->with(['procedimento_convenios', 'procedimento_convenios.convenio:id,nome']);
 
         if ($request->has('nome') && $request->input('nome')) {
             $query->where('nome', 'LIKE', "%" . $request->input('nome') . "%");
@@ -34,12 +36,14 @@ class ProcedimentoController extends Controller
             $query->where('ativo', $request->input('ativo'));
         }
         return response()->json($query->with([
-            'procedimento_tipo'])->get());
+            'procedimento_tipo'
+        ])->get());
     }
 
     public function show($id)
     {
-        if (!$objeto = Procedimento::find($id)) {
+        $objeto = Procedimento::with(['procedimento_convenios', 'procedimento_convenios.convenio:id,nome'])->find($id);
+        if (!$objeto) {
             return response()->json([
                 'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
@@ -48,48 +52,74 @@ class ProcedimentoController extends Controller
     }
 
     public function store(StoreProcedimentoRequest $request)
-{
-    try {
-        DB::beginTransaction();
-
-        // Validação dos dados do request
-        $input = $request->validated();
-
-        // Criar o procedimento
-        $procedimento = Procedimento::create($input);
-
-        // Adicionar os convênios associados ao procedimento
-        $conveniosData = $request->input('convenios');
-        if (isset($conveniosData) && is_array($conveniosData)) {
-            $convenios = [];
-            foreach ($conveniosData as $data) {
-                $convenios[$data['convenio_id']] = [
-                    'valor' => $data['valor'],
-                    'ativo' => $data['ativo'] ?? true,
-                ];
-            }
-            $procedimento->procedimento_convenios()->syncWithPivotValues($convenios, ['valor', 'ativo'], false);
-        }
-
-        DB::commit();
-
-        return response()->json($procedimento);
-    } catch (\Exception $e) {
-        DB::rollBack();
-        throw $e;
-    }
-}
-
-    public function update(StoreProcedimentoRequest $request, string $id)
     {
-        if (!$objeto = Procedimento::find($id)) {
-            return response()->json([
-                'error' => 'Não encontrado'
-            ], Response::HTTP_NOT_FOUND);
-        }
+        try {
+            DB::beginTransaction();
 
-        $objeto->update($request->all());
-        return response()->json($objeto);
+            $input = $request->validated();
+
+            // Criar o procedimento
+            $procedimento = Procedimento::create($input);
+
+            // Adicionar os convênios associados ao procedimento
+            $conveniosData = $request->input('convenios');
+            if (isset($conveniosData) && is_array($conveniosData)) {
+                $convenios = [];
+                foreach ($conveniosData as $data) {
+                    $convenios[] = new ProcedimentoConvenio(['convenio_id' => $data['convenio_id'], 'valor' => $data['valor'], 'ativo' => $data['ativo'] ?? true]);
+                }
+                $procedimento->procedimento_convenios()->saveMany($convenios);
+            }
+
+            DB::commit();
+            return response()->json($procedimento);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+    }
+
+    public function update(StoreProcedimentoRequest $request, $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            $input = $request->validated();
+
+            // Obter o procedimento
+            $procedimento = Procedimento::findOrFail($id);
+
+            // Atualizar os dados do procedimento
+            $procedimento->fill($input);
+            $procedimento->save();
+
+            // Obter os dados dos convênios
+            $conveniosData = $request->input('convenios');
+
+            // Sincronizar os convênios associados ao procedimento
+            if (isset($conveniosData) && is_array($conveniosData)) {
+                $convenioIds = [];
+                foreach ($conveniosData as $data) {
+                    $convenio = ProcedimentoConvenio::updateOrCreate([
+                        'procedimento_id' => $procedimento->id,
+                        'convenio_id' => $data['convenio_id'],
+                    ], [
+                        'valor' => $data['valor'],
+                        'ativo' => $data['ativo'] ?? true,
+                    ]);
+                    $convenioIds[] = $convenio->id;
+                }
+
+                // Remover convênios não presentes na lista
+                $procedimento->procedimento_convenios()->whereNotIn('id', $convenioIds)->delete();
+            }
+
+            DB::commit();
+            return response()->json($procedimento);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
     }
 
     public function destroy(string $id)
