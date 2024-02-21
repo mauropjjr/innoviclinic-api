@@ -1,9 +1,16 @@
 {
     "client": "Thunder Client",
     "collectionName": "innovclinic-3",
-    "dateExported": "2024-02-21T00:58:25.197Z",
+    "dateExported": "2024-02-21T01:56:23.030Z",
     "version": "1.1",
     "folders": [
+        {
+            "_id": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
+            "name": "interacoes",
+            "containerId": "",
+            "created": "2024-02-21T01:24:14.824Z",
+            "sortNum": 5000
+        },
         {
             "_id": "89e420c9-83ea-4623-9815-34026134ae18",
             "name": "interacao-atendimentos",
@@ -17,6 +24,20 @@
             "containerId": "",
             "created": "2024-02-18T14:25:59.579Z",
             "sortNum": 20000
+        },
+        {
+            "_id": "776ff328-0dc8-4c85-a9bb-68b8c06a1ce4",
+            "name": "agenda-tipos",
+            "containerId": "",
+            "created": "2024-02-21T01:24:06.409Z",
+            "sortNum": 30000
+        },
+        {
+            "_id": "04d569e8-d12b-4bfc-a0f9-a7dff36bfe4d",
+            "name": "agenda-status",
+            "containerId": "",
+            "created": "2024-02-21T01:24:39.990Z",
+            "sortNum": 40000
         }
     ],
     "requests": [
@@ -112,6 +133,124 @@
             "tests": []
         },
         {
+            "_id": "385a6e6f-6033-4a86-adde-2ad98673c93b",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "776ff328-0dc8-4c85-a9bb-68b8c06a1ce4",
+            "name": "list",
+            "url": "{{url}}/api/agenda-tipos?nome&ativo",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-21T01:24:06.415Z",
+            "modified": "2024-02-21T01:25:00.113Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [
+                {
+                    "name": "nome",
+                    "value": "",
+                    "isPath": false
+                },
+                {
+                    "name": "ativo",
+                    "value": "",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "61250668-5429-4f58-bed9-f48e0a5eb35e",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
+            "name": "list",
+            "url": "{{url}}/api/interacoes?prontuario_id=1",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-21T01:24:14.830Z",
+            "modified": "2024-02-21T01:24:14.830Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [
+                {
+                    "name": "prontuario_id",
+                    "value": "1",
+                    "isPath": false
+                }
+            ],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "0538d5ee-62b6-424e-8202-11d723765918",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "04d569e8-d12b-4bfc-a0f9-a7dff36bfe4d",
+            "name": "list",
+            "url": "{{url}}/api/agenda-status",
+            "method": "GET",
+            "sortNum": 10000,
+            "created": "2024-02-21T01:24:39.996Z",
+            "modified": "2024-02-21T01:24:39.996Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\"ativo\" : 1}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
             "_id": "2f6bed88-a272-4f80-94d0-c158adc75309",
             "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
             "containerId": "89e420c9-83ea-4623-9815-34026134ae18",
@@ -153,6 +292,102 @@
             "sortNum": 20000,
             "created": "2024-02-18T14:25:59.581Z",
             "modified": "2024-02-18T14:25:59.580Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "e8b5dbd9-a4a3-4e88-a90c-09c9560bad29",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "776ff328-0dc8-4c85-a9bb-68b8c06a1ce4",
+            "name": "view",
+            "url": "{{url}}/api/agenda-tipos/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-21T01:24:06.415Z",
+            "modified": "2024-02-21T01:25:05.233Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "461fb393-5125-4c5d-a6de-f42829c0c6b4",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
+            "name": "view",
+            "url": "{{url}}/api/interacoes/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-21T01:24:14.830Z",
+            "modified": "2024-02-21T01:24:14.830Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "9febf008-6546-4cd6-b832-b6976fe01cfa",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "04d569e8-d12b-4bfc-a0f9-a7dff36bfe4d",
+            "name": "view",
+            "url": "{{url}}/api/agenda-status/1",
+            "method": "GET",
+            "sortNum": 20000,
+            "created": "2024-02-21T01:24:39.996Z",
+            "modified": "2024-02-21T01:24:39.996Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -221,7 +456,7 @@
             "method": "POST",
             "sortNum": 30000,
             "created": "2024-02-18T14:25:59.582Z",
-            "modified": "2024-02-19T15:47:36.755Z",
+            "modified": "2024-02-21T01:50:46.361Z",
             "headers": [
                 {
                     "name": "Accept",
@@ -240,7 +475,81 @@
             "params": [],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"profissional_id\": 3,\n  \"sala_id\": 1,\n  \"paciente_id\": 37,\n  \"convenio_id\": 1,\n  \"nome\": \"Valdete\",\n  \"celular\": \"67942153268\",\n  \"primeiro_atend\": 1,\n  \"enviar_msg\": 0,\n  \"telemedicina\": 0,\n  \"data\": \"2024-03-01\",\n  \"hora_ini\": \"08:00\",\n  \"hora_fim\": \"08:30\",\n  \"valor\": 0\n}",
+                "raw": "{\n  \"profissional_id\": 3,\n  \"sala_id\": 1,\n  \"paciente_id\": 37,\n  \"convenio_id\": 1,\n  \"agenda_tipo_id\": 1,\n  \"agenda_status_id\": 1,\n  \"nome\": \"Valdete\",\n  \"celular\": \"67942153268\",\n  \"primeiro_atend\": 1,\n  \"enviar_msg\": 0,\n  \"telemedicina\": 0,\n  \"data\": \"2024-03-01\",\n  \"hora_ini\": \"08:00\",\n  \"hora_fim\": \"08:30\",\n  \"valor\": 0\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "67ccbe8e-323d-45bf-97b1-3e9a1fc2c1a6",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "776ff328-0dc8-4c85-a9bb-68b8c06a1ce4",
+            "name": "add",
+            "url": "{{url}}/api/agenda-tipos",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-21T01:24:06.415Z",
+            "modified": "2024-02-21T01:34:51.865Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\":\"Teste\",\n  \"cor\": \"verde\",\n  \"sem_horario\": 0,\n  \"sem_procedimento\": 0\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "dd2a6def-24eb-4bef-a5c2-4ed955b588ba",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
+            "name": "add",
+            "url": "{{url}}/api/interacoes",
+            "method": "POST",
+            "sortNum": 30000,
+            "created": "2024-02-21T01:24:14.830Z",
+            "modified": "2024-02-21T01:24:14.830Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"prontuario_id\": 1,\n  \"agenda_id\": null,\n  \"teleatendimento\": 0\n}",
                 "form": []
             },
             "auth": {
@@ -324,6 +633,80 @@
             "tests": []
         },
         {
+            "_id": "a9842dbf-0b0b-4063-8775-3696e052bf49",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "776ff328-0dc8-4c85-a9bb-68b8c06a1ce4",
+            "name": "edit",
+            "url": "{{url}}/api/agenda-tipos/6",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-02-21T01:24:06.415Z",
+            "modified": "2024-02-21T01:35:26.686Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"nome\":\"Teste2\",\n  \"cor\": \"verde\",\n  \"sem_horario\": 0,\n  \"sem_procedimento\": 0\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "59731b94-eb93-42d2-999c-034e389787ac",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
+            "name": "edit",
+            "url": "{{url}}/api/interacoes/3",
+            "method": "PUT",
+            "sortNum": 40000,
+            "created": "2024-02-21T01:24:14.830Z",
+            "modified": "2024-02-21T01:24:14.830Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"finalizado\": 1\n}",
+                "form": []
+            },
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
             "_id": "291140d6-5f0d-4556-8c7b-99599abac36b",
             "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
             "containerId": "89e420c9-83ea-4623-9815-34026134ae18",
@@ -365,6 +748,70 @@
             "sortNum": 50000,
             "created": "2024-02-18T14:25:59.584Z",
             "modified": "2024-02-18T14:25:59.580Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "dd742ac2-68a3-48a9-8ad5-4602d4bf90da",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "776ff328-0dc8-4c85-a9bb-68b8c06a1ce4",
+            "name": "delete",
+            "url": "{{url}}/api/agenda-tipos/3",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-02-21T01:24:06.415Z",
+            "modified": "2024-02-21T01:35:37.231Z",
+            "headers": [
+                {
+                    "name": "Accept",
+                    "value": "application/json"
+                },
+                {
+                    "name": "User-Agent",
+                    "value": "Thunder Client (https://www.thunderclient.com)",
+                    "isDisabled": true
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "params": [],
+            "auth": {
+                "type": "bearer",
+                "bearer": "{{token}}"
+            },
+            "tests": []
+        },
+        {
+            "_id": "195a1e66-d8d9-4e83-b53f-b6bab81fa32a",
+            "colId": "cb56cc75-aede-4ebc-bd47-50a656d7efc6",
+            "containerId": "2b80473a-49c6-4cb7-a84d-d881d0fda552",
+            "name": "delete",
+            "url": "{{url}}/api/interacoes/3",
+            "method": "DELETE",
+            "sortNum": 50000,
+            "created": "2024-02-21T01:24:14.831Z",
+            "modified": "2024-02-21T01:24:14.831Z",
             "headers": [
                 {
                     "name": "Accept",

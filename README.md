@@ -69,7 +69,7 @@ php artisan cache:clear
 
 ###Passos para criar novo CRUD
 ## 1 - php artisan make:migration create_table_name_table - adicione no arquivo gerado os atributos da tabela e execute o "php artisan migrate"
-#  2 - php artisan code:models --table=nome_table
+#  2 - php artisan code:models --table=agenda_tipos
 ## 3 - php artisan make:request Api\\StoreTesteRequest -> Lógica de validação alterar authorize para return true
 ## 4 - php artisan make:controller Api\\Teste2Controller --resource
 ## 5 - Alterar o arquivo de route/api.php - dentro de resources dentro a middleware de auth adicionar o controler  'teste' => TestesController::class

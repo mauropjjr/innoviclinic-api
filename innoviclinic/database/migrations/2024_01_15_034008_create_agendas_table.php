@@ -20,9 +20,10 @@ return new class extends Migration
             $table->integer('sala_id')->index('agendas_salas_FK');
             $table->integer('paciente_id')->index('agendas_pacientes_FK');
             $table->integer('convenio_id')->index('agendas_convenios_FK');
+            $table->integer('agenda_tipo_id')->index('agendas_agenda_tipos_FK');
             $table->integer('agenda_status_id')->index('agendas_agenda_status_FK');
             $table->string('nome', 100);
-            $table->string('celular', 20);
+            $table->string('celular', 20)->nullable();
             $table->string('telefone', 20)->nullable();
             $table->string('email', 100)->nullable();
             $table->tinyInteger('primeiro_atend')->default(0)->comment('Primeiro atendimento?');

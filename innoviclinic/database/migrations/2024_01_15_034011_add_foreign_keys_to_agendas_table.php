@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('agendas', function (Blueprint $table) {
+            $table->foreign(['agenda_tipo_id'], 'agendas_agenda_tipos_FK')->references(['id'])->on('agenda_tipos')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['agenda_status_id'], 'agendas_agenda_status_FK')->references(['id'])->on('agenda_status')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['convenio_id'], 'agendas_convenios_FK')->references(['id'])->on('convenios')->onUpdate('NO ACTION')->onDelete('NO ACTION');
             $table->foreign(['empresa_id'], 'agendas_empresas_FK')->references(['id'])->on('empresas')->onUpdate('NO ACTION')->onDelete('NO ACTION');
@@ -31,6 +32,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('agendas', function (Blueprint $table) {
+            $table->dropForeign('agendas_agenda_tipos_FK');
             $table->dropForeign('agendas_agenda_status_FK');
             $table->dropForeign('agendas_convenios_FK');
             $table->dropForeign('agendas_empresas_FK');

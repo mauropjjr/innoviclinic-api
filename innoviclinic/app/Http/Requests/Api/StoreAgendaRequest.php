@@ -24,6 +24,7 @@ class StoreAgendaRequest extends FormRequest
     {
         return [
             'empresa_id' => 'integer|exists:empresas,id',
+            'agenda_tipo_id' => 'integer|exists:agenda_tipos,id',
             'agenda_status_id' => 'integer|exists:agenda_status,id',
             'profissional_id' => 'required|integer|exists:profissionais,pessoa_id',
             'sala_id' => 'required|integer|exists:salas,id',
@@ -35,7 +36,9 @@ class StoreAgendaRequest extends FormRequest
             ],
             'convenio_id' => 'required|integer|exists:convenios,id',
             'nome' => 'required|string|max:100',
-            'celular' => 'required|max:20',
+            'celular' => 'nullable|string|max:20',
+            'telefone' => 'nullable|string|max:20',
+            'email' => 'nullable|string|max:100',
             'primeiro_atend' => 'required|boolean',
             'enviar_msg' => 'required|boolean',
             'telemedicina' => 'required|boolean',

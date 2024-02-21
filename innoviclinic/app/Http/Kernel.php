@@ -81,6 +81,7 @@ class Kernel extends HttpKernel
         'check-feriado-empresa-id' => \App\Http\Middleware\CheckFeriadoEmpresaId::class,
         'check-evento-empresa-id' => \App\Http\Middleware\CheckEventoEmpresaId::class,
         'check-convenio-empresa-id' => \App\Http\Middleware\CheckConvenioEmpresaId::class,
+        'check-agenda-tipo-empresa-id' => \App\Http\Middleware\CheckAgendaTipoEmpresaId::class,
         'check-profissional-secretaria-id' => \App\Http\Middleware\CheckProfissionalSecretariaId::class,
         'check-empresa-profissional-id' => \App\Http\Middleware\CheckEmpresaProfissionalId::class,
         'check-prontuario-paciente-id' => \App\Http\Middleware\CheckProntuarioPacienteId::class,

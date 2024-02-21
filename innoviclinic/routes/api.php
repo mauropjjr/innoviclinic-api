@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\ProfissionalSecretariaController;
 use App\Http\Controllers\Api\SalaController;
 use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
+use App\Http\Controllers\Api\AgendaTipoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -142,6 +143,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/', [SalaController::class, 'store']);
         Route::put('/{id}', [SalaController::class, 'update'])->middleware('check-sala-empresa-id');
         Route::delete('/{id}', [SalaController::class, 'destroy'])->middleware('check-sala-empresa-id');
+    });
+
+    Route::group(['prefix' => 'agenda-tipos'], function () {
+        Route::get('/', [AgendaTipoController::class, 'index']);
+        Route::get('/{id}', [AgendaTipoController::class, 'show'])->middleware('check-agenda-tipo-empresa-id');
+        Route::post('/', [AgendaTipoController::class, 'store']);
+        Route::put('/{id}', [AgendaTipoController::class, 'update'])->middleware('check-agenda-tipo-empresa-id');
+        Route::delete('/{id}', [AgendaTipoController::class, 'destroy'])->middleware('check-agenda-tipo-empresa-id');
     });
 
     Route::group(['prefix' => 'feriados'], function () {

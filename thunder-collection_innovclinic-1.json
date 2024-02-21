@@ -1,7 +1,7 @@
 {
     "client": "Thunder Client",
     "collectionName": "innovclinic-1",
-    "dateExported": "2024-02-21T00:58:09.592Z",
+    "dateExported": "2024-02-21T01:56:08.306Z",
     "version": "1.1",
     "folders": [
         {
@@ -31,13 +31,6 @@
             "containerId": "",
             "created": "2024-02-07T17:40:22.884Z",
             "sortNum": 50000
-        },
-        {
-            "_id": "04d569e8-d12b-4bfc-a0f9-a7dff36bfe4d",
-            "name": "agenda-status",
-            "containerId": "",
-            "created": "2024-02-07T17:40:40.299Z",
-            "sortNum": 60000
         },
         {
             "_id": "7d513449-b2a8-4a76-bff0-312b65a0ff9d",
@@ -267,43 +260,6 @@
                     "isPath": false
                 }
             ],
-            "auth": {
-                "type": "bearer",
-                "bearer": "{{token}}"
-            },
-            "tests": []
-        },
-        {
-            "_id": "0538d5ee-62b6-424e-8202-11d723765918",
-            "colId": "69430446-7d5b-45d2-b2d5-229d3cec7178",
-            "containerId": "04d569e8-d12b-4bfc-a0f9-a7dff36bfe4d",
-            "name": "list",
-            "url": "{{url}}/api/agenda-status",
-            "method": "GET",
-            "sortNum": 10000,
-            "created": "2024-02-07T17:40:43.029Z",
-            "modified": "2024-02-07T17:40:43.029Z",
-            "headers": [
-                {
-                    "name": "Accept",
-                    "value": "application/json"
-                },
-                {
-                    "name": "User-Agent",
-                    "value": "Thunder Client (https://www.thunderclient.com)",
-                    "isDisabled": true
-                },
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                }
-            ],
-            "params": [],
-            "body": {
-                "type": "json",
-                "raw": "{\"ativo\" : 1}",
-                "form": []
-            },
             "auth": {
                 "type": "bearer",
                 "bearer": "{{token}}"
@@ -712,38 +668,6 @@
             "sortNum": 20000,
             "created": "2024-02-07T17:40:26.853Z",
             "modified": "2024-02-07T17:40:26.853Z",
-            "headers": [
-                {
-                    "name": "Accept",
-                    "value": "application/json"
-                },
-                {
-                    "name": "User-Agent",
-                    "value": "Thunder Client (https://www.thunderclient.com)",
-                    "isDisabled": true
-                },
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                }
-            ],
-            "params": [],
-            "auth": {
-                "type": "bearer",
-                "bearer": "{{token}}"
-            },
-            "tests": []
-        },
-        {
-            "_id": "9febf008-6546-4cd6-b832-b6976fe01cfa",
-            "colId": "69430446-7d5b-45d2-b2d5-229d3cec7178",
-            "containerId": "04d569e8-d12b-4bfc-a0f9-a7dff36bfe4d",
-            "name": "view",
-            "url": "{{url}}/api/agenda-status/1",
-            "method": "GET",
-            "sortNum": 20000,
-            "created": "2024-02-07T17:40:44.414Z",
-            "modified": "2024-02-07T17:40:44.414Z",
             "headers": [
                 {
                     "name": "Accept",

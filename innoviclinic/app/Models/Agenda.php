@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property int $sala_id
  * @property int $paciente_id
  * @property int $convenio_id
+ * @property int $agenda_tipo_id
  * @property int $agenda_status_id
  * @property string $nome
  * @property string $celular
@@ -90,6 +91,7 @@ class Agenda extends Model
 		'sala_id',
 		'paciente_id',
 		'convenio_id',
+        'agenda_tipo_id',
 		'agenda_status_id',
 		'nome',
 		'celular',
