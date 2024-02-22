@@ -135,33 +135,45 @@ class AgendaService
         $filtros['empresa_id'] = $user->empresa_profissional->empresa_id;
 
         // Lógica para buscar as agendas com base nos filtros
-        $agendas = Agenda::where('empresa_id', $filtros['empresa_id'])
-            ->where('profissional_id', $filtros['profissional_id'])
-            ->where('sala_id', $filtros['sala_id']);
+        $agendas = Agenda::select(
+            'agendas.id',
+            DB::raw("'agenda' as tipo"),
+            'agendas.empresa_id',
+            'agendas.profissional_id',
+            'agendas.sala_id',
+            'agendas.paciente_id',
+            'prontuarios.id as prontuario_id',
+            'agenda_tipos.nome as agenda_tipo',
+            'agenda_tipos.cor',
+            'agendas.nome',
+            'agendas.data',
+            'agendas.hora_ini',
+            'agendas.hora_fim',
+            'agendas.data as data_ini',
+            'agendas.data as data_fim',
+            DB::raw('NULL as dias_semana'),
+            'agenda_tipos.sem_horario',
+            'agendas.primeiro_atend'
+        )
+            ->leftJoin('agenda_tipos', 'agendas.agenda_tipo_id', '=', 'agenda_tipos.id')
+            ->leftJoin('prontuarios', function ($join) {
+                $join->on('agendas.empresa_id', '=', 'prontuarios.empresa_id')
+                    ->on('agendas.profissional_id', '=', 'prontuarios.profissional_id')
+                    ->on('agendas.paciente_id', '=', 'prontuarios.paciente_id');
+            })
+            ->where('agendas.empresa_id', $filtros['empresa_id'])
+            ->where('agendas.profissional_id', $filtros['profissional_id'])
+            ->where('agendas.sala_id', $filtros['sala_id'])
+            ->whereBetween('agendas.data', [$filtros['data_inicio'], $filtros['data_fim']]);
 
         if (isset($filtros['exibir_todos_status']) && !$filtros['exibir_todos_status']) {
-            $agendas->where('agenda_status_id NOT IN', [AgendaStatusEnum::FALTOU, AgendaStatusEnum::CANCELADO]);
+            $agendas->whereNotIn('agendas.agenda_status_id', [AgendaStatusEnum::FALTOU, AgendaStatusEnum::CANCELADO]);
         }
 
-        // Retornar as agendas conforme a visão solicitada
-        switch ($filtros['visao']) {
-            case 'mes':
-                // Lógica para retornar as agendas para visão mensal
-                break;
-            case 'semanal':
-                // Lógica para retornar as agendas para visão semanal
-                break;
-            case 'dia':
-                // Lógica para retornar as agendas para visão diária
-                break;
-            case 'lista':
-                // Lógica para retornar as agendas como uma lista
-                break;
-            default:
-                throw new \InvalidArgumentException('Visão inválida.');
-        }
+        $agendas = $agendas->get();
+        $eventos = (new EventoService())->listAgenda($filtros);
 
-        return $agendas->get();
+        // Mesclar os resultados
+        return $eventos->merge($agendas);
     }
-
 }

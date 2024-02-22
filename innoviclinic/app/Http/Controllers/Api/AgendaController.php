@@ -37,6 +37,8 @@ class AgendaController extends Controller
             'sala_id' => 'required|integer',
             'exibir_todos_status' => 'required|boolean',
             'visao' => 'required|string|in:mes,semanal,dia,lista',
+            'data_inicio' => 'required|date',
+            'data_fim' => 'required|date',
         ]);
 
         // Chama o serviço para buscar as agendas com base nos parâmetros
