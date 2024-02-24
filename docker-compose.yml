@@ -6,7 +6,7 @@ services:
     build:
       context: ./docker/php
       dockerfile: Dockerfile
-    restart: unless-stopped
+  #  restart: unless-stopped
     tty: true
     ports:
       - '9000:9000'
@@ -22,10 +22,10 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
-    restart: unless-stopped
+ #   restart: unless-stopped
     tty: true
     ports:
-      - '8085:80'
+      - '8086:80'
       # - '443:443'
     volumes:
   #    - ./innoviclinic:/var/www
@@ -45,7 +45,7 @@ services:
     networks:
       - setup-network
     ports:
-      - '3306:3306'
+      - '3307:3306'
     environment:
       MYSQL_DATABASE: innoviclinic
       MYSQL_ROOT_PASSWORD: root
