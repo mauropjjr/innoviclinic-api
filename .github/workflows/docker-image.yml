@@ -1,0 +1,20 @@
+name: Integração Continua INNOVCLINIC
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Adicionando daemon do docker
+      run: |
+        echo '{ "insecure-registries": ["193.203.183.228:32768", "localhost:32768"] }' | sudo tee /etc/docker/daemon.json
+        echo cat /etc/docker/daemon.json 
+        sudo systemctl stop docker
+        sudo systemctl start docker
+    - name: Construção da imgem
+      run: | 
+        docker build -t 193.203.183.228:32768/innovclinic-backend:latest .
+        docker push 193.203.183.228:32768/innovclinic-backend:latest
