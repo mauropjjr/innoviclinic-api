@@ -16,5 +16,5 @@ jobs:
         sudo systemctl start docker
     - name: Construção da imgem
       run: | 
-        docker build -t 193.203.183.228:32768/innovclinic-backend:latest .
+        docker build -t 193.203.183.228:32768/innovclinic-backend:latest -f ./docker/php/Dockerfile .
         docker push 193.203.183.228:32768/innovclinic-backend:latest
