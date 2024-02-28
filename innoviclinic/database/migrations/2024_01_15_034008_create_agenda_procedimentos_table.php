@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('agenda_procedimentos', function (Blueprint $table) {
             $table->integer('id', true);
             $table->integer('agenda_id')->index('agenda_procedimentos_agendas_FK');
-            $table->integer('procedimento_id');
+            $table->integer('procedimento_id')->index('agenda_procedimentos_procedimentos_FK');
             $table->integer('qtde')->default(0);
             $table->decimal('valor', 10)->default(0);
             $table->integer('usuario_id')->index('agenda_procedimentos_usuarios_FK');
