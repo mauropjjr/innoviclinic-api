@@ -33,16 +33,17 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ARG user=innoviclinic
 ARG uid=1000
 
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
-RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user
+#RUN useradd -G www-data,root -u $uid -d /home/$user $user
+#RUN mkdir -p /home/$user/.composer && \
+#    chown -R $user:$user /home/$user
 
 #RUN groupadd -g 1000 laravel
 #RUN useradd -u 1000 -ms /bin/bash -g laravel user
 
-COPY --chown=$user:www-data ./innoviclinic/ /var/www
+#COPY --chown=$user:www-data ./innoviclinic/ /var/www
+COPY ./innoviclinic/ /var/www
 
-USER $user
+#USER $user
 
 EXPOSE 9000
 
