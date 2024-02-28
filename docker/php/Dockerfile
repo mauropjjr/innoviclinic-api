@@ -1,4 +1,4 @@
-FROM php:8.1-fpm
+FROM php:8.1-fpm 
 
 WORKDIR /var/www
 
@@ -40,10 +40,12 @@ RUN mkdir -p /home/$user/.composer && \
 #RUN groupadd -g 1000 laravel
 #RUN useradd -u 1000 -ms /bin/bash -g laravel user
 
-#COPY --chown=user:laravel . /var/www
+COPY --chown=$user:www-data ./innoviclinic/ /var/www
 
 USER $user
 
-#EXPOSE 9000
+EXPOSE 9000
 
 #CMD ["php-fpm"]
+
+#docker build -t 193.203.183.228:32768/innovclinic-backend -f ./docker/php/Dockerfile .
