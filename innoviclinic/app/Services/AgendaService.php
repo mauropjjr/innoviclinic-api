@@ -7,6 +7,7 @@ use App\Models\Agenda;
 use App\Enums\AgendaStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\AgendaValidationException;
+use App\Models\AgendaProcedimento;
 use Symfony\Component\HttpFoundation\Response;
 
 class AgendaService
@@ -88,6 +89,16 @@ class AgendaService
             $data['duracao_min'] = Utils::calcularDiferencaMinutos($data['hora_ini'], $data['hora_fim']);
             $agenda = Agenda::create($data);
 
+            // Adicionar os procedimentos associados na agenda
+            $procedimentosData = isset($data['procedimentos']) ? $data['procedimentos'] : null;
+            if (isset($procedimentosData) && is_array($procedimentosData)) {
+                $procedimentos = [];
+                foreach ($procedimentosData as $value) {
+                    $procedimentos[] = new AgendaProcedimento(['procedimento_id' => $value['procedimento_id'], 'qtde' => $value['qtde'], 'valor' => $value['valor']]);
+                }
+                $agenda->agenda_procedimentos()->saveMany($procedimentos);
+            }
+
             // Criar o prontuário se não existir
             (new ProntuarioService())->createIfNotExists($data);
 
@@ -116,6 +127,27 @@ class AgendaService
             // Atualizar os dados da agenda
             $data['duracao_min'] = Utils::calcularDiferencaMinutos($data['hora_ini'], $data['hora_fim']);
             $agenda->update($data);
+
+            // Obter os dados dos procedimentos
+            $procedimentosData = isset($data['procedimentos']) ? $data['procedimentos'] : null;
+
+            // Sincronizar os procedimentos associados na agenda
+            if (isset($procedimentosData) && is_array($procedimentosData)) {
+                $procedimentoIds = [];
+                foreach ($procedimentosData as $value) {
+                    $procedimento = AgendaProcedimento::updateOrCreate([
+                        'agenda_id' => $agenda->id,
+                        'procedimento_id' => $value['procedimento_id'],
+                    ], [
+                        'qtde' => $value['qtde'],
+                        'valor' => $value['valor'],
+                    ]);
+                    $procedimentoIds[] = $procedimento->id;
+                }
+
+                // Remover procedimentos não presentes na lista
+                $agenda->agenda_procedimentos()->whereNotIn('id', $procedimentoIds)->delete();
+            }
 
             // Criar o prontuário se não existir
             (new ProntuarioService())->createIfNotExists($data);
@@ -172,8 +204,11 @@ class AgendaService
 
         $agendas = $agendas->get();
         $eventos = (new EventoService())->listAgenda($filtros);
+        $feriados = (new FeriadoService())->listAgenda($filtros);
 
         // Mesclar os resultados
-        return $eventos->merge($agendas);
+        $resultados = $eventos->concat($agendas)->concat($feriados);
+
+        return $resultados;
     }
 }

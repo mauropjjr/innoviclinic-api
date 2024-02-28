@@ -115,10 +115,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'agendas'], function () {
         Route::get('/', [AgendaController::class, 'index'])->middleware('check-agenda-profissional-id-empresa-id');
-        Route::get('/{id}', [AgendaController::class, 'show']);
+        Route::get('/{id}', [AgendaController::class, 'show'])->name('agenda.show')->middleware('check-agenda-profissional-id-empresa-id');
         Route::post('/', [AgendaController::class, 'store'])->middleware('check-agenda-profissional-id-empresa-id');
         Route::put('/{id}', [AgendaController::class, 'update'])->middleware('check-agenda-profissional-id-empresa-id');
-        Route::delete('/{id}', [AgendaController::class, 'destroy']);
+        Route::delete('/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy')->middleware('check-agenda-profissional-id-empresa-id');
     });
 
     Route::group(['prefix' => 'procedimento-tipos'], function () {

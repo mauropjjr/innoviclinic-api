@@ -113,7 +113,12 @@ class Agenda extends Model
 		'usuario_id'
 	];
 
-	public function agenda_status()
+	public function agenda_tipo()
+	{
+		return $this->belongsTo(AgendaTipo::class);
+	}
+
+    public function agenda_status()
 	{
 		return $this->belongsTo(AgendaStatus::class);
 	}
@@ -128,9 +133,14 @@ class Agenda extends Model
 		return $this->belongsTo(Empresa::class);
 	}
 
-	public function pessoa()
+	public function profissional()
 	{
 		return $this->belongsTo(Pessoa::class, 'profissional_id');
+	}
+
+    public function paciente()
+	{
+		return $this->belongsTo(Pessoa::class, 'paciente_id');
 	}
 
 	public function sala()
@@ -145,17 +155,13 @@ class Agenda extends Model
 					->withTimestamps();
 	}
 
-	public function interacos()
+    public function agenda_procedimentos()
 	{
-		return $this->hasMany(Interacao::class);
+		return $this->hasMany(AgendaProcedimento::class, 'agenda_id');
 	}
 
     public static function getStatusAttribute($value)
     {
         return AgendaStatus::from($value)->id;
     }
-    // public function getStatusAttribute()
-    // {
-    //     return AgendaStatusEnum::MAP_VALUE_TO_LABEL[$this->agenda_status_id];
-    // }
 }

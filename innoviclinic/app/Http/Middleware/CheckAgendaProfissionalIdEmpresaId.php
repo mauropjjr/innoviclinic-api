@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Agenda;
 use Closure;
 use App\Models\Interacao;
 use App\Models\EmpresaProfissional;
@@ -38,6 +39,16 @@ class CheckAgendaProfissionalIdEmpresaId
         $profissionalIdData = $request->input('profissional_id');
         if (!$user->empresa_profissional) {
             return false;
+        }
+
+        $id = $request->route('id');
+        $rota = $request->route()->getName();
+
+        if(in_array($rota, ['agenda.show', 'agenda.destroy'])){
+            // Obtém a agenda com o ID fornecido
+            $agenda = Agenda::findOrFail($id);
+            // Obtém o ID do profissional da agenda
+            $profissionalIdData = $agenda->profissional_id;
         }
 
         //O profissinal_id é da empresa do usuário logado?

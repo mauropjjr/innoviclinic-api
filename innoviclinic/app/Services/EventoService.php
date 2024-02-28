@@ -34,7 +34,7 @@ class EventoService
             DB::raw('NULL as sala_id'),
             DB::raw('NULL as prontuario_id'),
             DB::raw('NULL as agenda_tipo'),
-            DB::raw('NULL as cor'),
+            'eventos.cor',
             'eventos.nome',
             'eventos.data_ini as data',
             'eventos.hora_ini',
