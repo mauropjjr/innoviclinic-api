@@ -41,7 +41,7 @@ ARG uid=1000
 #RUN useradd -u 1000 -ms /bin/bash -g laravel user
 
 #COPY --chown=$user:www-data ./innoviclinic/ /var/www
-COPY ./innoviclinic/ /var/www
+#COPY ./innoviclinic/ /var/www
 
 #USER $user
 
