@@ -45,6 +45,13 @@ ARG uid=1000
 
 #USER $user
 
+# Certifique-se de que os diretórios existam antes de ajustar as permissões
+RUN mkdir -p /var/www/storage/logs /var/www/bootstrap/cache
+
+# Adiciona permissões ao diretório storage e bootstrap/cache
+RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
+
 EXPOSE 9000
 
 #CMD ["php-fpm"]
