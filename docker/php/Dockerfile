@@ -1,4 +1,4 @@
-FROM php:8.1-fpm  as dev
+FROM php:8.1-fpm 
 
 WORKDIR /var/www
 
@@ -20,7 +20,8 @@ RUN apt-get update && apt-get install -y \
     apt-utils \
     libonig-dev
 
-RUN docker-php-ext-install zip pdo_mysql mbstring exif
+RUN 
+
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install gd
 
@@ -48,12 +49,5 @@ RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 EXPOSE 9000
 
-#CMD ["php-fpm"]
 
-FROM php:8.1-fpm 
-WORKDIR /var/www
-COPY --from=dev /var/www /var/www
-RUN chown -R www-data:www-data storage bootstrap/cache
-EXPOSE 9000
-
-#docker build --no-cache -t 193.203.183.228:32768/innovclinic-backend -f ./docker/php/Dockerfile .
+#docker build --no-cache -t 213.199.34.152:32768/innovclinic-backend -f ./docker/php/Dockerfile .
