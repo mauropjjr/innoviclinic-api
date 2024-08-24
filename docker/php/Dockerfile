@@ -1,4 +1,4 @@
-FROM php:8.1-fpm 
+FROM php:8.1-fpm  as dev
 
 WORKDIR /var/www
 
@@ -33,15 +33,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ARG user=innoviclinic
 ARG uid=1000
 
-#RUN useradd -G www-data,root -u $uid -d /home/$user $user
-#RUN mkdir -p /home/$user/.composer && \
-#    chown -R $user:$user /home/$user
-
-#RUN groupadd -g 1000 laravel
-#RUN useradd -u 1000 -ms /bin/bash -g laravel user
-
-#COPY --chown=$user:www-data ./innoviclinic/ /var/www
-#COPY ./innoviclinic/ /var/www
+COPY ./innoviclinic/composer.json ./innoviclinic/composer.lock ./
+RUN composer install --no-scripts --no-dev --optimize-autoloader
+COPY ./innoviclinic/ .
 
 #USER $user
 
@@ -56,4 +50,10 @@ EXPOSE 9000
 
 #CMD ["php-fpm"]
 
-#docker build -t 193.203.183.228:32768/innovclinic-backend -f ./docker/php/Dockerfile .
+FROM php:8.1-fpm 
+WORKDIR /var/www
+COPY --from=dev /var/www /var/www
+RUN chown -R www-data:www-data storage bootstrap/cache
+EXPOSE 9000
+
+#docker build --no-cache -t 193.203.183.228:32768/innovclinic-backend -f ./docker/php/Dockerfile .
