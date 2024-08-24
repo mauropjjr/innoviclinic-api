@@ -15,7 +15,11 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    public function auth(AuthRequest $request)
+
+/**
+ * @unauthenticated
+ */    
+public function auth(AuthRequest $request)
     {
         //$user = Pessoa::where('email', $request->email)->first();
         $query = Pessoa::query();
@@ -64,6 +68,9 @@ class AuthController extends Controller
             'me' => $user,
         ]);
     }
+/**
+ * @unauthenticated
+ */
     public function novo(Request $request)
     {
         $request->validate([
