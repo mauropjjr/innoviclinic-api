@@ -1,4 +1,4 @@
-FROM php:8.1-fpm 
+FROM php:8.1-fpm
 
 WORKDIR /var/www
 
@@ -18,9 +18,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     libzip-dev \
     apt-utils \
-    libonig-dev
-
-RUN 
+    libonig-dev && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath  zip
 
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
 RUN docker-php-ext-install gd
