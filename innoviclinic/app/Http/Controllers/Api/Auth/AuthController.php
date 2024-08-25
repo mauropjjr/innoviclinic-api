@@ -16,14 +16,17 @@ use App\Http\Requests\Api\AuthRequest;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\Auth\RegisterProfissionalRequest;
+use App\Models\AgendaTipo;
+use App\Models\Convenio;
+use App\Models\ProcedimentoTipo;
 
 class AuthController extends Controller
 {
 
-/**
- * @unauthenticated
- */
-public function auth(AuthRequest $request)
+    /**
+     * @unauthenticated
+     */
+    public function auth(AuthRequest $request)
     {
         //$user = Pessoa::where('email', $request->email)->first();
         $query = Pessoa::query();
@@ -81,12 +84,10 @@ public function auth(AuthRequest $request)
             // Criação do profissional
             $pessoa = Pessoa::create($input);
 
-            event(new Registered($pessoa));
-            Auth::login($pessoa);
-
             // Dados adicionais do profissional
             if ($request->input('profissional')) {
                 $profissionalData = $request->input('profissional');
+                $profissionalData['usuario_id'] = $pessoa->id;
                 $pessoa->profissional()->create($profissionalData);
 
                 // Armazena as especialidades
@@ -100,17 +101,22 @@ public function auth(AuthRequest $request)
                 'email' => $request->email,
                 'telefone' => $request->celular,
                 'cpf_cnpj' => $request->cpf,
+                'usuario_id' => $pessoa->id
             ]);
 
             // Associa o profissional à empresa
             $pessoa->empresa_profissional()->create([
                 'empresa_id' => $empresa->id,
-                'profissional_id' => $pessoa->id
+                'profissional_id' => $pessoa->id,
+                'usuario_id' => $pessoa->id
             ]);
+
+            event(new Registered($pessoa));
+            Auth::login($pessoa);
 
             // Criação da Configuração Default da Empresa
             EmpresaConfiguracao::create([
-                'empresa_id' => $empresa->id,
+                //'empresa_id' => $empresa->id,
                 'hora_ini_agenda' => '08:00',
                 'hora_fim_agenda' => '17:00',
                 'duracao_atendimento' => '40',
@@ -119,9 +125,35 @@ public function auth(AuthRequest $request)
 
             // Criação da sala
             Sala::create([
-                'empresa_id' => $empresa->id,
-                'nome' => "Sala 1"
+                //'empresa_id' => $empresa->id,
+                'nome' => 'Sala 1'
             ]);
+
+            // Criação de convênio
+            Convenio::create([
+                //'empresa_id' => $empresa->id,
+                'nome' => 'Particular',
+                'tipo' => 'Particular'
+            ]);
+
+            // Criação de tipos de agenda
+            $tipos = [
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#0066FF', 'nome' => 'Consulta', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FFFF00', 'nome' => 'Retorno', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#00FF00', 'nome' => 'Exame', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FF00FF', 'nome' => 'Encaixe', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#800080', 'nome' => 'Procedimento', 'sem_horario' => 0, 'sem_procedimento' => 1, 'created_at' => now(), 'updated_at' => now()]
+            ];
+            AgendaTipo::insert($tipos);
+
+            // Criação de tipos de procedimentos
+            $tipos = [
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Cirurgia', 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Emergência', 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Exame Clínico', 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Prevenção', 'created_at' => now(), 'updated_at' => now()],
+            ];
+            ProcedimentoTipo::insert($tipos);
 
             return response()->json($pessoa);
         });

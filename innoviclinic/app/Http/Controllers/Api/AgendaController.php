@@ -38,8 +38,9 @@ class AgendaController extends Controller
         // Validação dos parâmetros da requisição
         $request->validate([
             'profissional_id' => 'required|integer',
-            'sala_id' => 'required|integer',
+            //'sala_id' => 'required|integer',
             'exibir_todos_status' => 'required|boolean',
+            'apenas_agenda' => 'nullable|boolean',
             'data_inicio' => 'required|date',
             'data_fim' => 'required|date',
         ]);

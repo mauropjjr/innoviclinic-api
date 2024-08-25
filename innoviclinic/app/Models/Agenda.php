@@ -7,7 +7,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use App\Enums\AgendaStatusEnum;
+use App\Traits\AutoSetParamsAgendaDefault;
 use App\Traits\AutoSetUsuarioId;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
@@ -58,6 +58,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Agenda extends Model
 {
     use AutoSetUsuarioId;
+    use AutoSetParamsAgendaDefault;
 	use HasFactory;
 	protected $table = 'agendas';
 

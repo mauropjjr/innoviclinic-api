@@ -23,14 +23,20 @@ class PacienteController extends Controller
 
     public function index(Request $request)
     {
-        
         $user = $this->customAuth->getUser();
+
         $query = Pessoa::query();
-        $query->with(['paciente', 'prontuario' => function ($query) use ($user) {
+
+        // Filtrar apenas pacientes
+        $query->where('tipo_usuario', 'Paciente');
+
+        // Garantir que apenas pacientes com prontuário vinculado ao profissional e empresa sejam retornados
+        $query->whereHas('prontuario', function ($query) use ($user) {
             $query->where('profissional_id', $user->empresa_profissional->profissional_id)
                 ->where('empresa_id', $user->empresa_profissional->empresa_id);
-        }])->where('tipo_usuario', 'Paciente');
+        });
 
+        // Aplicar filtros adicionais com base nos parâmetros da requisição
         if ($request->has('nome') && $request->input('nome')) {
             $query->where('nome', 'LIKE', "%" . $request->input('nome') . "%");
         }
@@ -47,6 +53,10 @@ class PacienteController extends Controller
             $query->where('ativo', $request->input('ativo'));
         }
 
+        // Carregar as relações (com left join) apenas após o filtro ter sido aplicado
+        $query->with('paciente', 'prontuario');
+
+        // Retorna a resposta paginada
         return response()->json($query->paginate($request->input('per_page') ?? 15));
     }
 

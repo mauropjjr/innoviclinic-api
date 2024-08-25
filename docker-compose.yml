@@ -21,11 +21,11 @@ services:
       - LOG_DEPRECATIONS_CHANNEL=null
       - LOG_LEVEL=debug       
       - DB_CONNECTION=mysql
-      - DB_HOST=193.203.183.228
-      - DB_PORT=3306
+      - DB_HOST=213.199.34.152
+      - DB_PORT=3307
       - DB_DATABASE=innoviclinic
-      - DB_USERNAME=accordo
-      - DB_PASSWORD=Acc0rd0?
+      - DB_USERNAME=user
+      - DB_PASSWORD=password
    # command: php artisan serve --host=0.0.0.0
     volumes:
       - ./innoviclinic/:/var/www
@@ -54,11 +54,11 @@ services:
       - LOG_DEPRECATIONS_CHANNEL=null
       - LOG_LEVEL=debug       
       - DB_CONNECTION=mysql
-      - DB_HOST=193.203.183.228
-      - DB_PORT=3306
+      - DB_HOST=213.199.34.152
+      - DB_PORT=3307
       - DB_DATABASE=innoviclinic
-      - DB_USERNAME=accordo
-      - DB_PASSWORD=Acc0rd0?
+      - DB_USERNAME=user
+      - DB_PASSWORD=password
     volumes:
   #    - ./innoviclinic:/var/www
       - ./docker/nginx/:/etc/nginx/conf.d/

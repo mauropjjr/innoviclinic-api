@@ -67,6 +67,10 @@ php artisan migrate
 
 #limpar cache
 php artisan cache:clear
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+
 
 ###Passos para criar novo CRUD
 ## 1 - php artisan make:migration create_table_name_table - adicione no arquivo gerado os atributos da tabela e execute o "php artisan migrate"
@@ -78,3 +82,7 @@ php artisan cache:clear
 ## 7 - TODO: Criar uma pasta /app/Services para conexao de serviços externos
 ## 8 - TODO: Se precisa fazer serviço para upload de arquivos, vamos subir o miniio
 ## 9 - TODO: Testar cache com redis nos serviços
+
+#Credenciais minio para os uplods
+accesskey: kX5Q3AmgnC0rPiemFdQ5
+secretkey: C1tFBVq9rspYcI3u1lLYoZYLVw7WpMhw1xlFoNq1

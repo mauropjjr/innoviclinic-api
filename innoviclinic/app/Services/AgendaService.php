@@ -24,7 +24,6 @@ class AgendaService
         // Verificar se já existe um agendamento que se sobrepõe ao novo agendamento
         $query = Agenda::where('empresa_id', $data['empresa_id'])
             ->where('profissional_id', $data['profissional_id'])
-            ->where('sala_id', $data['sala_id'])
             ->where('data', $data['data'])
             ->whereNotIn('agenda_status_id', [AgendaStatusEnum::CANCELADO, AgendaStatusEnum::FALTOU]) // Excluir os status Cancelado (3) e Faltou (7)
             ->where(function ($query) use ($data) {
@@ -37,6 +36,10 @@ class AgendaService
                             ->where('hora_fim', '<=', $data['hora_fim']);
                     });
             });
+
+        if(!empty($data['sala_id'])){
+            $query->where('sala_id', $data['sala_id']);
+        }
 
         // Excluir a agenda atual se estiver sendo alterada
         if ($agenda_id !== null) {
@@ -195,19 +198,30 @@ class AgendaService
             })
             ->where('agendas.empresa_id', $filtros['empresa_id'])
             ->where('agendas.profissional_id', $filtros['profissional_id'])
-            ->where('agendas.sala_id', $filtros['sala_id'])
             ->whereBetween('agendas.data', [$filtros['data_inicio'], $filtros['data_fim']]);
+
+        if(!empty($filtros['sala_id'])){
+            $agendas->where('agendas.sala_id', $filtros['sala_id']);
+        }
+
+        if(!empty($filtros['nome_agenda'])){
+            $agendas->where('agendas.nome', 'LIKE', "%" . $filtros['nome_agenda']."%");
+        }
 
         if (isset($filtros['exibir_todos_status']) && !$filtros['exibir_todos_status']) {
             $agendas->whereNotIn('agendas.agenda_status_id', [AgendaStatusEnum::FALTOU, AgendaStatusEnum::CANCELADO]);
         }
 
+        $apenas_agenda = isset($filtros['apenas_agenda']) && $filtros['apenas_agenda'] ? true : false;
         $agendas = $agendas->get();
-        $eventos = (new EventoService())->listAgenda($filtros);
-        $feriados = (new FeriadoService())->listAgenda($filtros);
+        $resultados = $agendas;
 
-        // Mesclar os resultados
-        $resultados = $eventos->concat($agendas)->concat($feriados);
+        if(!$apenas_agenda){
+            $eventos = (new EventoService())->listAgenda($filtros);
+            $feriados = (new FeriadoService())->listAgenda($filtros);
+            // Mesclar os resultados
+            $resultados = $eventos->concat($agendas)->concat($feriados);
+        }
 
         return $resultados;
     }
