@@ -18,7 +18,7 @@ jobs:
       run: | 
         docker build -t 213.199.34.152:32768/innovclinic-backend:latest -f ./docker/php/Dockerfile .
         docker push 213.199.34.152:32768/innovclinic-backend:latest
-        
+
 
   deploy:
     runs-on: ubuntu-latest
@@ -29,7 +29,7 @@ jobs:
         with:
           host: 213.199.34.152
           username: devs
-          password: 20242024
+          password: Devs@20242024
           port: 22
           script: |
             docker pull 213.199.34.152:32768/innovclinic-backend:latest
