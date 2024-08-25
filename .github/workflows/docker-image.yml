@@ -19,18 +19,18 @@ jobs:
         docker build -t 213.199.34.152:32768/innovclinic-backend:latest -f ./docker/php/Dockerfile .
         docker push 213.199.34.152:32768/innovclinic-backend:latest
 
-        deploy:
-          runs-on: ubuntu-latest
-          needs: [build]
-          steps:
-            - name: Atualizando maquina no serviodr - deploy
-              uses: appleboy/ssh-action@v1.0.3
-              with:
-                host: 213.199.34.152
-                username: devs
-                password: 20242024
-                port: 22
-                script: |
-                  docker pull 213.199.34.152:32768/innovclinic-backend:latest
-                  docker stack deploy -c /containers/innoviclinic-api.stack.yml innoviclinic-api
+      deploy:
+        runs-on: ubuntu-latest
+        needs: [build]
+        steps:
+          - name: Atualizando maquina no serviodr - deploy
+            uses: appleboy/ssh-action@v1.0.3
+            with:
+              host: 213.199.34.152
+              username: devs
+              password: 20242024
+              port: 22
+              script: |
+                docker pull 213.199.34.152:32768/innovclinic-backend:latest
+                docker stack deploy -c /containers/innoviclinic-api.stack.yml innoviclinic-api
 
