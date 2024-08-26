@@ -115,6 +115,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::group(['prefix' => 'agendas'], function () {
         Route::get('/', [AgendaController::class, 'index'])->middleware('check-agenda-profissional-id-empresa-id');
+        Route::get('/pacientes', [AgendaController::class, 'listAppointments'])->middleware('check-agenda-profissional-id-empresa-id');
         Route::get('/{id}', [AgendaController::class, 'show'])->name('agenda.show')->middleware('check-agenda-profissional-id-empresa-id');
         Route::post('/', [AgendaController::class, 'store'])->middleware('check-agenda-profissional-id-empresa-id');
         Route::put('/{id}', [AgendaController::class, 'update'])->middleware('check-agenda-profissional-id-empresa-id');

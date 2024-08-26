@@ -6,16 +6,19 @@ use App\Models\Agenda;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\AgendaService;
+use App\Services\CustomAuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreAgendaRequest;
 
 class AgendaController extends Controller
 {
     protected $agendaService;
+    protected $customAuth;
 
-    public function __construct(AgendaService $agendaService)
+    public function __construct(AgendaService $agendaService, CustomAuthService $customAuth)
     {
         $this->agendaService = $agendaService;
+        $this->customAuth = $customAuth;
         $this->middleware('check-agenda-profissional-id-empresa-id')->only(['show', 'store', 'update', 'index', 'destroy']);
     }
 
@@ -50,6 +53,45 @@ class AgendaController extends Controller
 
         // Retorna as agendas como resposta
         return response()->json($agendas);
+    }
+
+    public function listAppointments(Request $request)
+    {
+        $user = $this->customAuth->getUser();
+        $query = Agenda::query();
+
+        // Filtrar os agendamentos apenas da empresa do usuário logado
+        $query->where('agendas.empresa_id', $user->empresa_profissional->empresa_id);
+
+        // Manter o join para garantir que os registros de prontuário correspondam, mas usar with() para carregar o relacionamento
+        $query->leftJoin('prontuarios', function ($join) {
+            $join->on('agendas.paciente_id', '=', 'prontuarios.paciente_id')
+                ->on('agendas.empresa_id', '=', 'prontuarios.empresa_id')
+                ->on('agendas.profissional_id', '=', 'prontuarios.profissional_id');
+        });
+
+        // Carregar as relações corretamente, incluindo prontuário como um objeto relacionado
+        $query->with(['agenda_tipo', 'agenda_status', 'sala', 'profissional', 'prontuario']);
+
+        // Aplicar filtros adicionais baseados nos parâmetros do request
+        if ($request->filled('profissional_id')) {
+            $query->where('agendas.profissional_id', $request->input('profissional_id'));
+        }
+        if ($request->filled('sala_id')) {
+            $query->where('agendas.sala_id', $request->input('sala_id'));
+        }
+        if ($request->filled('nome_agenda')) {
+            $query->where('agendas.nome', 'LIKE', "%" . $request->input('nome_agenda') . "%");
+        }
+        if ($request->filled('data_inicio')) {
+            $query->where('agendas.data', '>=', $request->input('data_inicio'));
+        }
+        if ($request->filled('data_fim')) {
+            $query->where('agendas.data', '<=', $request->input('data_fim'));
+        }
+
+        // Retornar os resultados paginados com o objeto prontuário incluído
+        return response()->json($query->paginate($request->input('per_page') ?? 15));
     }
 
     public function show($id)

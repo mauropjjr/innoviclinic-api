@@ -161,6 +161,13 @@ class Agenda extends Model
 		return $this->hasMany(AgendaProcedimento::class, 'agenda_id');
 	}
 
+    public function prontuario()
+    {
+        return $this->hasOne(Prontuario::class, 'paciente_id', 'paciente_id')
+                    ->whereColumn('empresa_id', 'empresa_id')
+                    ->whereColumn('profissional_id', 'profissional_id');
+    }
+
     public static function getStatusAttribute($value)
     {
         return AgendaStatus::from($value)->id;
