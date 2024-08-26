@@ -57,26 +57,21 @@ class AgendaController extends Controller
 
     public function listAppointments(Request $request)
     {
+        // Validação dos parâmetros da requisição
+        $request->validate([
+            'profissional_id' => 'required|integer',
+            'data_inicio' => 'required|date',
+            'data_fim' => 'required|date',
+        ]);
+
         $user = $this->customAuth->getUser();
         $query = Agenda::query();
 
         // Filtrar os agendamentos apenas da empresa do usuário logado
-        $query->where('agendas.empresa_id', $user->empresa_profissional->empresa_id);
-
-        // Manter o join para garantir que os registros de prontuário correspondam, mas usar with() para carregar o relacionamento
-        $query->leftJoin('prontuarios', function ($join) {
-            $join->on('agendas.paciente_id', '=', 'prontuarios.paciente_id')
-                ->on('agendas.empresa_id', '=', 'prontuarios.empresa_id')
-                ->on('agendas.profissional_id', '=', 'prontuarios.profissional_id');
-        });
-
-        // Carregar as relações corretamente, incluindo prontuário como um objeto relacionado
-        $query->with(['agenda_tipo', 'agenda_status', 'sala', 'profissional', 'prontuario']);
+        $query->where('agendas.empresa_id', $user->empresa_profissional->empresa_id)
+            ->where('agendas.profissional_id', $request->input('profissional_id'));
 
         // Aplicar filtros adicionais baseados nos parâmetros do request
-        if ($request->filled('profissional_id')) {
-            $query->where('agendas.profissional_id', $request->input('profissional_id'));
-        }
         if ($request->filled('sala_id')) {
             $query->where('agendas.sala_id', $request->input('sala_id'));
         }
@@ -90,6 +85,20 @@ class AgendaController extends Controller
             $query->where('agendas.data', '<=', $request->input('data_fim'));
         }
 
+        // Carregar as relações corretamente, incluindo prontuário como um objeto relacionado
+        $query->with([
+            'agenda_tipo',
+            'agenda_status',
+            'sala',
+            'profissional',
+            'prontuarios' => function ($query) use ($user, $request) {
+                $query->where('empresa_id', $user->empresa_profissional->empresa_id)
+                    ->where('profissional_id', $request->input('profissional_id'));
+            }
+        ]);
+
+        //echo $query->toSql();
+
         // Retornar os resultados paginados com o objeto prontuário incluído
         return response()->json($query->paginate($request->input('per_page') ?? 15));
     }
@@ -100,7 +109,8 @@ class AgendaController extends Controller
             'agenda_tipo:id,nome,cor,sem_horario,sem_procedimento',
             'agenda_status:id,nome',
             'profissional:id,nome',
-            'sala:id,nome', 'paciente:id,nome',
+            'sala:id,nome',
+            'paciente:id,nome',
             'convenio:id,nome',
             'agenda_procedimentos',
             'agenda_procedimentos.procedimento:id,nome'
