@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Agenda;
+use App\Models\Prontuario;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Services\AgendaService;
@@ -105,6 +106,7 @@ class AgendaController extends Controller
 
     public function show($id)
     {
+        // Carrega a agenda e os relacionamentos normais
         $objeto = Agenda::with([
             'agenda_tipo:id,nome,cor,sem_horario,sem_procedimento',
             'agenda_status:id,nome',
@@ -115,14 +117,26 @@ class AgendaController extends Controller
             'agenda_procedimentos',
             'agenda_procedimentos.procedimento:id,nome'
         ])
-            ->find($id);
+        ->find($id);
 
+        // Se a agenda não for encontrada, retorna um erro
         if (!$objeto) {
             return response()->json([
                 'error' => 'Não encontrado'
             ], Response::HTTP_NOT_FOUND);
         }
 
+        // Consulta separada para buscar o prontuário com base em empresa_id e profissional_id
+        $prontuario = Prontuario::select('id')
+                                ->where('paciente_id', $objeto->paciente_id)
+                                ->where('empresa_id', $objeto->empresa_id)
+                                ->where('profissional_id', $objeto->profissional_id)
+                                ->first();
+
+        // Anexa o prontuário ao objeto de agenda
+        $objeto->prontuario = $prontuario;
+
+        // Retorna a agenda com o prontuário vinculado
         return response()->json($objeto);
     }
 

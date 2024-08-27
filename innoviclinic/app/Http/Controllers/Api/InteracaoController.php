@@ -34,7 +34,8 @@ class InteracaoController extends Controller
         ->whereHas('prontuario', function ($query) use ($user) {
             $query->where('empresa_id', $user->empresa_profissional->empresa_id)
                 ->where('profissional_id', $user->empresa_profissional->profissional_id);
-        });
+        })
+        ->orderBy('id', 'desc');
 
     return response()->json($query->get());
     }
