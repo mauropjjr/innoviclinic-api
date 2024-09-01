@@ -187,7 +187,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::group(['prefix' => 'profissionais'], function () {
-        Route::get('/', [ProfissionalController::class, 'index']);
+        Route::get('/', [ProfissionalController::class, 'index'])->middleware('check-empresa-profissional-id');
         Route::get('/{id}', [ProfissionalController::class, 'show'])->middleware('check-empresa-profissional-id');
         Route::post('/', [ProfissionalController::class, 'store']);
         Route::put('/{id}', [ProfissionalController::class, 'update'])->middleware('check-empresa-profissional-id');

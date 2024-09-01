@@ -23,10 +23,18 @@ class ProfissionalSecretariaController extends Controller
     public function index(Request $request)
     {
         $user = $this->customAuth->getUser();
-        $query = ProfissionalSecretaria::query()->with(['secretaria:id,nome,email']);
+        $query = ProfissionalSecretaria::query()->with([
+            'pessoa_profissional:id,nome,email',
+            'pessoa_profissional.profissional:pessoa_id,tratamento,nome_conselho,numero_conselho',
+            'secretaria:id,nome,email'
+        ]);
         $query->where('empresa_id', $user->empresa_profissional->empresa_id);
-        $query->where('profissional_id', $user->empresa_profissional->profissional_id);
 
+        if ($user->tipo_usuario == 'Profissional') {
+            $query->where('profissional_id', $user->id);
+        } else {
+            $query->where('secretaria_id', $user->id);
+        }
         if ($request->has('ativo') && in_array($request->input('ativo'), ['1', '0'])) {
             $query->where('ativo', $request->input('ativo'));
         }

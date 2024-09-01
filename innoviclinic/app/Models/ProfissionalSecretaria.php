@@ -62,9 +62,14 @@ class ProfissionalSecretaria extends Model
 		return $this->belongsTo(Empresa::class);
 	}
 
-	public function secretaria()
+    public function secretaria()
 	{
 		return $this->belongsTo(Pessoa::class, 'secretaria_id');
+	}
+
+	public function pessoa_profissional()
+	{
+		return $this->belongsTo(Pessoa::class, 'profissional_id');
 	}
 
     public static function boot()

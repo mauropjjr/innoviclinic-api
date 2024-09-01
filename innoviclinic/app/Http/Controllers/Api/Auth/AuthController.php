@@ -6,7 +6,11 @@ use App\Models\Sala;
 use App\Models\Pessoa;
 use App\Models\Empresa;
 
+use App\Models\Convenio;
+use App\Models\AgendaTipo;
+use App\Models\Profissional;
 use Illuminate\Http\Request;
+use App\Models\ProcedimentoTipo;
 use Illuminate\Support\Facades\DB;
 use App\Models\EmpresaConfiguracao;
 use App\Http\Controllers\Controller;
@@ -16,9 +20,6 @@ use App\Http\Requests\Api\AuthRequest;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\Auth\RegisterProfissionalRequest;
-use App\Models\AgendaTipo;
-use App\Models\Convenio;
-use App\Models\ProcedimentoTipo;
 
 class AuthController extends Controller
 {
@@ -34,6 +35,10 @@ class AuthController extends Controller
         $query->with('empresa_profissional');
         $query->with('profissional_secretaria');
         $user = $query->first();
+
+        if($user->tipo_usuario == 'Profissional'){
+            $user->profissional = Profissional::select(['tratamento', 'nome_conselho', 'numero_conselho'])->where('pessoa_id', $user->id)->first();
+        }
 
         // Sobrescreve a relação empresa_profissional se profissional_secretaria existir
         if ($user && $user->profissional_secretaria) {

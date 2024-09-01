@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Pessoa;
+use App\Models\Profissional;
 use Illuminate\Support\Facades\Auth;
 
 class CustomAuthService
@@ -17,6 +18,10 @@ class CustomAuthService
             $query->with('empresa_profissional');
             $query->with('profissional_secretaria');
             $user = $query->first();
+
+            if($user->tipo_usuario == 'Profissional'){
+                $user->profissional = Profissional::select(['tratamento', 'nome_conselho', 'numero_conselho'])->where('pessoa_id', $user->id)->first();
+            }
 
             // Sobrescreve a relação empresa_profissional se profissional_secretaria existir
             if ($user->profissional_secretaria) {

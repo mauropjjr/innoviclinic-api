@@ -18,7 +18,7 @@ class ProfissionalController extends Controller
     public function __construct(CustomAuthService $customAuth)
     {
         $this->customAuth = $customAuth;
-        $this->middleware('check-empresa-profissional-id')->only(['show', 'update', 'destroy']);
+        $this->middleware('check-empresa-profissional-id')->only(['index', 'show', 'update', 'destroy']);
     }
 
     public function index(Request $request)
