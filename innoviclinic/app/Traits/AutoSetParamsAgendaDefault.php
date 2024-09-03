@@ -3,15 +3,24 @@
 namespace App\Traits;
 
 use App\Models\Convenio;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Sala;
+use App\Services\CustomAuthService;
+use Illuminate\Container\Container;
 
 trait AutoSetParamsAgendaDefault
 {
+    protected $customAuthService;
+
+    protected function getCustomAuth()
+    {
+        return Container::getInstance()->make(CustomAuthService::class);
+    }
+
     protected static function bootAutoSetParamsAgendaDefault()
     {
         static::creating(function ($model) {
-            $user = Auth::user();
+            $customAuth = (new self)->getCustomAuth();
+            $user = $customAuth->getUser();
 
             // Verifica se o modelo ainda não tem sala_id e se a empresa está definida
             if (!$model->sala_id && $user->empresa_profissional->empresa_id) {
