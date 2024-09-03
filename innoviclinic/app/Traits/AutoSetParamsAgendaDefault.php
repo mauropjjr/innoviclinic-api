@@ -18,8 +18,9 @@ trait AutoSetParamsAgendaDefault
 
     protected static function bootAutoSetParamsAgendaDefault()
     {
-        static::creating(function ($model) {
-            $customAuth = (new self)->getCustomAuth();
+        $customAuth = (new self)->getCustomAuth();
+
+        static::creating(function ($model) use($customAuth){
             $user = $customAuth->getUser();
 
             // Verifica se o modelo ainda não tem sala_id e se a empresa está definida
