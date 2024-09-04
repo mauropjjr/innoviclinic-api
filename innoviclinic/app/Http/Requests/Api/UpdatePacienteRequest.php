@@ -34,6 +34,8 @@ class UpdatePacienteRequest extends FormRequest
             'senha' => 'max:255',
             'celular' => 'required|max:20',
             'telefone' => 'nullable|max:20',
+            'data_nascimento' => 'nullable|date',
+            'sexo' => 'nullable|in:M,F',
             'cpf' => [
                 'nullable',
                 new Cpf,

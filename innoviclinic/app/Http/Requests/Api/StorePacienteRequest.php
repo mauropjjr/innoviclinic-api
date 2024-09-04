@@ -29,6 +29,8 @@ class StorePacienteRequest extends FormRequest
             'celular' => 'required|max:20',
             'telefone' => 'nullable|max:20',
             'cpf' => ['nullable', new Cpf, 'unique:pessoas,cpf'],
+            'data_nascimento' => 'nullable|date',
+            'sexo' => 'nullable|in:M,F',
             'cep' => 'max:9',
             'uf' => 'max:2',
             'observacoes' => 'max:1000',

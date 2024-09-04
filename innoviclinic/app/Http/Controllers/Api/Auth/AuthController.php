@@ -36,6 +36,12 @@ class AuthController extends Controller
         $query->with('profissional_secretaria');
         $user = $query->first();
 
+        if (!$user || !Hash::check($request->senha, $user->senha)) {
+            throw ValidationException::withMessages([
+                'email' => ['As credenciais fornecidas estão incorretas']
+            ]);
+        }
+
         if($user->tipo_usuario == 'Profissional'){
             $user->profissional = Profissional::select(['tratamento', 'nome_conselho', 'numero_conselho'])->where('pessoa_id', $user->id)->first();
         }
@@ -46,12 +52,6 @@ class AuthController extends Controller
         }
         unset($user->profissional_secretaria);
 
-
-        if (!$user || !Hash::check($request->senha, $user->senha)) {
-            throw ValidationException::withMessages([
-                'email' => ['As credenciais fornecidas estão incorretas']
-            ]);
-        }
 
         // Logout others devices
         // if ($request->has('logout_others_devices'))

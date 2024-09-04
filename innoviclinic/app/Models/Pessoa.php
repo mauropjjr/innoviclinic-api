@@ -77,6 +77,7 @@ class Pessoa extends  Authenticatable
 
     protected $casts = [
         'data_nascimento' => 'datetime',
+        'sexo' => 'string',
         'admin' => 'int',
         'ativo' => 'bool',
         'usuario_id' => 'int',
