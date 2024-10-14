@@ -210,6 +210,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'agenda-status' => AgendaStatusController::class,
         'especialidades' => EspecialidadeController::class,
     ]);
+
+    Route::get("/empresas/with/{id}", [EmpresaController::class, "getWith"])->middleware("check-empresa-id");
 });
 
 Route::get('/', function () {

@@ -100,4 +100,19 @@ class EmpresaController extends Controller
 
         return response()->noContent(Response::HTTP_CREATED);
     }
+
+    public function getWith(Request $request) {
+        $request->validate([
+            "with" => "required|array",
+            "with.*" => "string"
+        ]);
+
+        $objeto = Empresa::with($request->with)->findOr($request->id, ["*"], function() {
+            return response()->json([
+                "error" => "Não encontrado"
+            ], Response::HTTP_NOT_FOUND);
+        });
+// profissional.profissional.profissional_especialidades") dando pau
+        return response()->json($objeto);
+    }
 }
