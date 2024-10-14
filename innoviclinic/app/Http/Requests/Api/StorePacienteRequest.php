@@ -24,7 +24,7 @@ class StorePacienteRequest extends FormRequest
     {
         return [
             'nome' => 'required|string|max:255',
-            'email' => 'required|email|max:100|unique:pessoas,email',
+            'email' => 'nullable|required_without:forceNoEmail|email|max:100|unique:pessoas,email',
             'senha' => 'max:255',
             'celular' => 'required|max:20',
             'telefone' => 'nullable|max:20',
