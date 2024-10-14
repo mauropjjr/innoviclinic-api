@@ -4,8 +4,8 @@ services:
   api:
     container_name: api
     build:
-      context: ./docker/php
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/php/Dockerfile
   #  restart: unless-stopped
     tty: true
     ports:
@@ -36,8 +36,8 @@ services:
   nginx:
     container_name: setup-nginx
     build:
-      context: ./docker/nginx
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
  #   restart: unless-stopped
     tty: true
     ports:
