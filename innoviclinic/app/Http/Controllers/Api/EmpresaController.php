@@ -112,7 +112,7 @@ class EmpresaController extends Controller
                 "error" => "Não encontrado"
             ], Response::HTTP_NOT_FOUND);
         });
-// profissional.profissional.profissional_especialidades") dando pau
+        
         return response()->json($objeto);
     }
 }

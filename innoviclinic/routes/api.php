@@ -211,8 +211,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
         'especialidades' => EspecialidadeController::class,
     ]);
 
-    Route::get("/empresas/with/{id}", [EmpresaController::class, "getWith"])->middleware("check-empresa-id");
 });
+
+//metodos publicos
+Route::get("/empresas/with/{id}", [EmpresaController::class, "getWith"]);
 
 Route::get('/', function () {
     return response()->json([

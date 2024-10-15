@@ -157,6 +157,16 @@ class Pessoa extends  Authenticatable
         )->withPivot('usuario_id', 'created_at');
     }
 
+    
+    public function profissional_especialidades_v2()
+    {
+        return $this->hasMany(
+            ProfissionalEspecialidade::class,
+            "profissional_id",
+            "id"
+        );
+    }
+
     public function usuario()
     {
         return $this->belongsTo(Pessoa::class, 'usuario_id');
