@@ -27,6 +27,10 @@ use App\Http\Controllers\Api\SalaController;
 use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AgendaTipoController;
+use App\Models\Pessoa;
+use App\Notifications\RecoveryPassCode;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Password;
 
 /*
 |--------------------------------------------------------------------------
@@ -215,6 +219,24 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 //metodos publicos
 Route::get("/empresas/with/{id}", [EmpresaController::class, "getWith"]);
+
+Route::get('/forgot-password', function () {
+    return response()->json(["teste" => "teste"]);
+})
+->middleware('guest')->name('password.request')
+;
+Route::post('/forgot-password', function (Request $request) {
+    $pessoa = Pessoa::where(["email" => $request->email])->get()->toArray();
+    // return response()->json($pessoa);
+    $pessoa = Pessoa::find($pessoa[0]["id"]);
+    $pessoa->notify(new RecoveryPassCode((object) []));
+    
+    // return $status === Password::RESET_LINK_SENT
+    // ? response()->json(['message' => $status], Response::HTTP_OK)
+    // : response()->json(['message' => $status], Response::HTTP_INTERNAL_SERVER_ERROR);
+})
+// ->middleware('guest')->name('password.email')
+;
 
 Route::get('/', function () {
     return response()->json([
