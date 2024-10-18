@@ -10,13 +10,16 @@ use App\Services\CustomAuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StorePacienteRequest;
 use App\Http\Requests\Api\UpdatePacienteRequest;
+use App\Services\PacienteService;
 
 class PacienteController extends Controller
 {
     protected $customAuth;
+    protected $pacienteService;
 
     public function __construct(CustomAuthService $customAuth)
     {
+        $this->pacienteService = new PacienteService($customAuth);
         $this->customAuth = $customAuth;
         $this->middleware('check-prontuario-paciente-id')->only(['show', 'update', 'destroy']);
     }
@@ -106,11 +109,6 @@ class PacienteController extends Controller
         return response()->json($result);
     }
 
-
-
-
-
-
     public function show($id)
     {
         $user = $this->customAuth->getUser();
@@ -134,25 +132,8 @@ class PacienteController extends Controller
     public function store(StorePacienteRequest $request)
     {
         $input = $request->validated();
-        $input['tipo_usuario'] = 'Paciente';
-
-        return DB::transaction(function () use ($input, $request) {
-            // Criação do paciente
-            $pessoa = Pessoa::create($input);
-
-            $paciente = $request->input('paciente', []);
-            $pessoa->paciente()->create($paciente);
-
-            $user = $this->customAuth->getUser();
-            $prontuario = $request->input('prontuario');
-            if ($user->tipo_usuario != 'Paciente') {
-                $prontuario['empresa_id'] = $user->empresa_profissional->empresa_id;
-                $prontuario['profissional_id'] = $user->empresa_profissional->profissional_id;
-                $pessoa->prontuarios()->create($prontuario);
-            }
-
-            return response()->json($pessoa);
-        });
+        $paciente = $this->pacienteService->create($input);
+        return response()->json($paciente);
     }
 
     public function update(UpdatePacienteRequest $request, string $id)

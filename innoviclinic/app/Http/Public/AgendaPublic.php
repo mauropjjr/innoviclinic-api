@@ -1,43 +1,33 @@
-<?php
+<?php 
 
-namespace App\Http\Requests\Api;
+namespace App\Http\Public;
 
-use Illuminate\Validation\Rule;
+use App\Services\AgendaService;
 use App\Services\CustomAuthService;
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
-class StoreAgendaRequest extends FormRequest
+class AgendaPublic
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return true;
+    protected $customAuthService;
+    public function __construct(CustomAuthService $customAuthService) {
+        $this->customAuthService = $customAuthService;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
-    public function rules(CustomAuthService $customAuth): array
+    public function store(Request $request)
     {
-        $empresaIdDoUsuarioLogado = $customAuth->getUser()->empresa_profissional->empresa_id;
-
-        return [
-            'empresa_id' => 'integer|exists:empresas,id',
+        $input = $request->validate([
+            'empresa_id' => 'required|integer|exists:empresas,id',
             'agenda_tipo_id' => [
                 'required',
                 'integer',
-                Rule::exists('agenda_tipos', 'id')->where('empresa_id', $empresaIdDoUsuarioLogado),
+                Rule::exists('agenda_tipos', 'id')->where('empresa_id', $request->input("empresa_id")),
             ],
             'agenda_status_id' => 'integer|exists:agenda_status,id',
             'profissional_id' => 'required|integer|exists:profissionais,pessoa_id',
             'sala_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('salas', 'id')->where('empresa_id', $empresaIdDoUsuarioLogado),
+                Rule::exists('salas', 'id')->where('empresa_id', $request->input("empresa_id")),
             ],
             'paciente_id' => [
                 'required_unless:newPacient,1',
@@ -46,7 +36,7 @@ class StoreAgendaRequest extends FormRequest
             'convenio_id' => [
                 'nullable',
                 'integer',
-                Rule::exists('convenios', 'id')->where('empresa_id', $empresaIdDoUsuarioLogado),
+                Rule::exists('convenios', 'id')->where('empresa_id', $request->input("empresa_id")),
             ],
             'nome' => 'required|string|max:100',
             'celular' => 'nullable|string|max:20',
@@ -65,23 +55,12 @@ class StoreAgendaRequest extends FormRequest
             'procedimentos.*.procedimento_id' => [
                 'required_with:procedimentos',
                 'integer',
-                Rule::exists('procedimentos', 'id')->where('empresa_id', $empresaIdDoUsuarioLogado),
+                Rule::exists('procedimentos', 'id')->where('empresa_id', $request->input("empresa_id")),
             ],
             'procedimentos.*.qtde' => 'required_with:procedimentos|integer|min:1',
             'procedimentos.*.valor' => 'required_with:procedimentos|numeric|min:0',
             'newPacient' => ['nullable', 'integer']
-        ];
-    }
-
-    /**
-     * Custom messages for validation.
-     */
-    public function messages()
-    {
-        return [
-            'procedimentos.*.procedimento_id.required_with' => 'O campo procedimento_id é obrigatório se o campo procedimentos estiver presente.',
-            'procedimentos.*.qtde.required_with' => 'A quantidade é obrigatória para cada procedimento informado.',
-            'procedimentos.*.valor.required_with' => 'O valor é obrigatório para cada procedimento informado.',
-        ];
+        ]);
+        return (new AgendaService($this->customAuthService))->createPublic($input);
     }
 }

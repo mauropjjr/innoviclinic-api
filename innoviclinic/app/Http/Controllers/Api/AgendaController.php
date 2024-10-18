@@ -11,6 +11,7 @@ use App\Services\CustomAuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\StoreAgendaRequest;
 
+
 class AgendaController extends Controller
 {
     protected $agendaService;
@@ -25,8 +26,7 @@ class AgendaController extends Controller
 
     public function store(StoreAgendaRequest $request)
     {
-        $request->validated();
-        $data = $request->all();
+        $data = $request->validated();
         return $this->agendaService->create($data);
     }
 
