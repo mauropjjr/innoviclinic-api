@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class RecoveryPassCodeSent extends Notification
+class RecoveryPassCodeSent extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -16,8 +16,15 @@ class RecoveryPassCodeSent extends Notification
      */
     public function __construct()
     {
-        //
+        $this->onConnection('redis');
     }
+
+    // public function viaConnections(): array
+    // {
+    //     return [
+    //         'mail' => 'redis',
+    //     ];
+    // }
 
     /**
      * Get the notification's delivery channels.
