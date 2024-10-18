@@ -68,6 +68,7 @@ class AgendaPublic
             'procedimentos.*.valor' => 'required_with:procedimentos|numeric|min:0'
         ]);
         Auth::login(Pessoa::find($request->profissional_id));
-        return (new AgendaService($this->customAuthService))->createPublic($input);
+        $agenda = (new AgendaService($this->customAuthService))->create($input);
+        return response()->json($agenda);
     }
 }

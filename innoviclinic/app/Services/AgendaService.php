@@ -8,8 +8,6 @@ use App\Enums\AgendaStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\AgendaValidationException;
 use App\Models\AgendaProcedimento;
-use App\Models\Paciente;
-use App\Models\Pessoa;
 
 class AgendaService
 {
@@ -83,6 +81,10 @@ class AgendaService
         try {
             DB::beginTransaction();
 
+            if (is_null($data["paciente_id"]) || $data["paciente_id"] == "") {
+                $data = $this->createUndefinedPacient($data);
+            }
+
             $user = $this->customAuth->getUser();
             $data['empresa_id'] = $user->empresa_profissional->empresa_id;
 
@@ -115,50 +117,15 @@ class AgendaService
         }
     }
 
-
-    public function createPublic(array $data)
+    public function createUndefinedPacient(array $data)
     {
-        try {
-            $agenda = DB::transaction(function() use ($data) {
-                if (is_null($data["paciente_id"]) || $data["paciente_id"] == "") {
-                    $paciente = (new PacienteService($this->customAuth))->create([
-                        "celular" => $data["celular"],
-                        "nome" => $data["nome"],
-                        "usuario_id" => $data["profissional_id"]
-                    ]);
-                    $data["paciente_id"] = $paciente->pessoa_id;
-                }
-
-                $this->verificacoesDisponibilidade($data, null);
-
-                $user = $this->customAuth->getUser();
-                $data['empresa_id'] = $user->empresa_profissional->empresa_id;
-
-                // Criar a agenda
-                $data['agenda_status_id'] = !empty($data['agenda_status_id']) ? $data['agenda_status_id'] : AgendaStatusEnum::CONFIRMAR;
-                $data['duracao_min'] = Utils::calcularDiferencaMinutos($data['hora_ini'], $data['hora_fim']);
-                $agenda = Agenda::create($data);
-
-                // Adicionar os procedimentos associados na agenda
-                $procedimentosData = isset($data['procedimentos']) ? $data['procedimentos'] : null;
-                if (isset($procedimentosData) && is_array($procedimentosData)) {
-                    $procedimentos = [];
-                    foreach ($procedimentosData as $value) {
-                        $procedimentos[] = new AgendaProcedimento(['procedimento_id' => $value['procedimento_id'], 'qtde' => $value['qtde'], 'valor' => $value['valor']]);
-                    }
-                    $agenda->agenda_procedimentos()->saveMany($procedimentos);
-                }
-
-                // Criar o prontuário se não existir
-                (new ProntuarioService())->createIfNotExists($data);
-                return $agenda;
-            });
-            return response()->json($agenda);
-
-        } catch (\Exception $e) {
-            // DB::rollback();
-            throw $e;
-        }
+        $paciente = (new PacienteService($this->customAuth))->create([
+            "celular" => $data["celular"],
+            "nome" => $data["nome"],
+            "usuario_id" => $data["profissional_id"]
+        ]);
+        $data["paciente_id"] = $paciente->pessoa_id;
+        return $data;
     }
 
     public function update(array $data, int $agenda_id)

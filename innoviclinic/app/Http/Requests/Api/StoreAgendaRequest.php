@@ -40,8 +40,13 @@ class StoreAgendaRequest extends FormRequest
                 Rule::exists('salas', 'id')->where('empresa_id', $empresaIdDoUsuarioLogado),
             ],
             'paciente_id' => [
-                'required_unless:newPacient,1',
-                Rule::exists('pessoas', 'id')->where('tipo_usuario', 'Paciente'),
+                'nullable',
+                'integer',
+                function($attribute, $value, $fail) {
+                    if (!is_null($value)) {
+                        Rule::exists('pessoas', 'id')->where('tipo_usuario', 'Paciente');
+                    }
+                },
             ],
             'convenio_id' => [
                 'nullable',
