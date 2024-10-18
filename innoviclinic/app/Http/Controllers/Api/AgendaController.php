@@ -27,7 +27,8 @@ class AgendaController extends Controller
     public function store(StoreAgendaRequest $request)
     {
         $data = $request->validated();
-        return $this->agendaService->create($data);
+        $agenda = $this->agendaService->create($data);
+        return response()->json($agenda);
     }
 
     public function update(StoreAgendaRequest $request, string $id)

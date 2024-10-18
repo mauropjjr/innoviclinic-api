@@ -23,7 +23,6 @@ class PacienteService
                 // Criação do paciente
                 $pessoa = Pessoa::create($data);
                 $pessoa->paciente()->create($data);
-                Auth::login(Pessoa::find($data["usuario_id"]));
                 $user = $this->customAuth->getUser();
                 $prontuario = $data["prontuario"] ?? [];
                 if ($user->tipo_usuario != 'Paciente') {

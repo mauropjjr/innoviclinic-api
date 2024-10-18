@@ -78,7 +78,7 @@ class AgendaService
         }
     }
 
-    public function create(array $data)
+    public function create(array $data) : Agenda
     {
         try {
             DB::beginTransaction();
@@ -108,7 +108,7 @@ class AgendaService
 
             DB::commit();
 
-            return response()->json($agenda);
+            return $agenda;
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
@@ -120,13 +120,12 @@ class AgendaService
     {
         try {
             $agenda = DB::transaction(function() use ($data) {
-                if ($data["newPacient"]) {
+                if (is_null($data["paciente_id"]) || $data["paciente_id"] == "") {
                     $paciente = (new PacienteService($this->customAuth))->create([
                         "celular" => $data["celular"],
                         "nome" => $data["nome"],
                         "usuario_id" => $data["profissional_id"]
                     ]);
-                    // return $paciente;
                     $data["paciente_id"] = $paciente->pessoa_id;
                 }
 

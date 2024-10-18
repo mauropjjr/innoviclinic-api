@@ -2,9 +2,11 @@
 
 namespace App\Http\Public;
 
+use App\Models\Pessoa;
 use App\Services\AgendaService;
 use App\Services\CustomAuthService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class AgendaPublic
@@ -30,8 +32,13 @@ class AgendaPublic
                 Rule::exists('salas', 'id')->where('empresa_id', $request->input("empresa_id")),
             ],
             'paciente_id' => [
-                'required_unless:newPacient,1',
-                Rule::exists('pessoas', 'id')->where('tipo_usuario', 'Paciente'),
+                'nullable',
+                'integer',
+                function($attribute, $value, $fail) {
+                    if (!is_null($value)) {
+                        Rule::exists('pessoas', 'id')->where('tipo_usuario', 'Paciente');
+                    }
+                },
             ],
             'convenio_id' => [
                 'nullable',
@@ -58,9 +65,9 @@ class AgendaPublic
                 Rule::exists('procedimentos', 'id')->where('empresa_id', $request->input("empresa_id")),
             ],
             'procedimentos.*.qtde' => 'required_with:procedimentos|integer|min:1',
-            'procedimentos.*.valor' => 'required_with:procedimentos|numeric|min:0',
-            'newPacient' => ['nullable', 'integer']
+            'procedimentos.*.valor' => 'required_with:procedimentos|numeric|min:0'
         ]);
+        Auth::login(Pessoa::find($request->profissional_id));
         return (new AgendaService($this->customAuthService))->createPublic($input);
     }
 }
