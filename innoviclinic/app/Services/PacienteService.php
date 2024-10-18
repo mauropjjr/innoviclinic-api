@@ -22,7 +22,8 @@ class PacienteService
             $paciente = DB::transaction(function () use ($data) {
                 // Criação do paciente
                 $pessoa = Pessoa::create($data);
-                $pessoa->paciente()->create($data);
+                $pessoaPaciente = $data["paciente"] ?? [];
+                $pessoa->paciente()->create($pessoaPaciente);
                 $user = $this->customAuth->getUser();
                 $prontuario = $data["prontuario"] ?? [];
                 if ($user->tipo_usuario != 'Paciente') {
