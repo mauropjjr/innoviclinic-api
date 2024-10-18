@@ -8,7 +8,6 @@ use App\Enums\AgendaStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\AgendaValidationException;
 use App\Models\AgendaProcedimento;
-use Symfony\Component\HttpFoundation\Response;
 
 class AgendaService
 {
@@ -77,10 +76,14 @@ class AgendaService
         }
     }
 
-    public function create(array $data)
+    public function create(array $data) : Agenda
     {
         try {
             DB::beginTransaction();
+
+            if (is_null($data["paciente_id"]) || $data["paciente_id"] == "") {
+                $data = $this->createUndefinedPacient($data);
+            }
 
             $user = $this->customAuth->getUser();
             $data['empresa_id'] = $user->empresa_profissional->empresa_id;
@@ -107,11 +110,22 @@ class AgendaService
 
             DB::commit();
 
-            return response()->json($agenda);
+            return $agenda;
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
+    }
+
+    public function createUndefinedPacient(array $data)
+    {
+        $paciente = (new PacienteService($this->customAuth))->create([
+            "celular" => $data["celular"],
+            "nome" => $data["nome"],
+            "usuario_id" => $data["profissional_id"]
+        ]);
+        $data["paciente_id"] = $paciente->pessoa_id;
+        return $data;
     }
 
     public function update(array $data, int $agenda_id)

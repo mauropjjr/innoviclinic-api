@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\SalaController;
 use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AgendaTipoController;
+use App\Http\Public\AgendaPublic;
 
 /*
 |--------------------------------------------------------------------------
@@ -215,6 +216,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 //metodos publicos
 Route::get("/empresas/with/{id}", [EmpresaController::class, "getWith"]);
+Route::post("/public/agendas", [AgendaPublic::class, "store"]);
 
 Route::get('/', function () {
     return response()->json([
