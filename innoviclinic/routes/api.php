@@ -28,8 +28,10 @@ use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AgendaTipoController;
 use App\Http\Public\AgendaPublic;
+use App\Mail\RecoveryPassCodeSent as MailRecoveryPassCodeSent;
 use App\Models\Pessoa;
 use App\Notifications\RecoveryPassCodeSent;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 
 /*
@@ -226,14 +228,10 @@ Route::post("/public/agendas", [AgendaPublic::class, "store"]);
  
 Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
-
     $user = Pessoa::where("email", $request->email)->get(["id"])->toArray();
-    // return response()->json($user);
     $user = Pessoa::find($user[0]["id"]);
-    $status = $user->notify(new RecoveryPassCodeSent());
-    // return $status === Password::RESET_LINK_SENT
-    //             ? back()->with(['status' => __($status)])
-    //             : back()->withErrors(['email' => __($status)]);
+    // $status = $user->notify(new RecoveryPassCodeSent());
+    Mail::to($user)->send(new MailRecoveryPassCodeSent());
 });
 
 
