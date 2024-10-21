@@ -8,12 +8,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Headers;
 
 class RecoveryPassCodeSent extends Mailable
-// implements ShouldQueue
+implements ShouldQueue
 {
-    // use Queueable,
-    // SerializesModels;
+    use Queueable,
+    SerializesModels;
 
     /**
      * Create a new message instance.
@@ -30,6 +31,16 @@ class RecoveryPassCodeSent extends Mailable
     {
         return new Envelope(
             subject: 'Recovery Pass Code Sent',
+        );
+    }
+    
+    public function headers(): Headers
+    {
+        //X-Entity-Ref-ID pq o gmail tá bugando o html achando que a mensagem é uma conversa https://stackoverflow.com/questions/16689882/gmail-wraps-certain-html-elements-in-a-class-called-im
+        return new Headers(
+            text: [
+                'X-Entity-Ref-ID' => 'force',
+            ],
         );
     }
 
