@@ -28,11 +28,9 @@ use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AgendaTipoController;
 use App\Http\Public\AgendaPublic;
-use App\Mail\RecoveryPassCodeSent as MailRecoveryPassCodeSent;
+use App\Jobs\ProcessRecoveryPassCodeSent;
+use App\Models\Otp;
 use App\Models\Pessoa;
-use App\Notifications\RecoveryPassCodeSent;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 
 /*
 |--------------------------------------------------------------------------
@@ -230,8 +228,9 @@ Route::post('/forgot-password', function (Request $request) {
     $request->validate(['email' => 'required|email']);
     $user = Pessoa::where("email", $request->email)->get(["id"])->toArray();
     $user = Pessoa::find($user[0]["id"]);
-    // $status = $user->notify(new RecoveryPassCodeSent());
-    Mail::to($user)->send(new MailRecoveryPassCodeSent());
+    $otp = Otp::create(["pessoa_id" => $user->id]);
+    
+    ProcessRecoveryPassCodeSent::dispatch($user, $otp);
 });
 
 

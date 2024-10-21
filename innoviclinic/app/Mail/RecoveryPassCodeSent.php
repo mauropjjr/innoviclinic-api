@@ -11,9 +11,8 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Headers;
 
 class RecoveryPassCodeSent extends Mailable
-implements ShouldQueue
 {
-    use Queueable,
+    use 
     SerializesModels;
 
     /**
