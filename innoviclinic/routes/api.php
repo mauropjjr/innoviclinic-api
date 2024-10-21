@@ -28,6 +28,9 @@ use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AgendaTipoController;
 use App\Http\Public\AgendaPublic;
+use App\Jobs\ProcessRecoveryPassCodeSent;
+use App\Models\Otp;
+use App\Models\Pessoa;
 
 /*
 |--------------------------------------------------------------------------
@@ -218,8 +221,22 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::get("/empresas/with/{id}", [EmpresaController::class, "getWith"]);
 Route::post("/public/agendas", [AgendaPublic::class, "store"]);
 
+//recovery password
+
+ 
+Route::post('/forgot-password', function (Request $request) {
+    $request->validate(['email' => 'required|email']);
+    $user = Pessoa::where("email", $request->email)->get(["id"])->toArray();
+    $user = Pessoa::find($user[0]["id"]);
+    $otp = Otp::create(["pessoa_id" => $user->id]);
+    
+    ProcessRecoveryPassCodeSent::dispatch($user, $otp);
+});
+
+
 Route::get('/', function () {
     return response()->json([
         'success' => true
     ]);
 });
+
