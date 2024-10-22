@@ -28,6 +28,7 @@ use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AgendaTipoController;
 use App\Http\Public\AgendaPublic;
+use App\Http\Public\EmpresaPublic;
 use App\Jobs\ProcessRecoveryPassCodeSent;
 use App\Models\Otp;
 use App\Models\Pessoa;
@@ -218,7 +219,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 //metodos publicos
-Route::get("/empresas/with/{id}", [EmpresaController::class, "getWith"]);
+Route::get("/public/empresas/{id}", [EmpresaPublic::class, "index"]);
 Route::post("/public/agendas", [AgendaPublic::class, "store"]);
 
 //recovery password

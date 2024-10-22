@@ -158,6 +158,7 @@ class Pessoa extends  Authenticatable
     }
 
     
+
     public function profissional_especialidades_v2()
     {
         return $this->hasMany(
