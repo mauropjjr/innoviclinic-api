@@ -226,12 +226,12 @@ Route::post("/public/agendas", [AgendaPublic::class, "store"]);
 
  
 Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email']);
+    $request->validate(['email' => 'required|email|exists:pessoas,email']);
     $user = Pessoa::where("email", $request->email)->get(["id"])->toArray();
     $user = Pessoa::find($user[0]["id"]);
     $otp = Otp::create(["pessoa_id" => $user->id]);
     
-    ProcessRecoveryPassCodeSent::dispatch($user, $otp);
+    ProcessRecoveryPassCodeSent::dispatch($otp, $user);
 });
 
 
