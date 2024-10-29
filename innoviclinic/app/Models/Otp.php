@@ -9,7 +9,7 @@ class Otp extends Model
 {
     use HasFactory;
 
-
+    const UPDATED_AT = null;
 	protected $table = 'otps';
 
 	protected $casts = [
@@ -30,8 +30,9 @@ class Otp extends Model
 	{
 		parent::boot();
 		static::creating(function ($objeto) {
-			$user = Pessoa::find($objeto->pessoa_id);
-			if ($lastOtp = Otp::where("email", $user->email)->exists()) {
+			// $user = Pessoa::find($objeto->pessoa_id);
+			$lastOtp = Otp::where("pessoa_id", $objeto->pessoa_id);
+			if ($lastOtp->exists()) {
 				$lastOtp->delete();
 			}
 			$objeto->code = mt_rand(100000, 999999);

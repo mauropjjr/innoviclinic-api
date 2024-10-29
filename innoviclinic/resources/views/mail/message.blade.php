@@ -142,7 +142,7 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
   <tbody><tr>
     <td style="padding-right: 0px;padding-left: 0px;" align="center">
       
-      <img align="middle" border="0" src="https://cdn.templates.unlayer.com/assets/1701676201199-password.png" alt="image" title="image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 190px;" width="190">
+      <img align="middle" border="0" src="{{$otpImage}}" alt="image" title="image" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 100%;max-width: 190px;" width="190">
       
     </td>
   </tr>
@@ -179,7 +179,7 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
 <div align="center">
     <a href="https://unlayer.com" target="_blank" class="v-button v-size-width" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #000000; background-color: #ffffff; border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px; width:38%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-color: #000000; border-top-style: solid; border-top-width: 2px; border-left-color: #000000; border-left-style: solid; border-left-width: 2px; border-right-color: #000000; border-right-style: solid; border-right-width: 2px; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 2px;font-size: 18px;">
-      <span style="display:block;padding:10px 20px;line-height:120%;">264301</span>
+      <span style="display:block;padding:10px 20px;line-height:120%;">{{$code}}</span>
     </a>
 </div>
       </td>
@@ -202,7 +202,6 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
 <div>
   <span style="line-height:inherit;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">If you have any questions, contact our Support</span>
 </div>
-<!-- <p style="line-height: 140%;">If you have any questions, contact our Support</p> -->
   </div>
       </td>
     </tr>

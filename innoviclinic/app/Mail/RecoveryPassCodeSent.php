@@ -2,8 +2,7 @@
 
 namespace App\Mail;
 
-use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Models\Otp;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
@@ -15,11 +14,13 @@ class RecoveryPassCodeSent extends Mailable
     use 
     SerializesModels;
 
+    public Otp $otp;
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(Otp $otp)
     {
+        $this->otp = $otp;
         // $this->onQueue('default:emails');
     }
 
@@ -48,8 +49,16 @@ class RecoveryPassCodeSent extends Mailable
      */
     public function content(): Content
     {
+        // $otpImage = ;
+        // if (!file_exists($otpImage)) {
+        //     die("nexise[te");
+        // }
         return new Content(
             markdown: 'mail.message',
+            with: [
+                "code" => $this->otp->code,
+                "otpImage" => asset('storage/otp.jpg')
+            ]
         );
     }
 

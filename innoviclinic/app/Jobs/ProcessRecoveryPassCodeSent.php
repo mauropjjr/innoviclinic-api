@@ -36,6 +36,6 @@ class ProcessRecoveryPassCodeSent implements ShouldQueue
      */
     public function handle(): void
     {
-        Mail::to($this->user)->send(new RecoveryPassCodeSent());
+        Mail::to($this->user)->send(new RecoveryPassCodeSent($this->otp));
     }
 }
