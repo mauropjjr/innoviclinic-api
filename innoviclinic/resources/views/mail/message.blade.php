@@ -168,7 +168,7 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
   <tbody>
     <tr>
       <td style="overflow-wrap:break-word;word-break:break-word;padding:30px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
-    <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Montserrat',sans-serif; font-size: 22px; font-weight: 700;"><span><span>Your 6-digit code is:</span></span></h1>
+    <h1 style="margin: 0px; line-height: 140%; text-align: center; word-wrap: break-word; font-family: 'Montserrat',sans-serif; font-size: 22px; font-weight: 700;"><span><span>{{__('Your 6-digit code is:')}}</span></span></h1>
       </td>
     </tr>
   </tbody>
@@ -178,9 +178,9 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
     <tr>
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
 <div align="center">
-    <a href="https://unlayer.com" target="_blank" class="v-button v-size-width" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #000000; background-color: #ffffff; border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px; width:38%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-color: #000000; border-top-style: solid; border-top-width: 2px; border-left-color: #000000; border-left-style: solid; border-left-width: 2px; border-right-color: #000000; border-right-style: solid; border-right-width: 2px; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 2px;font-size: 18px;">
+    <div href="https://unlayer.com" target="_blank" class="v-button v-size-width" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #000000; background-color: #ffffff; border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px; width:38%; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-color: #000000; border-top-style: solid; border-top-width: 2px; border-left-color: #000000; border-left-style: solid; border-left-width: 2px; border-right-color: #000000; border-right-style: solid; border-right-width: 2px; border-bottom-color: #000000; border-bottom-style: solid; border-bottom-width: 2px;font-size: 18px;">
       <span style="display:block;padding:10px 20px;line-height:120%;">{{$code}}</span>
-    </a>
+</div>
 </div>
       </td>
     </tr>
@@ -194,13 +194,13 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
     <p style="line-height: 140%;"></p>
 <p style="line-height: 140%;"></p>
 <!-- Este código de verificação é valido por 20 minutos. -->
-<p style="line-height: 140% !important; text-align: center !important;">This verification code is valid for 20 minutes.</p>
+<p style="line-height: 140% !important; text-align: center !important;">{{__('This verification code is valid for 20 minutes.')}}</p>
 
 <br>
 <br>
 <br>
 <div>
-  <span style="line-height:inherit;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">If you have any questions, contact our Support</span>
+  <span style="line-height:inherit;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol'">{{__('If you have any questions, contact our Support')}}</span>
 </div>
   </div>
       </td>
@@ -232,7 +232,7 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
         
   <div style="font-size: 14px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
     <!-- A Innoviclinic nunca solicita suas credenciais, como senha, documentos pessoais por telefone, e-mail ou mensagens de texto. Caso receba algum contato pedindo esses dados, desconsidere e entre em contato conosco diretamente pelos nossos canais oficiais oficial. -->
-    <p style="font-size: 14px; line-height: 140%;">Innoviclinic never requests your credentials, such as passwords or personal documents, via phone, email, or text messages. If you receive any contact asking for this information, disregard it and get in touch with us directly through our official channels&nbsp;</p>
+    <p style="font-size: 14px; line-height: 140%;">{{__('Innoviclinic never requests your credentials, such as passwords or personal documents, via phone, email, or text messages. If you receive any contact asking for this information, disregard it and get in touch with us directly through our official channels')}}</p>
   </div>
 
       </td>
@@ -276,7 +276,7 @@ console.error('Upgrade your browser. This Browser is NOT supported WebSocket for
         
   <div style="font-size: 14px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word;">
     <!-- © [Ano] Innoviclinic. Todos os direitos reservados. -->
-    <p style="font-size: 14px; line-height: 140%; text-align: center;">© 2024 Innoviclinic. All rights reserved.</p>
+    <p style="font-size: 14px; line-height: 140%; text-align: center;">{{__('© 2024 Innoviclinic. All rights reserved.')}}</p>
   </div>
 
       </td>

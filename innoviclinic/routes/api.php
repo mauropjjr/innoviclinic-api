@@ -27,6 +27,7 @@ use App\Http\Controllers\Api\SalaController;
 use App\Http\Controllers\Api\SecaoController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\AgendaTipoController;
+use App\Http\Controllers\Api\RecoveryPasswordController;
 use App\Http\Public\AgendaPublic;
 use App\Http\Public\EmpresaPublic;
 use App\Jobs\ProcessRecoveryPassCodeSent;
@@ -225,14 +226,7 @@ Route::post("/public/agendas", [AgendaPublic::class, "store"]);
 //recovery password
 
  
-Route::post('/forgot-password', function (Request $request) {
-    $request->validate(['email' => 'required|email|exists:pessoas,email']);
-    $user = Pessoa::where("email", $request->email)->get(["id"])->toArray();
-    $user = Pessoa::find($user[0]["id"]);
-    $otp = Otp::create(["pessoa_id" => $user->id]);
-    
-    ProcessRecoveryPassCodeSent::dispatch($otp, $user);
-});
+Route::post('/forgot-password', [RecoveryPasswordController::class, 'otp']);
 
 
 Route::get('/', function () {
