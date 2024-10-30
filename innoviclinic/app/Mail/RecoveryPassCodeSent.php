@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Headers;
+use Illuminate\Support\Facades\Storage;
 
 class RecoveryPassCodeSent extends Mailable
 {
@@ -49,17 +50,21 @@ class RecoveryPassCodeSent extends Mailable
      */
     public function content(): Content
     {
-        // $otpImage = ;
-        // if (!file_exists($otpImage)) {
-        //     die("nexise[te");
-        // }
         return new Content(
             markdown: 'mail.message',
             with: [
                 "code" => $this->otp->code,
-                "otpImage" => asset('storage/otp.jpg')
+                "otpImage" => $this->getOtpImage("otp.jpg")
             ]
         );
+    }
+
+    public function getOtpImage(string $fileName)
+    {
+        if (Storage::disk("public")->exists($fileName)) {
+            return asset('storage/public/'.$fileName);
+        }
+        return asset('storage/public/default.jpg');
     }
 
     /**
