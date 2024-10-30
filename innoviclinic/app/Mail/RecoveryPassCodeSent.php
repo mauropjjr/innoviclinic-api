@@ -31,7 +31,7 @@ class RecoveryPassCodeSent extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Recovery Pass Code Sent',
+            subject: __('Innoviclinic code :code', ['code' => $this->otp->code]),
         );
     }
     
