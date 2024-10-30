@@ -31,7 +31,7 @@ class RecoveryPassCodeSent extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Recovery Pass Code Sent',
+            subject: __('Innoviclinic code :code', ['code' => $this->otp->code]),
         );
     }
     
@@ -54,17 +54,14 @@ class RecoveryPassCodeSent extends Mailable
             markdown: 'mail.message',
             with: [
                 "code" => $this->otp->code,
-                "otpImage" => $this->getOtpImage("otp.jpg")
+                "otpImage" => $this->getOtpImage(env('OTP_EMAIL_IMAGE_NAME', 'otp.jpg'))
             ]
         );
     }
 
     public function getOtpImage(string $fileName)
     {
-        if (Storage::disk("public")->exists($fileName)) {
-            return asset('storage/public/'.$fileName);
-        }
-        return asset('storage/public/default.jpg');
+        return asset('storage/public/'.$fileName);
     }
 
     /**
