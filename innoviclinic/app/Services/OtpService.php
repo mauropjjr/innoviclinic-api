@@ -16,6 +16,5 @@ class OtpService
         $user = Pessoa::where("email", $request->email)->get(["id"])->toArray();
         $user = Pessoa::find($user[0]["id"]);
         $otp = Otp::create(["pessoa_id" => $user->id]);
-        $proccess = ProcessRecoveryPassCodeSent::dispatch($otp, $user);
     }
 }
