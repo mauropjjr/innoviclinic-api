@@ -27,7 +27,7 @@ class ProcessRecoveryPassCodeSent implements ShouldQueue
     {
         $this->otp = $otp;
         $this->$user = $user;
-        $this->onQueue('emails');
+        $this->onQueue(env('QUEUE_EMAILS', 'emails'));
     }
 
 
