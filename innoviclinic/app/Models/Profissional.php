@@ -86,4 +86,9 @@ class Profissional extends Model
     {
         return $this->hasMany(ProfissionalEspecialidade::class, 'profissional_id');
     }
+
+	public function agendas()
+	{
+		return $this->hasMany(Agenda::class, 'profissional_id');
+	}
 }

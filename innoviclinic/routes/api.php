@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\AgendaTipoController;
 use App\Http\Controllers\Api\RecoveryPasswordController;
 use App\Http\Public\AgendaPublic;
 use App\Http\Public\EmpresaPublic;
+use App\Http\Public\ProfissionalPublic;
 use App\Jobs\ProcessRecoveryPassCodeSent;
 use App\Models\Otp;
 use App\Models\Pessoa;
@@ -220,8 +221,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 });
 
 //metodos publicos
-Route::get("/public/empresas/{id}", [EmpresaPublic::class, "index"]);
-Route::post("/public/agendas", [AgendaPublic::class, "store"]);
+Route::group(['prefix' => 'public'], function () {
+    Route::get("/empresas/{id}", [EmpresaPublic::class, "index"]);
+    Route::post("/agendas", [AgendaPublic::class, "store"]);
+    Route::get('/profissionais/{profissional_id}/agendas', [ProfissionalPublic::class, "getAgendas"]);
+});
 
 //recovery password
 
@@ -230,6 +234,7 @@ Route::post('/forgot-password', [RecoveryPasswordController::class, 'otp']);
 
 
 Route::get('/', function () {
+
     return response()->json([
         'success' => true
     ]);
