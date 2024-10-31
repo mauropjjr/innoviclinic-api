@@ -8,6 +8,7 @@ use App\Enums\AgendaStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\AgendaValidationException;
 use App\Models\AgendaProcedimento;
+use App\Models\Profissional;
 
 class AgendaService
 {
@@ -238,10 +239,5 @@ class AgendaService
         }
 
         return $resultados;
-    }
-
-    public function getByProfissional()
-    {
-        return "teste";
     }
 }

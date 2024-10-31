@@ -5,6 +5,7 @@ namespace App\Http\Public;
 use App\Models\Pessoa;
 use App\Services\AgendaService;
 use App\Services\CustomAuthService;
+use App\Services\ProfissionalService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -72,9 +73,12 @@ class AgendaPublic
         return response()->json($agenda);
     }
 
-    public function a(Request $request)
+    public function getByProfissional(Request $request)
     {
-        Auth::login(Pessoa::find($request->profissional_id));
-        return (new AgendaService($this->customAuthService))->getByProfissional($request);
+        $request->validate([
+            'id' => 'exists:pessoas,id'
+        ]);
+        Auth::login(Pessoa::find($request->id));
+        return (new ProfissionalService($this->customAuthService))->getAgendas($request->all());
     }
 }
