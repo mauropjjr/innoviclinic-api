@@ -71,4 +71,10 @@ class AgendaPublic
         $agenda = (new AgendaService($this->customAuthService))->create($input);
         return response()->json($agenda);
     }
+
+    public function a(Request $request)
+    {
+        Auth::login(Pessoa::find($request->profissional_id));
+        return (new AgendaService($this->customAuthService))->getByProfissional($request);
+    }
 }

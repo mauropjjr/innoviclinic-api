@@ -239,4 +239,9 @@ class AgendaService
 
         return $resultados;
     }
+
+    public function getByProfissional()
+    {
+        return "teste";
+    }
 }
