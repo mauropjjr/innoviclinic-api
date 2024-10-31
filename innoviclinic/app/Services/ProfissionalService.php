@@ -24,7 +24,8 @@ class ProfissionalService
                     ["data", "<", (Carbon::parse($data["dataHora"]))->addDays(3)]
                 ])
                 ->select()
-                ->orderBy("data", "asc");
+                ->orderBy("data", "asc")
+                ->orderBy("hora_ini", "asc");
             }
         ])
         ->where([
