@@ -225,6 +225,7 @@ Route::group(['prefix' => 'public'], function () {
     Route::get("/empresas/{id}", [EmpresaPublic::class, "index"]);
     Route::post("/agendas", [AgendaPublic::class, "store"]);
     Route::get('/profissionais/{profissional_id}/agendas', [ProfissionalPublic::class, "getAgendas"]);
+    Route::get('/profissionais/{profissional_id}/agendas/disponiveis',[ProfissionalPublic::class, "getAgendasDisponiveis"]);
 });
 
 //recovery password
