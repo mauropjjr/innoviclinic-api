@@ -21,6 +21,25 @@ class ProfissionalPublic
     public function getAgendas(int $profissional_id, Request $request)
     {
         $request->validate([
+            "dataHora" => "required|date",
+            "profissional_id" => "required|exists:pessoas,id",
+            "empresa_id" => "required|exists:empresas,id"
+        ]);
+        
+        $objeto = Pessoa::findOr($profissional_id, fn () => response()->json([
+            "message" => __("User not found")
+        ], Response::HTTP_NOT_FOUND));
+
+        if (!$objeto instanceof Pessoa) {
+            return $objeto;
+        }
+
+        Auth::login(Pessoa::find($request->profissional_id));
+        return (new ProfissionalService($this->customAuthService))->getAgendas($request->all());
+    }
+    public function getAgendasDisponiveis(int $profissional_id, Request $request)
+    {
+        $request->validate([
             "dataHora" => "required|date"
         ]);
         
@@ -33,9 +52,6 @@ class ProfissionalPublic
         }
 
         Auth::login($objeto);
-        return (new ProfissionalService($this->customAuthService))->getAgendas([
-            "profissional_id" => $profissional_id,
-            "dataHora" => $request->dataHora
-        ]);
+        return (new ProfissionalService($this->customAuthService))->getHorariosDisponiveis($request->all());
     }
 }
