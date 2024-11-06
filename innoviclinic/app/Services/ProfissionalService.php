@@ -37,67 +37,59 @@ class ProfissionalService
         ->get()
         ;
     }
-    public function getHorariosDisponiveis(array $data)
-    {
-        // $data["empresa_id"]= 1;
-        // $data["profissional_id"]= 1;
-        $empresaConfig = EmpresaConfiguracao::where("empresa_id", $data["empresa_id"])->first();
-        $dayStart = $empresaConfig->hora_ini_agenda;
-        $dayEnd = $empresaConfig->hora_fim_agenda;
-        list($hours, $minutes) = explode(":", $empresaConfig->duracao_atendimento);
-        $interval = ($hours * 60) + $minutes;
-    
-        $date = Carbon::parse($data["dataHora"]);
-        $occupiedAgendas = Agenda::where('profissional_id', $data["profissional_id"])
-            ->whereBetween('data', [$date, $date->addDays(2)])
-            ->get(['hora_ini', 'hora_fim']);
-    
-        $currentTime = Carbon::createFromFormat('Y-m-d H:i', $date->toDateString() . ' ' . $dayStart);
-        $endTime = Carbon::createFromFormat('Y-m-d H:i', $date->toDateString() . ' ' . $dayEnd);
-    
-        $occupiedTimes = $occupiedAgendas->map(function ($agenda) use ($date) {
-            return [
-                'start' => Carbon::createFromFormat('Y-m-d H:i', $date->toDateString() . ' ' . $agenda->hora_ini),
-                'end' => Carbon::createFromFormat('Y-m-d H:i', $date->toDateString() . ' ' . $agenda->hora_fim),
-            ];
-        });
-    
-        $availableSlots = [];
-        while ($currentTime->lt($endTime)) {
-            $slotEndTime = $currentTime->copy()->addMinutes($interval);
-            $isAvailable = !$occupiedTimes->contains(function ($occupied) use ($currentTime, $slotEndTime) {
-                return $currentTime->lt($occupied['end']) && $slotEndTime->gt($occupied['start']);
-            });
-    
-            if ($isAvailable) {
-                $availableSlots[] = [
-                    'start' => $currentTime->format('H:i'),
-                    'end' => $slotEndTime->format('H:i'),
-                ];
-            }
-    
-            $currentTime->addMinutes($interval);
-        }
-    
-        return $this->compareAvailabilityWithWorkHours($data["profissional_id"], $availableSlots);
-    }
-    
-    public function compareAvailabilityWithWorkHours($profissionalId, $availableSlots)
-    {
-        $workHours = ProfissionalAgenda::where("profissional_id", $profissionalId)
-            ->get(["hora_ini", "hora_fim"]);
-    
-        return collect($availableSlots)->filter(function ($slot) use ($workHours) {
-            $slotStart = Carbon::createFromFormat('H:i', $slot['start']);
-            $slotEnd = Carbon::createFromFormat('H:i', $slot['end']);
-    
-            return $workHours->contains(function ($workHour) use ($slotStart, $slotEnd) {
-                $workStart = Carbon::createFromFormat('H:i', $workHour->hora_ini);
-                $workEnd = Carbon::createFromFormat('H:i', $workHour->hora_fim);
-    
-                return $slotStart >= $workStart && $slotEnd <= $workEnd;
-            });
-        })->values()->all();
-    }
+    // public function getHorariosDisponiveis(array $data)
+    // {
+    //         $empresaConfig = EmpresaConfiguracao::where("empresa_id", $data["empresa_id"])->first();
+    //         $dayStart = $empresaConfig->hora_ini_agenda;
+    //         $dayEnd = $empresaConfig->hora_fim_agenda;
+            
+    //         $date = Carbon::parse($data["dataHora"]);
+    //         $endDate = $date->copy()->addDays(1);
+    //         $occupiedAgendas = Agenda::where('profissional_id', $data["profissional_id"])
+    //             ->where('data', '=', $data["dataHora"])
+    //             // ->where("data", "<", $endDate)
+    //             ->orderBy("data")
+    //             ->orderBy("hora_ini")
+    //             ->orderBy("hora_fim")
+    //             ->get(['hora_ini', 'hora_fim', 'data'])
+    //             ->toArray();
+
+    //         // return $occupiedAgendas;
+    //         $dayStarCarbon = Carbon::parse($dayStart);
+    //         $firstTimeCarbon = Carbon::parse($occupiedAgendas[0]["hora_ini"]);
+    //         $primeiroIntervalo = $dayStarCarbon->diffInMinutes($firstTimeCarbon);
+    //         $disponiveis = [];
+    //         if ($primeiroIntervalo >= 60) {
+    //             $disponiveis[] = [
+    //                 "hora_ini" => $dayStarCarbon,
+    //                 "hora_fim" => $firstTimeCarbon
+    //             ];
+    //         }
+
+    //         $hora_fim = $occupiedAgendas[0]["hora_fim"];
+            
+    //         $hora_ini = $occupiedAgendas[1]["hora_ini"];
+    //         $hora_ini = Carbon::parse($hora_ini);
+    //         $hora_fim = Carbon::parse($hora_fim);
+    //         $intervalo = $hora_fim->diffInMinutes($hora_ini);
+    //         if ($intervalo > 60) {
+    //             $intervaloINT = $intervalo/60;
+    //             // return $intervaloINT;
+    //             for ($c = 0; $c < $intervaloINT; $c++) {
+    //                 $disponiveis[] = [
+    //                     "hora_ini" => $hora_fim->copy(),
+    //                     "hora_fim" => $hora_fim->copy()->addHour(1)
+    //                 ];
+    //                 $hora_fim->addHour(1);
+    //             }
+    //         }
+
+    //         // if ()
+    //         // return $dayStart;
+    //         return $disponiveis;
+    // }
+
+
+
     
 }
