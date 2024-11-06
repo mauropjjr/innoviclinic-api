@@ -37,58 +37,110 @@ class ProfissionalService
         ->get()
         ;
     }
-    // public function getHorariosDisponiveis(array $data)
-    // {
-    //         $empresaConfig = EmpresaConfiguracao::where("empresa_id", $data["empresa_id"])->first();
-    //         $dayStart = $empresaConfig->hora_ini_agenda;
-    //         $dayEnd = $empresaConfig->hora_fim_agenda;
+
+    
+    public function getHorariosDisponiveis(array $data)
+    {
+        $dataHora = Carbon::parse($data["dataHora"]);
+        $empresaConfig = EmpresaConfiguracao::where("empresa_id", $data["empresa_id"])->first();
+        $agenda = Agenda::where('profissional_id', $data["profissional_id"])
+        ->where('data', '>=', $dataHora->copy()->format("Y-m-d"))
+        ->where('data', '<', $dataHora->addDays(3))
+        // ->where("data", "<", $endDate)
+        ->orderBy("data")
+        ->orderBy("hora_ini")
+        ->orderBy("hora_fim")
+        ->get(['hora_ini', 'hora_fim', 'data'])
+        ->toArray();
+
+        // return $agenda;
+        $dataAnterior = null;
+        $datas = [];
+        $datasMae = [];
+        for ($c=0; $c < count($agenda); $c++) {
+            $dataAtual = Carbon::parse($agenda[$c]["data"]);
+            if ($dataAtual->greaterThan($dataAnterior)) {
+                $datasMae[] = $datas;
+                $datas = [];
+            }
+            $datas[] = [
+                "hora_ini" => $agenda[$c]["hora_ini"],
+                "hora_fim" => $agenda[$c]["hora_fim"],
+                // "data" => $agenda[$c]["data"]
+            ];
+            $dataAnterior = Carbon::parse($agenda[$c]["data"]);
+
+            if ($c == (count($agenda)-1)) {
+                $datasMae[] = $datas;
+            }
+        }
+        // return $datasMae;
+        $response = [];
+        for ($c=0; $c <= 2; $c++) {
+            $response[] = $this->getDisponiveis($data, $empresaConfig, $datasMae[$c]);
+        }
+        // $response[] = $this->getDisponiveis($data, $empresaConfig, $datasMae[2]);
+        return $response;
+    }
+    
+    public function getDisponiveis(array $data, $empresaConfig, $agenda)
+    {
+            if (count($agenda) == 0) {
+                return [];
+            }
+            $dataHora = Carbon::parse($data["dataHora"]);
             
-    //         $date = Carbon::parse($data["dataHora"]);
-    //         $endDate = $date->copy()->addDays(1);
-    //         $occupiedAgendas = Agenda::where('profissional_id', $data["profissional_id"])
-    //             ->where('data', '=', $data["dataHora"])
-    //             // ->where("data", "<", $endDate)
-    //             ->orderBy("data")
-    //             ->orderBy("hora_ini")
-    //             ->orderBy("hora_fim")
-    //             ->get(['hora_ini', 'hora_fim', 'data'])
-    //             ->toArray();
-
-    //         // return $occupiedAgendas;
-    //         $dayStarCarbon = Carbon::parse($dayStart);
-    //         $firstTimeCarbon = Carbon::parse($occupiedAgendas[0]["hora_ini"]);
-    //         $primeiroIntervalo = $dayStarCarbon->diffInMinutes($firstTimeCarbon);
-    //         $disponiveis = [];
-    //         if ($primeiroIntervalo >= 60) {
-    //             $disponiveis[] = [
-    //                 "hora_ini" => $dayStarCarbon,
-    //                 "hora_fim" => $firstTimeCarbon
-    //             ];
-    //         }
-
-    //         $hora_fim = $occupiedAgendas[0]["hora_fim"];
+            $dayStart = $dataHora->setTimeFromTimeString($empresaConfig->hora_ini_agenda)->copy();
+            $dayEnd = $dataHora->setTimeFromTimeString($empresaConfig->hora_fim_agenda)->copy();
+            $occupiedAgendas = $agenda;
             
-    //         $hora_ini = $occupiedAgendas[1]["hora_ini"];
-    //         $hora_ini = Carbon::parse($hora_ini);
-    //         $hora_fim = Carbon::parse($hora_fim);
-    //         $intervalo = $hora_fim->diffInMinutes($hora_ini);
-    //         if ($intervalo > 60) {
-    //             $intervaloINT = $intervalo/60;
-    //             // return $intervaloINT;
-    //             for ($c = 0; $c < $intervaloINT; $c++) {
-    //                 $disponiveis[] = [
-    //                     "hora_ini" => $hora_fim->copy(),
-    //                     "hora_fim" => $hora_fim->copy()->addHour(1)
-    //                 ];
-    //                 $hora_fim->addHour(1);
-    //             }
-    //         }
+            for ($c=0; $c < count($occupiedAgendas); $c++) {
+                $parsed = Carbon::parse($occupiedAgendas[$c]["hora_ini"]);
+                $occupiedAgendas[$c]["hora_ini"] = $dataHora->setTimeFromTimeString($parsed->toTimeString())->copy();
+                
+                $parsed = Carbon::parse($occupiedAgendas[$c]["hora_fim"]);
+                $occupiedAgendas[$c]["hora_fim"] = ($dataHora)->setTimeFromTimeString($parsed->toTimeString())->copy();
+            }
+            $primeiroIntervalo = $dayStart->diffInMinutes($occupiedAgendas[0]["hora_ini"]);
+            $disponiveis = [];
 
-    //         // if ()
-    //         // return $dayStart;
-    //         return $disponiveis;
-    // }
-
+            if ($primeiroIntervalo >= 60) {
+                $disponiveis[] = [
+                    "hora_ini" => $dataHora->setTimeFromTimeString($dayStart->toTimeString())->copy(),
+                    "hora_fim" => $dataHora->setTimeFromTimeString($occupiedAgendas[0]["hora_ini"]->toTimeString())->copy(),
+                ];
+            }
+            if (count($occupiedAgendas) > 1) {
+                for ($c=1; $c < count($occupiedAgendas); $c++) {
+                    $hora_fim = $occupiedAgendas[$c-1]["hora_fim"]->copy();
+                    $hora_ini = $occupiedAgendas[$c]["hora_ini"]->copy();
+                    $intervalo = $hora_fim->diffInMinutes($hora_ini);
+                    
+                    if ($intervalo > 60) {
+                        $intervaloINT = $intervalo/60;
+                        for ($d = 0; $d < $intervaloINT; $d++) {
+                            $disponiveis[] = [
+                                "hora_ini" => $hora_fim->copy(),
+                                "hora_fim" => $hora_fim->addHour(1)->copy()
+                            ];
+                        }
+                    }
+                }
+                $totalAgendas = count($occupiedAgendas);
+                $lastHora_fim = $occupiedAgendas[$totalAgendas-1]["hora_fim"];
+                $ultimoIntervalo = $lastHora_fim->diffInMinutes($dayEnd);
+                if ($ultimoIntervalo >= 60) {
+                    $ultimoIntervaloINT = $ultimoIntervalo/60;
+                    for ($c = 0; $c < $ultimoIntervaloINT; $c++) {
+                        $disponiveis[] = [
+                            "hora_ini" => $lastHora_fim->copy(),
+                            "hora_fim" => $lastHora_fim->addHour(1)->copy()
+                        ];
+                    }
+                }
+            }
+            return $disponiveis;
+    }
 
 
     
