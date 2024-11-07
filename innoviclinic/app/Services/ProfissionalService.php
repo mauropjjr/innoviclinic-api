@@ -45,7 +45,7 @@ class ProfissionalService
         $empresaConfig = EmpresaConfiguracao::where("empresa_id", $data["empresa_id"])->first();
         $agenda = Agenda::where('profissional_id', $data["profissional_id"])
         ->where('data', '>=', $dataHora->copy()->format("Y-m-d"))
-        ->where('data', '<', $dataHora->addDays(3))
+        ->where('data', '<', $dataHora->copy()->addDays(3))
         // ->where("data", "<", $endDate)
         ->orderBy("data")
         ->orderBy("hora_ini")
@@ -76,11 +76,39 @@ class ProfissionalService
         }
         // return $datasMae;
         $response = [];
+        // return $toCansadoEcomSono;
         for ($c=0; $c <= 2; $c++) {
-            $response[] = $this->getDisponiveis($data, $empresaConfig, $datasMae[$c]);
+            $data["dataHora"] = Carbon::parse($data["dataHora"]);
+            $agendaDisponiveis = $this->getDisponiveis($data, $empresaConfig, $datasMae[$c]);
+            $data["dataHora"]->addDay(1);
+            $disponiveisProfissional = $this->filterProfissionalEscala($dataHora->copy(), $agendaDisponiveis, $data["profissional_id"]);
+            $response[] = $disponiveisProfissional;
+            $dataHora->addDay();
         }
-        // $response[] = $this->getDisponiveis($data, $empresaConfig, $datasMae[2]);
         return $response;
+    }
+    
+    public function filterProfissionalEscala($data, array $disponiveis, int $profissional_id)
+    {
+        $data = $data->copy();
+        $profissionalEscala = ProfissionalAgenda::where("profissional_id", $profissional_id)->where("dia", date('N', strtotime($data->copy())))->get()->toArray();
+
+        $disponiveisProfissional = [];
+        foreach ($profissionalEscala as $PE) {
+            $iniProfissional = $data->copy()->setTimeFromTimeString($PE["hora_ini"]);
+            $fimProfissional = $data->copy()->setTimeFromTimeString($PE["hora_fim"]);
+
+            foreach ($disponiveis as $DI) {
+                if ($DI["hora_ini"]->greaterThanOrEqualTo($iniProfissional) && $DI["hora_fim"]->lessThanOrEqualTo($fimProfissional)) {
+                    $disponiveisProfissional[] = [
+                        "hora_ini" => $DI["hora_ini"]->copy(),
+                        "hora_fim" => $DI["hora_fim"]->copy()
+                    ];
+                }
+            }
+
+        }
+        return $disponiveisProfissional;
     }
     
     public function getDisponiveis(array $data, $empresaConfig, $agenda)
@@ -88,7 +116,7 @@ class ProfissionalService
             if (count($agenda) == 0) {
                 return [];
             }
-            $dataHora = Carbon::parse($data["dataHora"]);
+            $dataHora = $data["dataHora"];
             
             $dayStart = $dataHora->setTimeFromTimeString($empresaConfig->hora_ini_agenda)->copy();
             $dayEnd = $dataHora->setTimeFromTimeString($empresaConfig->hora_fim_agenda)->copy();
