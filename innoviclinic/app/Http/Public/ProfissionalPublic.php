@@ -39,6 +39,7 @@ class ProfissionalPublic
     }
     public function getAgendasDisponiveis(int $profissional_id, Request $request)
     {
+        // return $profissional_id;
         $request->validate([
             "dataHora" => "required|date"
         ]);
@@ -51,6 +52,7 @@ class ProfissionalPublic
             return $objeto;
         }
 
+        $request->merge(["profissional_id" => $profissional_id]);
         Auth::login($objeto);
         return (new ProfissionalService($this->customAuthService))->getHorariosDisponiveis($request->all());
     }
