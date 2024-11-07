@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Http\Public;
 
@@ -25,10 +25,12 @@ class ProfissionalPublic
             "profissional_id" => "required|exists:pessoas,id",
             "empresa_id" => "required|exists:empresas,id"
         ]);
-        
+
         $objeto = Pessoa::findOr($profissional_id, fn () => response()->json([
             "message" => __("User not found")
         ], Response::HTTP_NOT_FOUND));
+
+
 
         if (!$objeto instanceof Pessoa) {
             return $objeto;
@@ -41,9 +43,10 @@ class ProfissionalPublic
     {
         // return $profissional_id;
         $request->validate([
-            "dataHora" => "required|date"
+            "dataHora" => "required|date",
+            "empresa_id" => "required|exists:empresas,id"
         ]);
-        
+
         $objeto = Pessoa::findOr($profissional_id, fn () => response()->json([
             "message" => __("User not found")
         ], Response::HTTP_NOT_FOUND));
@@ -53,6 +56,7 @@ class ProfissionalPublic
         }
 
         $request->merge(["profissional_id" => $profissional_id]);
+
         Auth::login($objeto);
         return (new ProfissionalService($this->customAuthService))->getHorariosDisponiveis($request->all());
     }
