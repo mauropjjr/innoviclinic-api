@@ -78,12 +78,15 @@ class ProfissionalService
         $response = [];
         // return $toCansadoEcomSono;
         for ($c=0; $c <= 2; $c++) {
-            $data["dataHora"] = Carbon::parse($data["dataHora"]);
-            $agendaDisponiveis = $this->getDisponiveis($data, $empresaConfig, $datasMae[$c]);
-            $data["dataHora"]->addDay(1);
-            $disponiveisProfissional = $this->filterProfissionalEscala($dataHora->copy(), $agendaDisponiveis, $data["profissional_id"]);
-            $response[] = $disponiveisProfissional;
-            $dataHora->addDay();
+            if ($datasMae[$c]) {
+                $data["dataHora"] = Carbon::parse($data["dataHora"]);
+                return $datasMae;
+                $agendaDisponiveis = $this->getDisponiveis($data, $empresaConfig, $datasMae[$c]);
+                $data["dataHora"]->addDay(1);
+                $disponiveisProfissional = $this->filterProfissionalEscala($dataHora->copy(), $agendaDisponiveis, $data["profissional_id"]);
+                $response[] = $disponiveisProfissional;
+                $dataHora->addDay();
+            }
         }
         return $response;
     }
