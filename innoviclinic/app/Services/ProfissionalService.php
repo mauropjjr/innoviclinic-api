@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Agenda;
 use App\Models\EmpresaConfiguracao;
+use App\Models\Feriado;
 use App\Models\Profissional;
 use App\Models\ProfissionalAgenda;
 use Carbon\Carbon;
@@ -92,14 +93,32 @@ class ProfissionalService
 
     public function gerarProximasDatas($data,  $dataInicial, $intervalo, $dias  = 5)
     {
+        $feriado = Feriado::where(function ($query) use ($data) {
+            $query->where('data', '>=', $data['dataHora'])
+                ->where('empresa_id', $data['empresa_id']);
+        })
+            ->orWhere(function ($query) use ($data) {
+                $query->where('data', '>=', $data['dataHora'])
+                    ->whereNull('empresa_id'); // Feriado nacional
+            })->select(['data'])->get()->toArray();
+
+        $feriadoArray = array_column($feriado, 'data');
+
         $intervaloMinutos = Carbon::parse($intervalo)->hour * 60 + Carbon::parse($intervalo)->minute;
         $horariosSemana = ProfissionalAgenda::where("profissional_id", $data["profissional_id"])->where("empresa_id", $data["empresa_id"])->get()->toArray();
         $datasHorarios = [];
         $dataAtual = Carbon::parse($dataInicial);
         $diasGerados = 0;
-        //TODO: Implementar feriado e eventos. Remover os dias de feriado e remover os eventos(evento tem data e hora inicial e final)
+        //TODO: Implementar eventos. Remover os dias  dos eventos(evento tem data e hora inicial e final)
 
         while ($diasGerados <= $dias) {
+            //Pular os feriados
+            if (in_array(Carbon::parse($dataAtual)->setTimezone('UTC')
+            ->format('Y-m-d\TH:i:s.u\Z'), $feriadoArray)) {
+                $dataAtual->addDay();
+                continue;
+            }
+
             $diaSemana = $dataAtual->dayOfWeekIso; // Segunda=1, ..., Domingo=7
 
             // Verifica se há horários configurados para este dia da semana
