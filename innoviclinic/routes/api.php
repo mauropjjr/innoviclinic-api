@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\AgendaTipoController;
 use App\Http\Controllers\Api\RecoveryPasswordController;
 use App\Http\Public\AgendaPublic;
 use App\Http\Public\EmpresaPublic;
+use App\Http\Public\PacientePublic;
 use App\Http\Public\ProfissionalPublic;
 use App\Jobs\ProcessRecoveryPassCodeSent;
 use App\Models\Otp;
@@ -226,6 +227,7 @@ Route::group(['prefix' => 'public'], function () {
     Route::post("/agendas", [AgendaPublic::class, "store"]);
     Route::get('/profissionais/{profissional_id}/agendas', [ProfissionalPublic::class, "getAgendas"]);
     Route::get('/profissionais/{profissional_id}/agendas/disponiveis',[ProfissionalPublic::class, "getAgendasDisponiveis"]);
+    Route::get('/pacientes/agendas', [PacientePublic::class, "getAgendas"]);
 });
 
 //recovery password
