@@ -39,7 +39,7 @@ class PacientePublic
                 'nullable',
                 'string',
                 'required_without:email',
-                'regex:/^67\d{9}$/',  // Valida o formato: 67 seguido de 9 dígitos
+                // 'regex:/^67\d{9}$/',  // Valida o formato: 67 seguido de 9 dígitos
                 function ($attribute, $value, $fail) use ($request) {
                     // Verifica se tanto email quanto telefone estão preenchidos
                     if (!empty($value) && !empty($request->input('email'))) {
