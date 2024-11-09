@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\Paciente;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pessoa;
-use Illuminate\Support\Facades\Auth;
 
 class PacienteService
 {
@@ -52,7 +50,7 @@ class PacienteService
         $tel = $data["telefone"] ?? false;
         $email = $data["email"] ?? false;
         if ($tel) {
-            $objeto->where("celualr", $tel);
+            $objeto->where("celular", $tel);
         }
         if ($email) {
             $objeto->where("email", $email);
