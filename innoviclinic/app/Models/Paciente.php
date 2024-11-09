@@ -81,4 +81,9 @@ class Paciente extends Model
 	{
 		return $this->belongsTo(Pessoa::class);
 	}
+	
+	public function agendas()
+	{
+		return $this->hasMany(Agenda::class, 'paciente_id', 'pessoa_id');
+	}
 }

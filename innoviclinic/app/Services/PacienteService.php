@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Paciente;
 use Illuminate\Support\Facades\DB;
 use App\Models\Pessoa;
 use Illuminate\Support\Facades\Auth;
@@ -38,5 +39,45 @@ class PacienteService
             // DB::rollback();
             throw $e;
         }
+    }
+
+    public function getAgendas(array $data)
+    {
+        // return $data;
+        $objeto = Pessoa::query();
+        $objeto->where("tipo_usuario", "Paciente");
+        /**
+         * verificando se é pra pegar por telefone ou email
+        */
+        $tel = $data["telefone"] ?? false;
+        $email = $data["email"] ?? false;
+        if ($tel) {
+            $objeto->where("celualr", $tel);
+        }
+        if ($email) {
+            $objeto->where("email", $email);
+        }
+        // echo $objeto->toSql();die();
+        // return $objeto->get();
+        // return $data["agendasStatus"];
+        $objeto
+        ->with([
+            'paciente' => function ($query) use ($data) {
+                $query->with([
+                    "agendas" => function($query) use ($data) {
+                        $query
+                        ->with("agenda_status")
+                        ->orderBy("agenda_status_id", "asc");
+                        $agenda_status = $data["agendasStatus"] ?? [];
+                        if (count($agenda_status) > 0) {
+                            $query->whereIn("agenda_status_id", $data["agendasStatus"]);
+                        }
+                    }
+                ]);
+            }
+        ]);
+        // echo $objeto->toSql();die();
+        return $objeto->get()->toArray();
+
     }
 }
