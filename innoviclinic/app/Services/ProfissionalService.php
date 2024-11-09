@@ -48,7 +48,7 @@ class ProfissionalService
 
         $agenda = Agenda::where('profissional_id', $data["profissional_id"])
             ->where('data', '>=', $dataHora->copy()->format("Y-m-d"))
-              ->where('data', '<', $dataHora->copy()->addDays(5))
+              ->where('data', '<', $dataHora->copy()->addDays(15))
             // ->where("data", "<", $endDate)
             ->orderBy("data")
             ->orderBy("hora_ini")
@@ -56,7 +56,7 @@ class ProfissionalService
             ->get(['hora_ini', 'hora_fim', 'data'])
             ->toArray();
 
-        $horarios = $this->gerarProximasDatas($data,  $dataHora, $empresaConfig->duracao_atendimento,  3);
+        $horarios = $this->gerarProximasDatas($data,  $dataHora, $empresaConfig->duracao_atendimento,  7);
         $response =  $this->removerHorariosAgendados($horarios, $agenda);
 
 
@@ -90,47 +90,41 @@ class ProfissionalService
         return $horariosFiltrados;
     }
 
-    public function gerarProximasDatas($data,  $dataInicial, $intervalo, $quantidadeDias = 5)
+    public function gerarProximasDatas($data,  $dataInicial, $intervalo, $dias  = 5)
     {
-        $datasGeradas = [];
-        $horarios = ProfissionalAgenda::where("profissional_id", $data["profissional_id"])->where("empresa_id", $data["empresa_id"])->get()->toArray();
-
-        // Converter a data inicial em um objeto Carbon
+        $intervaloMinutos = Carbon::parse($intervalo)->hour * 60 + Carbon::parse($intervalo)->minute;
+        $horariosSemana = ProfissionalAgenda::where("profissional_id", $data["profissional_id"])->where("empresa_id", $data["empresa_id"])->get()->toArray();
+        $datasHorarios = [];
         $dataAtual = Carbon::parse($dataInicial);
+        $diasGerados = 0;
+        //TODO: Implementar feriado e eventos. Remover os dias de feriado e remover os eventos(evento tem data e hora inicial e final)
 
-        // Converter o intervalo para minutos, caso esteja no formato "HH:mm"
-        if (is_string($intervalo) && strpos($intervalo, ':') !== false) {
-            [$horas, $minutos] = explode(':', $intervalo);
-            $intervalo = (int)$horas * 60 + (int)$minutos;
-        }
+        while ($diasGerados <= $dias) {
+            $diaSemana = $dataAtual->dayOfWeekIso; // Segunda=1, ..., Domingo=7
 
-        // Loop para gerar as próximas datas, até a quantidade de dias especificada
-        for ($i = 0; $i < $quantidadeDias; $i++) {
-            // Dia da semana em Carbon (1 = segunda, 2 = terça, ..., 7 = domingo)
-            $diaSemana = $dataAtual->dayOfWeekIso;
+            // Verifica se há horários configurados para este dia da semana
+            $horariosDia = array_filter($horariosSemana, fn($horario) => $horario['dia'] == $diaSemana);
 
-            // Filtra os horários para o dia da semana atual
-            $horariosDoDia = array_filter($horarios, function ($horario) use ($diaSemana) {
-                return $horario['dia'] == $diaSemana;
-            });
+            if (count($horariosDia) > 0) {
+                // Gera horários para o dia atual baseado nos horários de funcionamento
+                foreach ($horariosDia as $horario) {
+                    $horaInicio = Carbon::parse($horario['hora_ini']);
+                    $horaFim = Carbon::parse($horario['hora_fim']);
 
-            // Para cada horário do dia, gera um datetime e adiciona à lista de datas
-            foreach ($horariosDoDia as $horario) {
-                $horaInicio = Carbon::parse("{$dataAtual->format('Y-m-d')} {$horario['hora_ini']}");
-                $horaFim = Carbon::parse("{$dataAtual->format('Y-m-d')} {$horario['hora_fim']}");
-
-                // Gera os horários entre o início e o fim de acordo com o intervalo
-                while ($horaInicio < $horaFim) {
-                    $datasGeradas[] = $horaInicio->format('Y-m-d H:i');
-
-                    $horaInicio->addMinutes($intervalo); // Adiciona o intervalo especificado
+                    while ($horaInicio->lessThan($horaFim)) {
+                        $datasHorarios[] = $dataAtual->format('Y-m-d') . ' ' . $horaInicio->format('H:i');
+                        $horaInicio->addMinutes($intervaloMinutos);
+                    }
                 }
+
+                $diasGerados++;
             }
-            // Incrementa para o próximo dia
+
+            // Passa para o próximo dia
             $dataAtual->addDay();
         }
 
-        return $datasGeradas;
+        return $datasHorarios;
     }
     // public function gerarHorarios($data, $empresaConfig)
     // {
