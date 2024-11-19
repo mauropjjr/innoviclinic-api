@@ -1,7 +1,8 @@
-<?php 
+<?php
 
 namespace App\Http\Public;
 
+use App\Models\Agenda;
 use App\Models\Empresa;
 use App\Services\AgendaService;
 use App\Services\CustomAuthService;
@@ -17,13 +18,16 @@ class PacientePublic
     protected $customAuthService;
 
 
-    public function __construct(CustomAuthService $customAuthService) {
+    public function __construct(CustomAuthService $customAuthService)
+    {
         $this->customAuthService = $customAuthService;
     }
 
 
-    public function getAgendas(Request $request) {
+    public function getAgendas(Request $request)
+    {
         $request->validate([
+            'empresa_id' => ['required', Rule::exists('empresas', 'id')],
             'email' => [
                 'nullable',
                 'email',
@@ -49,15 +53,26 @@ class PacientePublic
             ],
             'agendasStatus' => ['nullable']
         ]);
-        
+
         // return $request->agendasStatus;
-        $response = (new PacienteService($this->customAuthService))->getAgendas($request->all());
-        if (count($response) == 0) {
+        $response = Agenda::query();
+        $data = $request->all();
+
+        if (isset($data["telefone"])) {
+            $response->where("celular", $data["telefone"]);
+        }
+        if (isset($data["email"])) {
+            $response->where("email", $data["email"]);
+        }
+
+        $response->where("empresa_id", $data["empresa_id"])->where("agenda_status_id", "!=", 3);
+
+
+        if ($response && $response->count() == 0) {
             return response()->json([
                 "message" => "Paciente não encontrado"
             ], 404);
         }
-        return response()->json($response);
+        return response()->json($response->get(), 200);
     }
 }
-
