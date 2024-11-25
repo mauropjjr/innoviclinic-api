@@ -43,7 +43,7 @@ class StoreAgendaRequest extends FormRequest
                 'nullable',
                 'integer',
                 function($attribute, $value, $fail) {
-                    if (!is_null($value)) {
+                    if (!is_null($value) || $value = '') {
                         Rule::exists('pessoas', 'id')->where('tipo_usuario', 'Paciente');
                     }
                 },
