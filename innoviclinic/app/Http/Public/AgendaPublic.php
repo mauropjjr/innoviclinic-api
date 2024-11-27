@@ -1,7 +1,8 @@
-<?php 
+<?php
 
 namespace App\Http\Public;
 
+use App\Models\Agenda;
 use App\Models\Pessoa;
 use App\Services\AgendaService;
 use App\Services\CustomAuthService;
@@ -71,6 +72,27 @@ class AgendaPublic
         Auth::login(Pessoa::find($request->profissional_id));
         $agenda = (new AgendaService($this->customAuthService))->create($input);
         return response()->json($agenda);
+    }
+    /* Usado para cancelar */
+    public function cancelar(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer|exists:agendas,id',
+            'empresa_id' => 'required|integer|exists:empresas,id'
+        ]);
+        $input = $request->all();
+
+
+        if (!$objeto = Agenda::find($input['id'])) {
+            return response()->json([
+                'error' => 'Não encontrado'
+            ],  404);
+        }
+
+        $objeto->agenda_status_id = 3;
+        $objeto->update($input);
+        return response()->json($objeto);
+
     }
 
     public function getByProfissional(Request $request)
