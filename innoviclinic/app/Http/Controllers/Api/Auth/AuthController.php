@@ -144,9 +144,9 @@ class AuthController extends Controller
             // Criação de tipos de agenda
             $tipos = [
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#0066FF', 'nome' => 'Consulta', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
-                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FFFF00', 'nome' => 'Retorno', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
-                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#00FF00', 'nome' => 'Exame', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
-                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FF00FF', 'nome' => 'Encaixe', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
+                // ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FFFF00', 'nome' => 'Retorno', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
+                // ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#00FF00', 'nome' => 'Exame', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
+                // ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FF00FF', 'nome' => 'Encaixe', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#800080', 'nome' => 'Procedimento', 'sem_horario' => 0, 'sem_procedimento' => 1, 'created_at' => now(), 'updated_at' => now()]
             ];
             AgendaTipo::insert($tipos);
@@ -157,6 +157,10 @@ class AuthController extends Controller
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Emergência', 'created_at' => now(), 'updated_at' => now()],
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Exame Clínico', 'created_at' => now(), 'updated_at' => now()],
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Prevenção', 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Consulta', 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Retorno', 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Exame', 'created_at' => now(), 'updated_at' => now()],
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Encaixe', 'created_at' => now(), 'updated_at' => now()],
             ];
             ProcedimentoTipo::insert($tipos);
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Api;
 
+use App\Models\AgendaTipo;
 use Illuminate\Validation\Rule;
 use App\Services\CustomAuthService;
 use Illuminate\Foundation\Http\FormRequest;
@@ -43,7 +44,7 @@ class StoreAgendaRequest extends FormRequest
                 'nullable',
                 'integer',
                 function($attribute, $value, $fail) {
-                    if (!is_null($value) || $value = '') {
+                    if (!is_null($value) || $value != '') {
                         Rule::exists('pessoas', 'id')->where('tipo_usuario', 'Paciente');
                     }
                 },
@@ -66,7 +67,16 @@ class StoreAgendaRequest extends FormRequest
             'valor' => 'required|numeric',
 
             // Validação dos procedimentos se preenchido
-            'procedimentos' => 'nullable|array',
+            'procedimentos' => [
+                'array',
+                function ($attribute, $value, $fail) {
+                    $agendaTipo = AgendaTipo::find($this->input('agenda_tipo_id'));
+
+                    if ($agendaTipo->sem_procedimento == 0) {
+                        $fail("Ao menos um procedimento é obrigatorio!");
+                    }
+                }
+            ],
             'procedimentos.*.procedimento_id' => [
                 'required_with:procedimentos',
                 'integer',

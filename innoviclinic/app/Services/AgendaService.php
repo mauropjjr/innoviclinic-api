@@ -8,7 +8,11 @@ use App\Enums\AgendaStatusEnum;
 use Illuminate\Support\Facades\DB;
 use App\Exceptions\AgendaValidationException;
 use App\Models\AgendaProcedimento;
+use App\Models\AgendaTipo;
+use App\Models\Procedimento;
 use App\Models\Profissional;
+use Exception;
+use Nette\Utils\Finder;
 
 class AgendaService
 {
@@ -96,15 +100,17 @@ class AgendaService
             $data['duracao_min'] = Utils::calcularDiferencaMinutos($data['hora_ini'], $data['hora_fim']);
             $agenda = Agenda::create($data);
 
+            $agendaTipo = AgendaTipo::find($data["agenda_tipo_id"]);
+            $this->createAgendaProcedimentos($data["procedimentos"], $agendaTipo);
             // Adicionar os procedimentos associados na agenda
-            $procedimentosData = isset($data['procedimentos']) ? $data['procedimentos'] : null;
-            if (isset($procedimentosData) && is_array($procedimentosData)) {
-                $procedimentos = [];
-                foreach ($procedimentosData as $value) {
-                    $procedimentos[] = new AgendaProcedimento(['procedimento_id' => $value['procedimento_id'], 'qtde' => $value['qtde'], 'valor' => $value['valor']]);
-                }
-                $agenda->agenda_procedimentos()->saveMany($procedimentos);
-            }
+            // $procedimentosData = isset($data['procedimentos']) ? $data['procedimentos'] : null;
+            // if (isset($procedimentosData) && is_array($procedimentosData)) {
+            //     $procedimentos = [];
+            //     foreach ($procedimentosData as $value) {
+            //         $procedimentos[] = new AgendaProcedimento(['procedimento_id' => $value['procedimento_id'], 'qtde' => $value['qtde'], 'valor' => $value['valor']]);
+            //     }
+            //     $agenda->agenda_procedimentos()->saveMany($procedimentos);
+            // }
 
             // Criar o prontuário se não existir
             (new ProntuarioService())->createIfNotExists($data);
@@ -239,5 +245,20 @@ class AgendaService
         }
 
         return $resultados;
+    }
+
+    private function createAgendaProcedimentos($data, $agendaTipo)
+    {
+        $procedimentos = $data['procedimentos'] ?? null;
+        if (!$procedimentos || count($procedimentos) == 0) {
+            if ($agendaTipo->sem_procedimento == 1) {
+                return AgendaProcedimento::create([
+                    'procedimento_id' => (Procedimento::where('nome', '=', 'Consulta')->get('id'))->id,
+                    'qtde' => 1,
+                    'valor' => $data['valor']
+                ]);
+            }
+            throw new Exception(__("Error, contact a admin!"));
+        }
     }
 }

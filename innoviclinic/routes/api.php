@@ -32,9 +32,6 @@ use App\Http\Public\AgendaPublic;
 use App\Http\Public\EmpresaPublic;
 use App\Http\Public\PacientePublic;
 use App\Http\Public\ProfissionalPublic;
-use App\Jobs\ProcessRecoveryPassCodeSent;
-use App\Models\Otp;
-use App\Models\Pessoa;
 
 /*
 |--------------------------------------------------------------------------
