@@ -73,7 +73,9 @@ class StoreAgendaRequest extends FormRequest
                     $agendaTipo = AgendaTipo::find($this->input('agenda_tipo_id'));
 
                     if ($agendaTipo->sem_procedimento == 0) {
-                        $fail("Ao menos um procedimento é obrigatorio!");
+                        if (count($value) == 0) {
+                            $fail("Ao menos um procedimento é obrigatorio!");
+                        }
                     }
                 }
             ],
