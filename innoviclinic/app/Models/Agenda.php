@@ -128,7 +128,7 @@ class Agenda extends Model
 		});
 	}
 
-	private function handleAgendaStatus(Agenda $agenda) 
+	private static function handleAgendaStatus(Agenda $agenda) 
 	{
 		$agenda_status_id = $agenda->agenda_status_id ?? 0;
 
