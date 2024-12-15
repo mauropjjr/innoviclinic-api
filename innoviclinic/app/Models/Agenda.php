@@ -114,6 +114,52 @@ class Agenda extends Model
 		'usuario_id'
 	];
 
+	protected static function boot() {
+		parent::boot();
+		static::saving(function ($agenda) {
+			self::handleAgendaStatus($agenda);
+		});
+		
+		static::updating(function ($agenda) {
+			if ($agenda->relationLoaded('agenda_status')) {
+				$agenda->agenda_status = $agenda->agenda_status->id;
+			}
+			self::handleAgendaStatus($agenda);
+		});
+	}
+
+	private function handleAgendaStatus(Agenda $agenda) 
+	{
+		$agenda_status_id = $agenda->agenda_status_id ?? 0;
+
+		$status = $agenda_status_id > 0 ? AgendaStatus::find($agenda_status_id) : null;
+		$isActive = $status?->ativo ?? 0;
+	
+		if ($isActive > 0) {
+			self::setAgendaStatusActions($agenda_status_id, $agenda);
+		}
+	}
+
+	private static function setAgendaStatusActions($agenda_status_id, Agenda $agenda)
+	{
+		//chegou
+		if ($agenda_status_id == 4) {
+			$agenda->hora_chegada = Carbon::now();
+		}
+		//em  atendimento
+		else if ($agenda_status_id == 5) {
+			$agenda->hora_atendimento_ini = Carbon::now();
+		}
+		//atendido
+		else if ($agenda_status_id == 6) {
+			$agenda->hora_atendimento_fim = Carbon::now();
+		}
+		//cancelado
+		else if ($agenda_status_id == 3) {
+			$agenda->motivo_cancelamento = "Cancelado às: " . Carbon::now()->toDateTimeString();
+		}
+	}
+
 	public function agenda_tipo()
 	{
 		return $this->belongsTo(AgendaTipo::class);
