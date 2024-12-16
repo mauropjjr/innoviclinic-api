@@ -65,7 +65,7 @@ class StoreAgendaRequest extends FormRequest
             'hora_ini' => ['required', 'string', 'max:5'],
             'hora_fim' => ['required', 'string', 'max:5'],
             'valor' => 'required|numeric',
-
+            'observacoes' => 'nullable|string|max:255',
             // Validação dos procedimentos se preenchido
             'procedimentos' => [
                 'array',

@@ -121,9 +121,6 @@ class Agenda extends Model
 		});
 		
 		static::updating(function ($agenda) {
-			if ($agenda->relationLoaded('agenda_status')) {
-				$agenda->agenda_status = $agenda->agenda_status->id;
-			}
 			self::handleAgendaStatus($agenda);
 		});
 	}
@@ -142,17 +139,18 @@ class Agenda extends Model
 
 	private static function setAgendaStatusActions($agenda_status_id, Agenda $agenda)
 	{
+		$hora_atual = Carbon::now()->format('H:i');
 		//chegou
 		if ($agenda_status_id == 4) {
-			$agenda->hora_chegada = Carbon::now();
+			$agenda->hora_chegada = $hora_atual;
 		}
 		//em  atendimento
 		else if ($agenda_status_id == 5) {
-			$agenda->hora_atendimento_ini = Carbon::now();
+			$agenda->hora_atendimento_ini = $hora_atual;
 		}
 		//atendido
 		else if ($agenda_status_id == 6) {
-			$agenda->hora_atendimento_fim = Carbon::now();
+			$agenda->hora_atendimento_fim = $hora_atual;
 		}
 		//cancelado
 		else if ($agenda_status_id == 3) {
