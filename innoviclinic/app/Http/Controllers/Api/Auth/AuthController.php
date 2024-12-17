@@ -20,6 +20,7 @@ use App\Http\Requests\Api\AuthRequest;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\ValidationException;
 use App\Http\Requests\Auth\RegisterProfissionalRequest;
+use App\Models\Procedimento;
 
 class AuthController extends Controller
 {
@@ -144,10 +145,7 @@ class AuthController extends Controller
             // Criação de tipos de agenda
             $tipos = [
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#0066FF', 'nome' => 'Consulta', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
-                // ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FFFF00', 'nome' => 'Retorno', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
-                // ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#00FF00', 'nome' => 'Exame', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
-                // ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#FF00FF', 'nome' => 'Encaixe', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()],
-                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#800080', 'nome' => 'Procedimento', 'sem_horario' => 0, 'sem_procedimento' => 1, 'created_at' => now(), 'updated_at' => now()]
+                ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id, 'cor' => '#800080', 'nome' => 'Procedimento', 'sem_horario' => 0, 'sem_procedimento' => 0, 'created_at' => now(), 'updated_at' => now()]
             ];
             AgendaTipo::insert($tipos);
 
@@ -162,8 +160,51 @@ class AuthController extends Controller
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Exame', 'created_at' => now(), 'updated_at' => now()],
                 ['empresa_id' => $empresa->id, 'usuario_id' => $pessoa->id,  'nome' => 'Encaixe', 'created_at' => now(), 'updated_at' => now()],
             ];
-            ProcedimentoTipo::insert($tipos);
 
+            foreach ($tipos as $tipo) {
+                $tipoCriado = ProcedimentoTipo::create($tipo);
+                if ($tipoCriado->nome == 'Consulta') {
+                    $idTipoProcedimentoConsulta = $tipoCriado->id;
+                }
+            }
+            
+            $procedimentos = [
+                [
+                    'empresa_id' => $empresa->id,
+                    'procedimento_tipo_id' => $idTipoProcedimentoConsulta,
+                    'nome' => 'Consulta particular',
+                    'duracao_min' => 30,
+                    'valor' => 250.00,
+                    'ativo' => 1,
+                    'usuario_id' => $pessoa->id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'empresa_id' => $empresa->id,
+                    'procedimento_tipo_id' => $idTipoProcedimentoConsulta,
+                    'nome' => 'Consulta convênio',
+                    'duracao_min' => 30,
+                    'valor' => 250.00,
+                    'ativo' => 1,
+                    'usuario_id' => $pessoa->id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+                [
+                    'empresa_id' => $empresa->id,
+                    'procedimento_tipo_id' => $idTipoProcedimentoConsulta,
+                    'nome' => 'Consulta taxa social',
+                    'duracao_min' => 30,
+                    'valor' => 250.00,
+                    'ativo' => 1,
+                    'usuario_id' => $pessoa->id,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ],
+
+            ];
+            Procedimento::insert($procedimentos);
             return response()->json($pessoa);
         });
     }
