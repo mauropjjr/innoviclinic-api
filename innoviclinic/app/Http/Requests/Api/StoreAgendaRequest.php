@@ -69,15 +69,16 @@ class StoreAgendaRequest extends FormRequest
             // Validação dos procedimentos se preenchido
             'procedimentos' => [
                 'array',
-                function ($attribute, $value, $fail) {
-                    $agendaTipo = AgendaTipo::find($this->input('agenda_tipo_id'));
+                'required'
+                // function ($attribute, $value, $fail) {
+                //     $agendaTipo = AgendaTipo::find($this->input('agenda_tipo_id'));
 
-                    if ($agendaTipo->sem_procedimento == 0) {
-                        if (count($value) == 0) {
-                            $fail("Ao menos um procedimento é obrigatorio!");
-                        }
-                    }
-                }
+                //     if ($agendaTipo->sem_procedimento == 0) {
+                //         if (count($value) == 0) {
+                //             $fail("Ao menos um procedimento é obrigatorio!");
+                //         }
+                //     }
+                // }
             ],
             'procedimentos.*.procedimento_id' => [
                 'required_with:procedimentos',

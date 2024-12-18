@@ -97,9 +97,15 @@ class AgendaService
             $data['agenda_status_id'] = !empty($data['agenda_status_id']) ? $data['agenda_status_id'] : AgendaStatusEnum::CONFIRMAR;
             $data['duracao_min'] = Utils::calcularDiferencaMinutos($data['hora_ini'], $data['hora_fim']);
             $agenda = Agenda::create($data);
-            $agendaTipo = AgendaTipo::find($data["agenda_tipo_id"]);
-            if (!$this->createAgendaProcedimentos($agenda, $data, $agendaTipo)) {
-                throw new Exception(__("Error when registering agenda!"));
+
+            // Adicionar os procedimentos associados na agenda
+            $procedimentosData = isset($data['procedimentos']) ? $data['procedimentos'] : null;
+            if (isset($procedimentosData) && is_array($procedimentosData)) {
+                $procedimentos = [];
+                foreach ($procedimentosData as $value) {
+                    $procedimentos[] = new AgendaProcedimento(['procedimento_id' => $value['procedimento_id'], 'qtde' => $value['qtde'], 'valor' => $value['valor']]);
+                }
+                $agenda->agenda_procedimentos()->saveMany($procedimentos);
             }
 
             // Criar o prontuário se não existir
@@ -235,40 +241,5 @@ class AgendaService
         }
 
         return $resultados;
-    }
-
-
-    private function createAgendaProcedimentos(Agenda $agenda, array $data, AgendaTipo $agendaTipo) : bool
-    {
-        $procedimentos = $data['procedimentos'] ?? [];
-        if (count($procedimentos) == 0 && $agendaTipo->sem_procedimento == 1) {
-            $procedimentoDefault = Procedimento::where([
-                ['nome', '=', 'Consulta'],
-                ['empresa_id', '=', ($this->customAuth->getUser())->empresa_profissional->id]
-            ])->get(['id'])->toArray();
-            $agenda->agenda_procedimentos()->save(new AgendaProcedimento([
-                'procedimento_id' => $procedimentoDefault[0]['id'],
-                'qtde' => 1,
-                'valor' => $data['valor']
-            ]));
-            
-        } else if(count($procedimentos) > 0) {
-            $procedimentosToSave = [];
-            foreach ($procedimentos as $value) {
-                $procedimentosToSave[] = new AgendaProcedimento([
-                    'procedimento_id' => $value['procedimento_id'],
-                    'qtde' => $value['qtde'],
-                    'valor' => $value['valor']
-                ]);
-            }
-            $agenda->agenda_procedimentos()->saveMany($procedimentosToSave);
-        } else {
-            return false;
-        }
-
-        if (!$agenda->agenda_procedimentos()) {
-            return false;
-        }
-        return true;
     }
 }
