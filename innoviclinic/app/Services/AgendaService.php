@@ -112,12 +112,18 @@ class AgendaService
             (new ProntuarioService())->createIfNotExists($data);
 
             DB::commit();
-
-            return $agenda;
         } catch (\Exception $e) {
             DB::rollback();
             throw $e;
         }
+        $carregarRelacoes = $data['carregarRelacoes'] ?? 0;
+        if ($carregarRelacoes == 1) {
+            return $agenda->load([
+                'procedimentos'
+            ]);
+        } 
+
+        return $agenda;
     }
 
     public function createUndefinedPacient(array $data)

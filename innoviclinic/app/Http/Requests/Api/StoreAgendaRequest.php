@@ -87,7 +87,8 @@ class StoreAgendaRequest extends FormRequest
             ],
             'procedimentos.*.qtde' => 'required_with:procedimentos|integer|min:1',
             'procedimentos.*.valor' => 'required_with:procedimentos|numeric|min:0',
-            'newPacient' => ['nullable', 'integer']
+            'newPacient' => ['nullable', 'integer'],
+            'carregarRelacoes' => ['nullable', 'integer']
         ];
     }
 
