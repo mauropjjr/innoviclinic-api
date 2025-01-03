@@ -61,7 +61,7 @@ class StoreAgendaRequest extends FormRequest
             'primeiro_atend' => 'required|boolean',
             'enviar_msg' => 'required|boolean',
             'telemedicina' => 'required|boolean',
-            'data' => 'required|date',
+            'data' => ['required', 'date', 'after_or_equal:today'],
             'hora_ini' => ['required', 'string', 'max:5'],
             'hora_fim' => ['required', 'string', 'max:5'],
             'valor' => 'required|numeric',
